@@ -1,3 +1,17 @@
+defrecord RecordTest, name: nil, identifier: nil do
+  use Vex.Record
+
+  validates :name, presence: true
+end
+
+defrecord UserTest, username: nil, password: nil, password_confirmation: nil, age: nil do
+  use Vex.Record
+
+  validates :username, presence: true, length: [min: 4], format: %r(^[[:alpha:]][[:alnum:]]+$)
+  validates :password, length: [min: 4], confirmation: true
+
+end
+
 defmodule VexTest do
   use ExUnit.Case
 
@@ -92,5 +106,23 @@ defmodule VexTest do
     assert  Vex.is_valid?([component: "x1234"], component: [validated_by: fn (x) -> x == "x1234" end])
   end
 
+  test "record, included presence validation" do
+    assert Vex.is_valid?(RecordTest.new name: "I have a name")
+  end
+  test "record, included complex validation" do
+    user = UserTest.new username: "actualuser", password: "abcdefghi", password_confirmation: "abcdefghi"
+    assert Vex.is_valid?(user)
+    assert length(Vex.results(user)) > 0
+    assert length(Vex.errors(user)) == 0
+    assert user.is_valid?
+  end
 
+  test "keyword list, included complex validation" do
+    user = [username: "actualuser", password: "abcdefghi", password_confirmation: "abcdefghi",
+            _vex: [username: [presence: true, length: [min: 4], format: %r(^[[:alpha:]][[:alnum:]]+$)]],
+                   password: [length: [min: 4], confirmation: true]]
+    assert Vex.is_valid?(user)
+    assert length(Vex.results(user)) > 0
+    assert length(Vex.errors(user)) == 0
+  end
 end

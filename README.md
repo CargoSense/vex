@@ -23,7 +23,7 @@ the second argument. For information on how validation configuration can be prov
 single argument (eg, packaged with the data to check passed to `Vex.is_valid?/1`) see "Configuring Validations"
 below.
 
-### presence
+### Presence
 
 Options:
 
@@ -39,7 +39,7 @@ Ensure a value _isn't_ present:
 Vex.is_valid? post, byline: [presence: false]
 ```
 
-### inclusion
+### Inclusion
 
 Ensure a value is in a list of values:
 
@@ -53,7 +53,7 @@ You can also use the `in` keyword if you prefer:
 Vex.is_valid? post, category: [inclusion: [in: ["politics", "food"]]]
 ```
 
-### exclusion
+### Exclusion
 
 Ensure a value is _not_ in a list of values:
 
@@ -67,7 +67,7 @@ You can also use the `in` keyword if you prefer:
 Vex.is_valid? post, category: [exclusion: [in: ["oped", "lifestyle"]]]
 ```
 
-### format
+### Format
 
 Ensure a value matches a regular expression:
 
@@ -81,7 +81,7 @@ You can also use the `with` keyword if you prefer:
 Vex.is_valid? widget, identifier: [format: [with: %r(^id-)]]
 ```
 
-### length
+### Length
 
 Ensure a value's length is at least a given size:
 
@@ -107,7 +107,7 @@ You can also use a range:
 Vex.is_valid? user, username: [length: 2..10]
 ```
 
-### confirmation
+### Confirmation
 
 Ensure a value has a matching confirmation:
 
@@ -137,7 +137,60 @@ This is nice for ad hoc data validation, but wouldn't it be nice to just:
 Vex.is_valid?(data)
 ```
 
-... and have the data tell Vex whick validations should be evaluated?
+... and have the data tell Vex which validations should be evaluated?
 
-TODO
+### In Records
+
+In your `defrecord`, use `Vex.Record`:
+
+```elixir
+defrecord User, username: nil, password: nil, password_confirmation: nil do
+  use Vex.Record
+
+  validates :username, presence: true, length: [min: 4], format: %r(^[[:alpha:]][[:alnum:]]+$)
+  validates :password, length: [min: 4], confirmation: true
+
+end
+```
+
+Note `validates` should only be used once per attribute.
+
+Once configured, you can use `Vex.is_valid?/1`:
+
+```elixir
+user = User[username: "actualuser", password: "abcdefghi", password_confirmation: "abcdefghi"]
+Vex.is_valid?(user)
+```
+
+You can also use `is_valid?` directly on the record:
+
+```elixir
+user.is_valid?
+```
+
+### In Keyword Lists
+
+In your list, just include a `:_vex` entry and use `Vex.is_valid?/1`:
+
+```elixir
+user = [username: "actualuser", password: "abcdefghi", password_confirmation: "abcdefghi",
+        _vex: [username: [presence: true, length: [min: 4], format: %r(^[[:alpha:]][[:alnum:]]+$)]],
+               password: [length: [min: 4], confirmation: true]]
+Vex.is_valid?(user)
+```
+
+### Others
+
+Just implement the `Vex.Extract` protocol. Here's what it looks like to support keyword lists:
+
+```elixir
+defimpl Vex.Extract, for: List do
+  def settings(data) do
+    Keyword.get data, :_vex
+  end
+  def attribute(data, name) do
+    Keyword.get data, name
+  end
+end
+```
 

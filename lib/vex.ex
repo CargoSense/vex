@@ -4,16 +4,20 @@ defmodule Vex do
     is_valid?(data, Vex.Extract.settings(data))
   end
   def is_valid?(data, settings) do
-    settings = find_settings(data, settings)
-    Enum.all? results(data, settings), fn (result) ->
-      case result do
-        {:ok, _, _} -> true
-        _ -> false
-      end
-    end
+    errors(data, settings) |> length == 0
   end
 
-  defp results(data, settings) do
+  def errors(data) do
+    errors(data, Vex.Extract.settings(data))
+  end
+  def errors(data, settings) do
+    Enum.filter results(data, settings), match?({:error, _, _}, &1)
+  end
+
+  def results(data) do
+    results(data, Vex.Extract.settings(data))
+  end
+  def results(data, settings) do
     Enum.map(settings, fn ({attribute, validations}) ->
       if is_function(validations) do
         validations = [validated_by: validations]
@@ -22,12 +26,12 @@ defmodule Vex do
         try do
          case result(data, attribute, name, options) do
             true ->  {:ok, attribute, name}
-            false -> {:failed, attribute, name}
-            nil   -> {:failed, attribute, name}
+            false -> {:error, attribute, name}
+            nil   -> {:error, attribute, name}
             _ -> {:ok, attribute, name}
           end
-        catch
-          err -> {:error, attribute, name, err}
+        rescue
+          err -> {:error, attribute, name}
         end
       end)
     end)

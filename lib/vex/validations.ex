@@ -30,6 +30,7 @@ defmodule Vex.Validations do
   def validate(value, :length, [max: max]) do
     value |> length <= max
   end
+  
   def validate(value, :length, [min: min, max: max]) do
     validate(value, :length, [min: min]) and validate(value, :length, [max: max])
   end
