@@ -2,8 +2,7 @@
 
 A data validation library for Elixir.
 
-Goals
------
+Validate data by attribute presence, inclusion, format, length, and other operations.
 
 Inspired by
 -----------
@@ -11,12 +10,18 @@ Inspired by
  * Rails ActiveModel Validations
  * Clojure's [Validateur](https://github.com/michaelklishin/validateur)
 
+Roadmap
+-------
+
+ * ~~Ad hoc validation~~
+ * ~~Validation of preconfigured settings for keyword lists and records~~
+ * Options for allowing `nil` and "blank" values
+ * Support messages for failures
+ * Limiting which validations are evaluated based on state (eg, "on create")
+ * Deep attribute matching
+
 Supported Validations
 ---------------------
-
-Many conventional validations are supported, but more advanced options are not. Future development
-will see options for allowing `nil` and "blank" values, and limiting which validations are evaluated
-based on state.
 
 Note the examples below use `Vex.is_valid?/2`, with the validations to check explicitly provided as
 the second argument. For information on how validation configuration can be provided as part of a
@@ -147,7 +152,7 @@ In your `defrecord`, use `Vex.Record`:
 defrecord User, username: nil, password: nil, password_confirmation: nil do
   use Vex.Record
 
-  validates :username, presence: true, length: [min: 4], format: %r(^[[:alpha:]][[:alnum:]]+$)
+  validates :username, presence: true, length: [min: 4], format: %r/^[[:alpha:]][[:alnum:]]+$/
   validates :password, length: [min: 4], confirmation: true
 
 end
@@ -174,7 +179,7 @@ In your list, just include a `:_vex` entry and use `Vex.is_valid?/1`:
 
 ```elixir
 user = [username: "actualuser", password: "abcdefghi", password_confirmation: "abcdefghi",
-        _vex: [username: [presence: true, length: [min: 4], format: %r(^[[:alpha:]][[:alnum:]]+$)]],
+        _vex: [username: [presence: true, length: [min: 4], format: %r/^[[:alpha:]][[:alnum:]]+$/]],
                password: [length: [min: 4], confirmation: true]]
 Vex.is_valid?(user)
 ```
