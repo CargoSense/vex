@@ -1,5 +1,7 @@
 # Vex
 
+[![Build Status](https://travis-ci.org/bruce/vex.png)](https://travis-ci.org/bruce/vex)
+
 A data validation library for Elixir.
 
 Validate data by attribute presence, inclusion, format, length, and other operations.
