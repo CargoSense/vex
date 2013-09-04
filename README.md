@@ -32,8 +32,6 @@ below.
 
 ### Presence
 
-Options:
-
 Ensure a value is present:
 
 ```elixir
