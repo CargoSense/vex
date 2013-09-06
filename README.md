@@ -38,11 +38,19 @@ Ensure a value is present:
 Vex.is_valid? post, title: [presence: true]
 ```
 
-Ensure a value _isn't_ present:
+Note: Vex uses the `Vex.Blank` protocol to determine "presence." Notably, empty strings and collections
+are not considered present.
+
+### Absence
+
+Ensure a value is absent:
 
 ```elixir
-Vex.is_valid? post, byline: [presence: false]
+Vex.is_valid? post, byline: [absence: true]
 ```
+
+Note: Vex uses the `Vex.Blank` protocol to determine "absence." Notably, empty strings and collections
+are considered absent.
 
 ### Inclusion
 

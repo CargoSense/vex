@@ -1,7 +1,8 @@
 defmodule Vex.Validations do
 
-  def validate(value, :presence, false), do: Vex.Blank.blank?(value)
-  def validate(value, :presence, true),  do: !Vex.Blank.blank?(value)
+  def validate(value, :presence, _any),  do: !Vex.Blank.blank?(value)
+
+  def validate(value, :absence, _any),  do: Vex.Blank.blank?(value)
 
   def validate(value, :inclusion, [in: values]) when is_list(values) do
     Enum.member? values, value
