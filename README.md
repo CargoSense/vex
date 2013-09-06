@@ -120,6 +120,21 @@ You can also use a range:
 Vex.is_valid? user, username: [length: 2..10]
 ```
 
+### Acceptance
+
+Ensure an attribute is set to a positive (or custom) value. For use
+expecially with "acceptance of terms" checkboxes in web applications.
+
+```elixer
+Vex.is_valid?(user, accepts_terms: [acceptance: true])
+```
+
+To check for a specific value, use `accept`:
+
+```elixer
+Vex.is_valid?(user, accepts_terms: [acceptance: [accept: "yes"]])
+```
+
 ### Confirmation
 
 Ensure a value has a matching confirmation:
