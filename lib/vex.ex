@@ -25,14 +25,13 @@ defmodule Vex do
       Enum.map(validations, fn ({name, options}) ->
         try do
          case result(data, attribute, name, options) do
-            true ->  {:ok, attribute, name}
+            true  -> {:ok, attribute, name}
             false -> {:error, attribute, name}
             nil   -> {:error, attribute, name}
-            _ -> {:ok, attribute, name}
+            _     -> {:ok, attribute, name}
           end
         rescue
-          FunctionClauseError -> raise(Vex.InvalidValidationTypeError, validation: name)
-          err -> {:error, attribute, name}
+          err -> IO.inspect(err); {:error, attribute, name}
         end
       end)
     end)

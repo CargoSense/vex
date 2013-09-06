@@ -22,32 +22,48 @@ defmodule Vex.Validations do
     !!value
   end
 
-
-  def validate(value, :format, [with: format]) do
+  def validate(value, :format, with: format) do
     Regex.match? format, value
   end
   def validate(value, :format, format) do
-    validate(value, :format, [with: format])
+    validate(value, :format, with: format)
   end
 
-  def validate(value, :length, options) when is_binary(value) do
-    validate(String.to_char_list!(value), :length, options)
+  defp default_tokenizer(value) when is_binary(value) do
+    String.split(value, %r//, trim: true)
   end
-  def validate(value, :length, [min: min]) do
+  defp default_tokenizer(value), do: value
+
+  def validate(value, :length, min: min) when is_binary(value) do
+    value |> default_tokenizer |> length >= min
+  end
+  def validate(value, :length, max: max) when is_binary(value)  do
+    value |> default_tokenizer |> length <= max
+  end
+  def validate(value, :length, min: min) do
     value |> length >= min
   end
-  def validate(value, :length, [max: max]) do
+  def validate(value, :length, max: max) do
     value |> length <= max
   end
-  
-  def validate(value, :length, [min: min, max: max]) do
-    validate(value, :length, [min: min]) and validate(value, :length, [max: max])
+
+  def validate(value, :length, [in: settings]) do
+    validate(value, :length, settings)
   end
-  def validate(value, :length, [in: {min, max}]) do
-    validate(value, :length, [min: min]) and validate(value, :length, [max: max])
+  def validate(value, :length, Range[first: min, last: max]) do
+    validate(value, :length, min: min, max: max)
   end
-  def validate(value, :length, [in: Range[first: min, last: max]]) do
-    validate(value, :length, [min: min]) and validate(value, :length, [max: max])
+  def validate(value, :length, settings) when is_list(settings) do
+    minimum   = Keyword.get settings, :min
+    maximum   = Keyword.get settings, :max
+    tokenizer = Keyword.get settings, :tokenizer, &default_tokenizer/1
+    tokens    = tokenizer.(value)
+    case {minimum, maximum} do
+      {nil, nil} -> raise "Missing length validation range"
+      {nil, max} -> validate(tokens, :length, max: max)
+      {min, nil} -> validate(tokens, :length, min: min)
+      {min, max} -> validate(tokens, :length, min: min) and validate(tokens, :length, max: max)
+    end
   end
 
   def validate(values, :confirmation, true) do
