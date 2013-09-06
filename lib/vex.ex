@@ -31,6 +31,7 @@ defmodule Vex do
             _ -> {:ok, attribute, name}
           end
         rescue
+          FunctionClauseError -> raise(Vex.InvalidValidationTypeError, validation: name)
           err -> {:error, attribute, name}
         end
       end)

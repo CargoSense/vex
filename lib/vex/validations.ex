@@ -1,7 +1,7 @@
 defmodule Vex.Validations do
 
-  def validate(value, :presence, true), do: value
-  def validate(value, :presence, false), do: !value
+  def validate(value, :presence, false), do: Vex.Blank.blank?(value)
+  def validate(value, :presence, true),  do: !Vex.Blank.blank?(value)
 
   def validate(value, :inclusion, [in: values]) when is_list(values) do
     Enum.member? values, value
@@ -13,6 +13,14 @@ defmodule Vex.Validations do
   def validate(value, :exclusion, options) do
     !validate(value, :inclusion, options)
   end
+
+  def validate(value, :acceptance, [accept: criteria]) do
+    value == criteria
+  end
+  def validate(value, :acceptance, _any) do
+    !!value
+  end
+
 
   def validate(value, :format, [with: format]) do
     Regex.match? format, value
