@@ -20,18 +20,18 @@ defmodule Vex do
   def results(data, settings) do
     Enum.map(settings, fn ({attribute, validations}) ->
       if is_function(validations) do
-        validations = [validated_by: validations]
+        validations = [by: validations]
       end
       Enum.map(validations, fn ({name, options}) ->
         try do
          case result(data, attribute, name, options) do
-            true ->  {:ok, attribute, name}
+            true  -> {:ok, attribute, name}
             false -> {:error, attribute, name}
             nil   -> {:error, attribute, name}
-            _ -> {:ok, attribute, name}
+            _     -> {:ok, attribute, name}
           end
         rescue
-          err -> {:error, attribute, name}
+          err -> IO.inspect(err); {:error, attribute, name}
         end
       end)
     end)
@@ -44,13 +44,17 @@ defmodule Vex do
       Vex.Extract.attribute(data, attr)
     end)
   |>
-    Vex.Validations.validate(:confirmation, options)
+    validator(:confirmation, options)
   end
 
   defp result(data, attribute, name, options) do
     Vex.Extract.attribute(data, attribute)
   |>
-    Vex.Validations.validate(name, options)
+    validator(name, options)
+  end
+
+  defp validator(value, name, options) do
+    apply(Vex.Validators, name, [value, options])
   end
 
 end
