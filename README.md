@@ -15,12 +15,7 @@ Inspired by
 Roadmap
 -------
 
- * ~~Ad hoc validation~~
- * ~~Validation of preconfigured settings for keyword lists and records~~
- * Options for allowing `nil` and "blank" values
- * Support messages for failures
- * Limiting which validations are evaluated based on state (eg, "on create")
- * Deep attribute matching
+See [the wiki](https://github.com/bruce/vex/wiki/Roadmap).
 
 Supported Validations
 ---------------------
