@@ -17,6 +17,25 @@ Roadmap
 
 See [the wiki](https://github.com/bruce/vex/wiki/Roadmap).
 
+Install
+-------
+
+Add to your `mix.exs`
+
+```elixir
+defp deps do
+  [
+    {:vex, "~>0.1", github: "bruce/vex"}
+  ]
+end
+```
+
+Then install the dependency:
+
+```sh
+$ mix deps.get
+```
+
 Supported Validations
 ---------------------
 
