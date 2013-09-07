@@ -20,7 +20,7 @@ defmodule Vex do
   def results(data, settings) do
     Enum.map(settings, fn ({attribute, validations}) ->
       if is_function(validations) do
-        validations = [validated_by: validations]
+        validations = [by: validations]
       end
       Enum.map(validations, fn ({name, options}) ->
         try do
@@ -54,7 +54,7 @@ defmodule Vex do
   end
 
   defp validator(value, name, options) do
-    apply(Vex.Validations, name, [value, options])
+    apply(Vex.Validators, name, [value, options])
   end
 
 end
