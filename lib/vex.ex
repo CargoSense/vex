@@ -44,13 +44,17 @@ defmodule Vex do
       Vex.Extract.attribute(data, attr)
     end)
   |>
-    Vex.Validations.validate(:confirmation, options)
+    validator(:confirmation, options)
   end
 
   defp result(data, attribute, name, options) do
     Vex.Extract.attribute(data, attribute)
   |>
-    Vex.Validations.validate(name, options)
+    validator(name, options)
+  end
+
+  defp validator(value, name, options) do
+    apply(Vex.Validations, name, [value, options])
   end
 
 end
