@@ -1,4 +1,5 @@
 defmodule Vex.Validators do
+  import Vex.Skipping
 
   @doc """
   Ensure a value is present.
@@ -82,12 +83,23 @@ defmodule Vex.Validators do
     false
     iex> Vex.Validators.inclusion("a", %w(a b c))
     true
+    iex> Vex.Validators.inclusion(nil, %w(a b c))
+    false
+    iex> Vex.Validators.inclusion(nil, [in: %w(a b c), allow_nil: true])
+    true
+    iex> Vex.Validators.inclusion("", [in: %w(a b c), allow_blank: true])
+    true
+
   """
-  def inclusion(value, [in: values]) when is_list(values) do
-    Enum.member? values, value
-  end
   def inclusion(value, options) when is_list(options) do
-    inclusion(value, [in: options])
+    if Keyword.keyword?(options) do
+      unless_skipping(value, options) do
+        list = Keyword.get options, :in
+        Enum.member? list, value
+      end
+    else
+      inclusion(value, [in: options])
+    end
   end
 
   @doc """
@@ -156,10 +168,17 @@ defmodule Vex.Validators do
     false
     iex> Vex.Validators.format("foo", [with: %r"^f"])
     true
-
+    iex> Vex.Validators.format("", [with: %r"^f", allow_blank: true])
+    true
+    iex> Vex.Validators.format(nil, [with: %r"^f", allow_nil: true])
+    true    
   """
-  def format(value, with: format), do: Regex.match?(format, value)
-  def format(value, format), do: format(value, with: format)
+  def format(value, format) when is_regex(format), do: format(value, with: format)
+  def format(value, options) do
+    unless_skipping(value, options) do
+      Regex.match?(Keyword.get(options, :with), value)
+    end
+  end
 
   @doc """
   Ensure a value's length meets a constraint.
@@ -189,6 +208,10 @@ defmodule Vex.Validators do
     true
     iex> Vex.Validators.length("foo", 2)
     false
+    iex> Vex.Validators.length(nil, [is: 2, allow_nil: true])
+    true
+    iex> Vex.Validators.length("", [is: 2, allow_blank: true])
+    true    
     iex> Vex.Validators.length("foo", min: 2, max: 8)
     true
     iex> Vex.Validators.length("foo", min: 4)
@@ -206,27 +229,34 @@ defmodule Vex.Validators do
     iex> Vex.Validators.length("four words are here", max: 4, tokenizer: &String.split/1)
     true
   """
-  def length(value, size) when is_integer(size), do: length(value, is: size)
-  def length(value, is: size), do: value |> tokens |> length == size
-  def length(value, min: min), do: value |> tokens |> length >= min
-  def length(value, max: max), do: value |> tokens |> length <= max
-
-  def length(value, [in: options]), do: length(value, options)
-
-  def length(value, Range[first: min, last: max]) do
-    length(value, min: min, max: max)
+  def length(value, options) when is_integer(options), do: length(value, is: options)
+  def length(value, options) when is_range(options),   do: length(value, in: options)
+  def length(value, options) when is_list(options) do
+    unless_skipping(value, options) do
+      tokenizer = Keyword.get(options, :tokenizer, &tokens/1)
+      tokens    = tokenizer.(value)
+      size      = Kernel.length(tokens)
+      case bounds(options) do
+        {^size, ^size} -> true
+        {nil, max}   -> size <= max
+        {min, nil}   -> min <= size
+        {min, max}   -> min <= size and size <= max
+        {nil, nil}   -> raise "Missing length validation range"      
+      end
+    end
   end
 
-  def length(value, options) when is_list(options) do
-    minimum   = Keyword.get options, :min
-    maximum   = Keyword.get options, :max
-    tokenizer = Keyword.get options, :tokenizer, &tokens/1
-    tokens    = tokenizer.(value)
-    case {minimum, maximum} do
-      {nil, nil} -> raise "Missing length validation range"
-      {nil, max} -> length(tokens, max: max)
-      {min, nil} -> length(tokens, min: min)
-      {min, max} -> length(tokens, min: min) and length(tokens, max: max)
+  defp bounds(options) do
+    is = Keyword.get(options, :is)
+    min = Keyword.get(options, :min)
+    max = Keyword.get(options, :max)
+    range = Keyword.get(options, :in)
+    cond do
+      is -> {is, is}
+      min -> {min, max}
+      max -> {min, max}
+      range -> {range.first, range.last}
+      true -> {nil, nil}
     end
   end
 
@@ -256,9 +286,16 @@ defmodule Vex.Validators do
     true
     iex> Vex.Validators.confirmation(["foo", nil], true)
     false
+    iex> Vex.Validators.confirmation(["", "unneeded"], [allow_blank: true])
+    true    
   """
-  def confirmation([nil | tail], true), do: true
-  def confirmation(values, true), do: values |> Enum.uniq |> length == 1
+  def confirmation(values, true), do: confirmation(values, [])
+  def confirmation([nil | _], options), do: true
+  def confirmation([subject, _] = values, options) do
+    unless_skipping(subject, options) do
+      values |> Enum.uniq |> length == 1
+    end
+  end
 
   @doc """
   Ensure a value meets a custom criteria.
@@ -271,15 +308,25 @@ defmodule Vex.Validators do
 
   ## Examples
 
-    iex> Vex.Validators.by(2, &(&1 % 2 == 0))
+    iex> Vex.Validators.by(2, &(&1 == 2))
     true
-    iex> Vex.Validators.by(3, &(&1 % 2 == 0))
+    iex> Vex.Validators.by(3, &(&1 == 2))
     false    
     iex> Vex.Validators.by(["foo", "foo"], &is_list/1)
     true
     iex> Vex.Validators.by("sgge", fn (word) -> word |> String.reverse == "eggs" end)
-    true    
+    true
+    iex> Vex.Validators.by(nil, [function: &is_list/1, allow_nil: true])
+    true
+    iex> Vex.Validators.by({}, [function: &is_list/1, allow_blank: true])
+    true            
   """
-  def by(value, func), do: func.(value)
+  def by(value, func) when is_function(func), do: by(value, function: func)
+  def by(value, options) do
+    unless_skipping(value, options) do
+      function = Keyword.get(options, :function)
+      function.(value)
+    end
+  end
 
 end
