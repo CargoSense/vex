@@ -7,7 +7,7 @@ end
 defrecord CustomAcceptanceTestRecord, accepts_terms: false do
   use Vex.Record
 
-  validates :accepts_terms, acceptance: [accept: "yes"]
+  validates :accepts_terms, acceptance: [as: "yes"]
 end
 
 
@@ -27,15 +27,15 @@ defmodule AcceptanceTest do
   end
 
   test "keyword list, provided custom acceptance validation" do
-    assert  Vex.is_valid?([accepts_terms: "yes"], accepts_terms: [acceptance: [accept: "yes"]])
-    assert !Vex.is_valid?([accepts_terms: false], accepts_terms: [acceptance: [accept: "yes"]])
-    assert !Vex.is_valid?([accepts_terms: true],  accepts_terms: [acceptance: [accept: "yes"]])
+    assert  Vex.is_valid?([accepts_terms: "yes"], accepts_terms: [acceptance: [as: "yes"]])
+    assert !Vex.is_valid?([accepts_terms: false], accepts_terms: [acceptance: [as: "yes"]])
+    assert !Vex.is_valid?([accepts_terms: true],  accepts_terms: [acceptance: [as: "yes"]])
   end
 
   test "keyword list, included custom validation" do
-    assert  Vex.is_valid?([accepts_terms: "yes", _vex: [accepts_terms: [acceptance: [accept: "yes"]]]])
-    assert !Vex.is_valid?([accepts_terms: false, _vex: [accepts_terms: [acceptance: [accept: "yes"]]]])
-    assert !Vex.is_valid?([accepts_terms: true,  _vex: [accepts_terms: [acceptance: [accept: "yes"]]]])    
+    assert  Vex.is_valid?([accepts_terms: "yes", _vex: [accepts_terms: [acceptance: [as: "yes"]]]])
+    assert !Vex.is_valid?([accepts_terms: false, _vex: [accepts_terms: [acceptance: [as: "yes"]]]])
+    assert !Vex.is_valid?([accepts_terms: true,  _vex: [accepts_terms: [acceptance: [as: "yes"]]]])    
   end
 
   test "record, included basic presence validation" do

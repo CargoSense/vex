@@ -130,13 +130,13 @@ defmodule Vex.Validators do
     true
     iex> Vex.Validators.acceptance(nil, true)
     false
-    iex> Vex.Validators.acceptance(1, [accept: "yes"])
+    iex> Vex.Validators.acceptance(1, [as: "yes"])
     false
-    iex> Vex.Validators.acceptance("verily", [accept: "verily"])
+    iex> Vex.Validators.acceptance("verily", [as: "verily"])
     true
   """
   def acceptance(value, true), do: !!value
-  def acceptance(value, [accept: criteria]), do: value == criteria
+  def acceptance(value, [as: criteria]), do: value == criteria
 
   @doc """
   Ensure a value matches a regular expression.

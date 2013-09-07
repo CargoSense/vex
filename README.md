@@ -38,19 +38,17 @@ Ensure a value is present:
 Vex.is_valid? post, title: [presence: true]
 ```
 
-Note: Vex uses the `Vex.Blank` protocol to determine "presence." Notably, empty strings and collections
-are not considered present.
+See the documentation on `Vex.Validators.presence` for details on available options.  
 
 ### Absence
 
-Ensure a value is absent:
+Ensure a value is absent (blank)
 
 ```elixir
 Vex.is_valid? post, byline: [absence: true]
 ```
 
-Note: Vex uses the `Vex.Blank` protocol to determine "absence." Notably, empty strings and collections
-are considered absent.
+See the documentation on `Vex.Validators.absence` for details on available options.
 
 ### Inclusion
 
@@ -60,11 +58,7 @@ Ensure a value is in a list of values:
 Vex.is_valid? post, category: [inclusion: ["politics", "food"]]
 ```
 
-You can also use the `in` keyword if you prefer:
-
-```elixir
-Vex.is_valid? post, category: [inclusion: [in: ["politics", "food"]]]
-```
+See the documentation on `Vex.Validators.inclusion` for details on available options.  
 
 ### Exclusion
 
@@ -74,11 +68,7 @@ Ensure a value is _not_ in a list of values:
 Vex.is_valid? post, category: [exclusion: ["oped", "lifestyle"]]
 ```
 
-You can also use the `in` keyword if you prefer:
-
-```elixir
-Vex.is_valid? post, category: [exclusion: [in: ["oped", "lifestyle"]]]
-```
+See the documentation on `Vex.Validators.exclusion` for details on available options.
 
 ### Format
 
@@ -88,11 +78,7 @@ Ensure a value matches a regular expression:
 Vex.is_valid? widget, identifier: [format: %r(^id-)]
 ```
 
-You can also use the `with` keyword if you prefer:
-
-```elixir
-Vex.is_valid? widget, identifier: [format: [with: %r(^id-)]]
-```
+See the documentation on `Vex.Validators.format` for details on available options.
 
 ### Length
 
@@ -108,17 +94,13 @@ Ensure a value's length is at or below a given size:
 Vex.is_valid? user, username: [length: [max: 10]]
 ```
 
-Ensure a value's length in between two sizes (inclusive):
+Ensure a value's length is within a range (inclusive):
 
 ```elixir
-Vex.is_valid? user, username: [length: [min: 2, max: 10]]
+Vex.is_valid? user, username: [length: [in: 2..10]]
 ```
 
-You can also use a range:
-
-```elixir
-Vex.is_valid? user, username: [length: 2..10]
-```
+See the documentation on `Vex.Validators.length` for details on available options.
 
 ### Acceptance
 
@@ -129,11 +111,13 @@ expecially with "acceptance of terms" checkboxes in web applications.
 Vex.is_valid?(user, accepts_terms: [acceptance: true])
 ```
 
-To check for a specific value, use `accept`:
+To check for a specific value, use `:as`:
 
 ```elixer
-Vex.is_valid?(user, accepts_terms: [acceptance: [accept: "yes"]])
+Vex.is_valid?(user, accepts_terms: [acceptance: [as: "yes"]])
 ```
+
+See the documentation on `Vex.Validators.acceptance` for details on available options.
 
 ### Confirmation
 
@@ -145,15 +129,25 @@ Vex.is_valid? user, password: [confirmation: true]
 
 The above would ensure the values of `password` and `password_confirmation` are equivalent.
 
+See the documentation on `Vex.Validators.confirmation` for details on available options.
+
 ### Custom Function
 
-You can also provide a custom function for validation:
+You can also just provide a custom function for validation instead of a validator name:
 
 ```elixer
 Vex.is_valid?(user, password: fn (pass) -> byte_size(pass) > 4 end)
 Vex.is_valid? user, password: &valid_password?/1
 Vex.is_valid?(user, password: &(&1 != "god"))
 ```
+
+Or explicitly using `:by`:
+
+```elixir
+Vex.is_valid?(user, age: [by: &(&1 > 18)])
+```
+
+See the documentation on `Vex.Validators.by` for details on available options.
 
 Configuring Validations
 -----------------------
@@ -209,7 +203,7 @@ Vex.is_valid?(user)
 
 ### Others
 
-Just implement the `Vex.Extract` protocol. Here's what it looks like to support keyword lists:
+Just implement the `Vex.Extract` protocol. Here's what was done to support keyword lists:
 
 ```elixir
 defimpl Vex.Extract, for: List do
