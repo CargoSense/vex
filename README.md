@@ -53,6 +53,8 @@ Ensure a value is in a list of values:
 Vex.is_valid? post, category: [inclusion: ["politics", "food"]]
 ```
 
+This validation can be skipped for `nil` or blank values by including `allow_nil: true` and/or `allow_blank: true`.
+
 See the documentation on `Vex.Validators.inclusion` for details on available options.  
 
 ### Exclusion
@@ -72,6 +74,8 @@ Ensure a value matches a regular expression:
 ```elixir
 Vex.is_valid? widget, identifier: [format: %r(^id-)]
 ```
+
+This validation can be skipped for `nil` or blank values by including `allow_nil: true` and/or `allow_blank: true`.
 
 See the documentation on `Vex.Validators.format` for details on available options.
 
@@ -94,6 +98,8 @@ Ensure a value's length is within a range (inclusive):
 ```elixir
 Vex.is_valid? user, username: [length: [in: 2..10]]
 ```
+
+This validation can be skipped for `nil` or blank values by including `allow_nil: true` and/or `allow_blank: true`.
 
 See the documentation on `Vex.Validators.length` for details on available options.
 
@@ -124,6 +130,8 @@ Vex.is_valid? user, password: [confirmation: true]
 
 The above would ensure the values of `password` and `password_confirmation` are equivalent.
 
+This validation can be skipped for `nil` or blank values by including `allow_nil: true` and/or `allow_blank: true`.
+
 See the documentation on `Vex.Validators.confirmation` for details on available options.
 
 ### Custom Function
@@ -141,6 +149,8 @@ Or explicitly using `:by`:
 ```elixir
 Vex.is_valid?(user, age: [by: &(&1 > 18)])
 ```
+
+This validation can be skipped for `nil` or blank values by including `allow_nil: true` and/or `allow_blank: true`.
 
 See the documentation on `Vex.Validators.by` for details on available options.
 
