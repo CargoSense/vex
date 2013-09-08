@@ -53,7 +53,7 @@ defmodule Vex do
     if function_exported?(module, :validate, 2) do
       module
     else
-      raise Vex.InvalidValidationTypeError, validation: name
+      raise Vex.InvalidValidatorError, validation: name
     end
   end
 

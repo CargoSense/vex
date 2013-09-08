@@ -5,7 +5,7 @@ defmodule VexTest do
   use ExUnit.Case
 
   test "invalid validation name error is raised" do
-    assert_raise Vex.InvalidValidationTypeError, fn ->
+    assert_raise Vex.InvalidValidatorError, fn ->
       Vex.is_valid?([name: "Foo"], name: [foobar: true])
     end
   end
