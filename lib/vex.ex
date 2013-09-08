@@ -11,7 +11,7 @@ defmodule Vex do
     errors(data, Vex.Extract.settings(data))
   end
   def errors(data, settings) do
-    Enum.filter results(data, settings), match?({:error, _, _}, &1)
+    Enum.filter results(data, settings), match?({:error, _, _, _}, &1)
   end
 
   def results(data) do
@@ -23,38 +23,46 @@ defmodule Vex do
         validations = [by: validations]
       end
       Enum.map(validations, fn ({name, options}) ->
-        try do
-         case result(data, attribute, name, options) do
-            true  -> {:ok, attribute, name}
-            false -> {:error, attribute, name}
-            nil   -> {:error, attribute, name}
-            _     -> {:ok, attribute, name}
-          end
-        rescue
-          err -> IO.inspect(err); {:error, attribute, name}
-        end
+        result(data, attribute, name, options)
       end)
     end)
   |>
     List.flatten
   end
 
-  defp result(data, attribute, :confirmation, options) do
-    Enum.map([attribute, binary_to_atom("#{attribute}_confirmation")], fn (attr) ->
-      Vex.Extract.attribute(data, attr)
-    end)
-  |>
-    validator(:confirmation, options)
-  end
-
   defp result(data, attribute, name, options) do
-    Vex.Extract.attribute(data, attribute)
-  |>
-    validator(name, options)
+    result = extract(data, attribute, name) |> validator(name).validate(options)
+    case result do
+      {:error, message} -> {:error, attribute, name, message}
+      :ok -> {:ok, attribute, name}
+      _ -> raise "'#{name}'' validator should return :ok or {:error, message}"
+    end
   end
 
-  defp validator(value, name, options) do
-    apply(Vex.Validators, name, [value, options])
+  defp extract(data, attribute, :confirmation) do
+    [attribute, binary_to_atom("#{attribute}_confirmation")]
+  |>
+    Enum.map(fn (attr) -> Vex.Extract.attribute(data, attr) end)
+  end
+  defp extract(data, attribute, name) do
+    Vex.Extract.attribute(data, attribute)
+  end
+
+  defp validator(name) do
+    module = Module.concat(Vex.Validators, validator_submodule(name))
+    if function_exported?(module, :validate, 2) do
+      module
+    else
+      raise Vex.InvalidValidatorError, validation: name
+    end
+  end
+
+  defp validator_submodule(name) do
+    name |> atom_to_binary
+  |>
+    String.split("_") |> Enum.map(&String.capitalize/1)
+  |>
+    Enum.reduce(&Kernel.<>/2)
   end
 
 end

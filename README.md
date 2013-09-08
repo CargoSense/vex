@@ -52,7 +52,7 @@ Ensure a value is present:
 Vex.is_valid? post, title: [presence: true]
 ```
 
-See the documentation on `Vex.Validators.presence` for details on available options.  
+See the documentation on `Vex.Validators.Presence` for details on available options.  
 
 ### Absence
 
@@ -62,7 +62,7 @@ Ensure a value is absent (blank)
 Vex.is_valid? post, byline: [absence: true]
 ```
 
-See the documentation on `Vex.Validators.absence` for details on available options.
+See the documentation on `Vex.Validators.Absence` for details on available options.
 
 ### Inclusion
 
@@ -74,7 +74,7 @@ Vex.is_valid? post, category: [inclusion: ["politics", "food"]]
 
 This validation can be skipped for `nil` or blank values by including `allow_nil: true` and/or `allow_blank: true`.
 
-See the documentation on `Vex.Validators.inclusion` for details on available options.  
+See the documentation on `Vex.Validators.Inclusion` for details on available options.  
 
 ### Exclusion
 
@@ -84,7 +84,7 @@ Ensure a value is _not_ in a list of values:
 Vex.is_valid? post, category: [exclusion: ["oped", "lifestyle"]]
 ```
 
-See the documentation on `Vex.Validators.exclusion` for details on available options.
+See the documentation on `Vex.Validators.Exclusion` for details on available options.
 
 ### Format
 
@@ -96,7 +96,7 @@ Vex.is_valid? widget, identifier: [format: %r(^id-)]
 
 This validation can be skipped for `nil` or blank values by including `allow_nil: true` and/or `allow_blank: true`.
 
-See the documentation on `Vex.Validators.format` for details on available options.
+See the documentation on `Vex.Validators.Format` for details on available options.
 
 ### Length
 
@@ -120,7 +120,7 @@ Vex.is_valid? user, username: [length: [in: 2..10]]
 
 This validation can be skipped for `nil` or blank values by including `allow_nil: true` and/or `allow_blank: true`.
 
-See the documentation on `Vex.Validators.length` for details on available options.
+See the documentation on `Vex.Validators.Length` for details on available options.
 
 ### Acceptance
 
@@ -137,7 +137,7 @@ To check for a specific value, use `:as`:
 Vex.is_valid?(user, accepts_terms: [acceptance: [as: "yes"]])
 ```
 
-See the documentation on `Vex.Validators.acceptance` for details on available options.
+See the documentation on `Vex.Validators.Acceptance` for details on available options.
 
 ### Confirmation
 
@@ -171,7 +171,7 @@ Vex.is_valid?(user, age: [by: &(&1 > 18)])
 
 This validation can be skipped for `nil` or blank values by including `allow_nil: true` and/or `allow_blank: true`.
 
-See the documentation on `Vex.Validators.by` for details on available options.
+See the documentation on `Vex.Validators.By` for details on available options.
 
 Configuring Validations
 -----------------------
@@ -239,4 +239,11 @@ defimpl Vex.Extract, for: List do
   end
 end
 ```
+
+Errors
+------
+
+In the event of a missing validation name, a `Vex.InvalidValidatorError` will be raised with the validator name.
+
+If invalid options are given to a validator, it should raise an exception.
 
