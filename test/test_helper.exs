@@ -12,4 +12,32 @@ defrecord UserTest, username: nil, password: nil, password_confirmation: nil, ag
 
 end
 
+defmodule TestValidatorSourceByStructure.Criteria do
+  
+  def validate(_value, _options) do
+  end
+
+end
+
+defmodule TestValidatorSourceByFunctionResult do
+
+  def validate(_value, _options) do
+  end
+
+end
+
+defmodule TestValidatorSourceByFunction do
+  
+  def validator(_name) do
+    TestValidatorSourceByFunctionResult # always; stub
+  end
+
+end
+
+
+defmodule TestValidatorSourceByFunction.Criteria do
+  # Should be ignored
+end
+
+
 ExUnit.start

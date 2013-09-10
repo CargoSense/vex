@@ -32,4 +32,15 @@ defmodule VexTest do
     assert length(Vex.results(user)) > 0
     assert length(Vex.errors(user)) == 0
   end
+
+  test "validator lookup by structure" do
+    validator = Vex.validator(:criteria, [TestValidatorSourceByStructure])
+    assert validator == TestValidatorSourceByStructure.Criteria
+  end
+
+  test "validator lookup by function" do
+    validator = Vex.validator(:criteria, [TestValidatorSourceByFunction])
+    assert validator == TestValidatorSourceByFunctionResult
+  end
+
 end
