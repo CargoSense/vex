@@ -36,7 +36,9 @@ defmodule Vex.Validators.Length do
     iex> Vex.Validators.Length.validate("foo", min: 4)
     {:error, "must have a length of at least 4"}
     iex> Vex.Validators.Length.validate("foo", max: 2)
-    {:error, "must have a length of no more than 2"}    
+    {:error, "must have a length of no more than 2"}
+    iex> Vex.Validators.Length.validate("foo", max: 2, message: "must be the right length")
+    {:error, "must be the right length"}        
     iex> Vex.Validators.Length.validate("foo", is: 3)
     :ok
     iex> Vex.Validators.Length.validate("foo", is: 2)
@@ -58,14 +60,14 @@ defmodule Vex.Validators.Length do
       tokens    = tokenizer.(value)
       size      = Kernel.length(tokens)
       limits    = bounds(options)
-      {findings, message} = case limits do
+      {findings, default_message} = case limits do
         {nil, nil}   -> raise "Missing length validation range"
         {same, same} -> {size == same, "must have a length of #{same}"}
         {nil, max}   -> {size <= max, "must have a length of no more than #{max}"}
         {min, nil}   -> {min <= size, "must have a length of at least #{min}"}
         {min, max}   -> {min <= size and size <= max, "must have a length between #{min} and #{max}"}
       end
-      result findings, message
+      result findings, message(options, default_message)
     end
   end
 

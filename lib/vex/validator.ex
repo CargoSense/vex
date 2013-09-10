@@ -7,6 +7,7 @@ defmodule Vex.Validator do
     quote do
       import unquote(__MODULE__)
       import Vex.Validator.Skipping
+      import Vex.Validator.ErrorMessage
     end
   end
 

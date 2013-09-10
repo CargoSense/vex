@@ -25,7 +25,8 @@ defmodule Vex.Validators.Inclusion do
     :ok
     iex> Vex.Validators.Inclusion.validate("", [in: %w(a b c), allow_blank: true])
     :ok
-
+    iex> Vex.Validators.Inclusion.validate("a", in: [1, 2, 3], message: "must be abc, not talkin' 'bout 123")
+    {:error, "must be abc, not talkin' 'bout 123"}
   """
   use Vex.Validator
 
@@ -33,7 +34,7 @@ defmodule Vex.Validators.Inclusion do
     if Keyword.keyword?(options) do
       unless_skipping(value, options) do
         list = Keyword.get options, :in
-        result Enum.member?(list, value), list
+        result Enum.member?(list, value), message(options, "must be one of #{inspect list}")
       end
     else
       validate(value, [in: options])
@@ -41,6 +42,6 @@ defmodule Vex.Validators.Inclusion do
   end
 
   defp result(true, _), do: :ok
-  defp result(false, list), do: {:error, "must be one of #{inspect list}"}
+  defp result(false, message), do: {:error, message}
 
 end

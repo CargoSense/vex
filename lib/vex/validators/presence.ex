@@ -23,6 +23,8 @@ defmodule Vex.Validators.Presence do
     {:error, "must be present"}
     iex> Vex.Validators.Presence.validate([], true)
     {:error, "must be present"}
+    iex> Vex.Validators.Presence.validate([], message: "must have some things!")
+    {:error, "must have some things!"}    
     iex> Vex.Validators.Presence.validate([1], true)
     :ok 
     iex> Vex.Validators.Presence.validate({1}, true)
@@ -32,7 +34,7 @@ defmodule Vex.Validators.Presence do
 
   def validate(value, options) do
     if Vex.Blank.blank?(value) do
-      {:error, "must be present"}
+      {:error, message(options, "must be present")}
     else
       :ok
     end

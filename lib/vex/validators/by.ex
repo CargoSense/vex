@@ -30,11 +30,10 @@ defmodule Vex.Validators.By do
   use Vex.Validator
   
   def validate(value, func) when is_function(func), do: validate(value, function: func)
-  def validate(value, options) do
+  def validate(value, options) when is_list(options) do
     unless_skipping(value, options) do
-      message = Keyword.get(options, :message, "must be valid")
       function = Keyword.get(options, :function)
-      if function.(value), do: :ok, else: {:error, message}
+      if function.(value), do: :ok, else: {:error, message(options, "must be valid")}
     end
   end
 end

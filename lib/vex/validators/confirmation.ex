@@ -22,6 +22,8 @@ defmodule Vex.Validators.Confirmation do
     :ok
     iex> Vex.Validators.Confirmation.validate(["foo", nil], true)
     {:error, "must match its confirmation"}
+    iex> Vex.Validators.Confirmation.validate(["foo", nil], message: "must match!")
+    {:error, "must match!"}    
     iex> Vex.Validators.Confirmation.validate(["", "unneeded"], [allow_blank: true])
     :ok
   """
@@ -29,12 +31,12 @@ defmodule Vex.Validators.Confirmation do
 
   def validate(values, true), do: validate(values, [])
   def validate([nil | _], options), do: :ok
-  def validate([subject, _] = values, options) do
+  def validate([subject, _] = values, options) when is_list(options) do
     unless_skipping(subject, options) do
       if values |> Enum.uniq |> length == 1 do
         :ok
       else
-        {:error, "must match its confirmation"}
+        {:error, message(options, "must match its confirmation")}
       end
     end
   end

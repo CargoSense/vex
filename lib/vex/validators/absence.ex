@@ -26,7 +26,9 @@ defmodule Vex.Validators.Absence do
     iex> Vex.Validators.Absence.validate([1], true)
     {:error, "must be absent"} 
     iex> Vex.Validators.Absence.validate({1}, true)
-    {:error, "must be absent"}    
+    {:error, "must be absent"}
+    iex> Vex.Validators.Absence.validate({1}, message: "can't exist")
+    {:error, "can't exist"}
   """
   use Vex.Validator
 
@@ -34,7 +36,7 @@ defmodule Vex.Validators.Absence do
     if Vex.Blank.blank?(value) do
       :ok
     else
-      {:error, "must be absent"}
+      {:error, message(options, "must be absent")}
     end
   end
 
