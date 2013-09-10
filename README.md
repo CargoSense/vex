@@ -269,8 +269,8 @@ end
 Adding and Overriding Validators
 --------------------------------
 
-Validators are simply modules that implement `validate/2` an return `:ok`
-or a tuple with `:error` and a message. They usually `use Vex.Validator`
+Validators are simply modules that implement `validate/2` and return `:ok`
+or a tuple with `:error` and a message. They usually use `Vex.Validator`
 as well to get some common utilities for supporting `:allow_nil`, `:allow_blank`, and custom `:message` options:
 
 ```elixir
@@ -294,12 +294,13 @@ validates :amount, currency: true
 
 You just need to add a validator _source_ so that Vex knows where to find it.
 
-A source is anything that implements the `Vex.Validator.Source` protocol.
+A source can be anything that implements the `Vex.Validator.Source` protocol.
 We'll use a keyword list for this example. The implementation for `List`
 allows us to provide a simple mapping.
 
-In our `mix.exs`, we add a `vex` source to `project`, inserting it before
-`Vex.Validators`, the source for all the Vex built-in validators:
+In our `mix.exs`, we add some `vex` configuration to `project`,
+declaring our new source before `Vex.Validators`, the source for
+all the built-in validators that ship with Vex.
 
 ```elixir
 def project do
@@ -319,7 +320,7 @@ Note: Without a `sources` configuration in `mix.exs`, Vex falls back to a defaul
 
 ### Using Modules as Sources
 
-If adding mappings to our keyword list source in `mix.exs' becomes
+If adding mappings to our keyword list source in `mix.exs` becomes
 tiresome, we can make use of the fact there's a `Vex.Validator.Source`
 implementation for `Atom`; we can provide a module name as a source instead
 (just as Vex does with `Vex.Validators`).
@@ -333,6 +334,9 @@ strategies to retrieve a validator:
    source module _plus_ a dot and the camelized validator name (eg, given
    a source of `App.Validators', it would look for a `:currency` validator at
    `App.Validators.Currency`)
+
+In either case it will check the candidate validator for an exported
+`validate/2` function.
 
 ### Checking Validator Lookup
 
