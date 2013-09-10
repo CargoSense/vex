@@ -1,5 +1,7 @@
 defmodule DocTest do
   use ExUnit.Case
+  # Main
+  doctest Vex
   # Validator Utilities
   doctest Vex.Validator.Skipping
   # Built-in Validators

@@ -39,30 +39,54 @@ defmodule Vex do
     end
   end
 
+  @doc """
+  Lookup a validator from configured sources
+
+  ## Examples
+
+    iex> Vex.validator(:presence)
+    Vex.Validators.Presence
+    iex> Vex.validator(:exclusion)
+    Vex.Validators.Exclusion    
+  """
+  def validator(name) do
+    case name |> validator(sources) do
+      nil -> raise Vex.InvalidValidatorError, validator: name, sources: sources
+      found -> found
+    end
+  end
+
+  @doc """
+  Lookup a validator from given sources
+
+  ## Examples
+
+    iex> Vex.validator(:presence, [[presence: :presence_stub]])
+    :presence_stub
+    iex> Vex.validator(:exclusion, [Vex.Validators])
+    Vex.Validators.Exclusion
+    iex> Vex.validator(:presence, [Vex.Validators, [presence: :presence_stub]])
+    Vex.Validators.Presence
+    iex> Vex.validator(:presence, [[presence: :presence_stub], Vex.Validators])
+    :presence_stub        
+  """
+  def validator(name, sources) do
+    Enum.find_value sources, fn (source) -> 
+      Vex.Validator.Source.lookup(source, name)
+    end
+  end
+
+  defp sources do
+    Mix.project |> Keyword.get(:vex, []) |> Keyword.get(:sources, [Vex.Validators])
+  end
+
   defp extract(data, attribute, :confirmation) do
     [attribute, binary_to_atom("#{attribute}_confirmation")]
   |>
     Enum.map(fn (attr) -> Vex.Extract.attribute(data, attr) end)
   end
-  defp extract(data, attribute, name) do
+  defp extract(data, attribute, _name) do
     Vex.Extract.attribute(data, attribute)
-  end
-
-  defp validator(name) do
-    module = Module.concat(Vex.Validators, validator_submodule(name))
-    if function_exported?(module, :validate, 2) do
-      module
-    else
-      raise Vex.InvalidValidatorError, validation: name
-    end
-  end
-
-  defp validator_submodule(name) do
-    name |> atom_to_binary
-  |>
-    String.split("_") |> Enum.map(&String.capitalize/1)
-  |>
-    Enum.reduce(&Kernel.<>/2)
   end
 
 end
