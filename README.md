@@ -347,6 +347,9 @@ strategies to retrieve a validator:
 In either case it will check the candidate validator for an exported
 `validate/2` function.
 
+In the event no validators can be found for a name, a
+`Vex.InvalidValidatorError` will be raised.
+
 ### Checking Validator Lookup
 
 To see what validator Vex finds for a given validator name, use `Vex.validator/1`:
@@ -356,10 +359,17 @@ iex> Vex.validator(:currency)
 App.Validators.Currency
 ```
 
-Errors
-------
+Contributing
+------------
 
-In the event of a missing validation name, a `Vex.InvalidValidatorError` will be raised with the validator name.
+Please fork and send pull requests (preferably from non-master branches), including tests (doctests or normal `ExUnit.Case` tests).
 
-If invalid options are given to a validator, it should raise an exception.
+Report bugs and request features via [Issues](https://github.com/bruce/vex/issues);
+kudos if you do it from pull requests you submit that fix the bugs or add
+the features. ;)
+
+License
+-------
+
+Released under the [MIT License](http://www.opensource.org/licenses/MIT).
 
