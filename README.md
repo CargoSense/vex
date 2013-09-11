@@ -25,7 +25,7 @@ Add to your `mix.exs`
 ```elixir
 defp deps do
   [
-    {:vex, "~>0.1", github: "bruce/vex"}
+    {:vex, "~>0.2", github: "bruce/vex"}
   ]
 end
 ```
