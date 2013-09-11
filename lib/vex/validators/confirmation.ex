@@ -30,7 +30,7 @@ defmodule Vex.Validators.Confirmation do
   use Vex.Validator
 
   def validate(values, true), do: validate(values, [])
-  def validate([nil | _], options), do: :ok
+  def validate([nil | _], _options), do: :ok
   def validate([subject, _] = values, options) when is_list(options) do
     unless_skipping(subject, options) do
       if values |> Enum.uniq |> length == 1 do

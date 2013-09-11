@@ -40,7 +40,6 @@ defmodule VexTest do
     assert !Vex.is_valid?(user)
     assert length(Vex.results(user)) > 0
     assert length(Vex.errors(user)) == 2
-    IO.inspect Vex.errors(user)
   end  
 
   test "validator lookup by structure" do
