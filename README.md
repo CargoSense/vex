@@ -269,6 +269,36 @@ defimpl Vex.Extract, for: List do
 end
 ```
 
+Querying Results
+----------------
+
+For validity, it's the old standard, `Vex.is_valid?/1`:
+
+```elixir
+iex> Vex.is_valid?(user)
+true
+```
+
+(If you need to pass in the validations to use, do that as a second argument to
+`Vex.is_valid?/2`)
+
+You can access the raw validation results using `Vex.results/1`:
+
+```elixir
+iex> Vex.results(user)
+[{:ok, :username, :presence},
+ {:ok, :username, :length},
+ {:ok, :username, :format}]
+```
+
+If you only want the errors, use `Vex.errors/1`:
+
+```elixir
+iex> Vex.errors(another_user)
+[{:error, :password, :length, "must have a length of at least 4"},
+ {:error, :password, :confirmation, "must match its confirmation"}]
+ ```
+
 Adding and Overriding Validators
 --------------------------------
 

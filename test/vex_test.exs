@@ -26,12 +26,22 @@ defmodule VexTest do
 
   test "keyword list, included complex validation" do
     user = [username: "actualuser", password: "abcdefghi", password_confirmation: "abcdefghi",
-            _vex: [username: [presence: true, length: [min: 4], format: %r(^[[:alpha:]][[:alnum:]]+$)]],
-                   password: [length: [min: 4], confirmation: true]]
+            _vex: [username: [presence: true, length: [min: 4], format: %r(^[[:alpha:]][[:alnum:]]+$)],
+                   password: [length: [min: 4], confirmation: true]]]
     assert Vex.is_valid?(user)
     assert length(Vex.results(user)) > 0
     assert length(Vex.errors(user)) == 0
   end
+
+  test "keyword list, included complex validation with errors" do
+    user = [username: "actualuser", password: "abc", password_confirmation: "abcdefghi",
+            _vex: [username: [presence: true, length: [min: 4], format: %r(^[[:alpha:]][[:alnum:]]+$)],
+                   password: [length: [min: 4], confirmation: true]]]
+    assert !Vex.is_valid?(user)
+    assert length(Vex.results(user)) > 0
+    assert length(Vex.errors(user)) == 2
+    IO.inspect Vex.errors(user)
+  end  
 
   test "validator lookup by structure" do
     validator = Vex.validator(:criteria, [TestValidatorSourceByStructure])
