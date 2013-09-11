@@ -32,7 +32,7 @@ end
 
 Then install the dependency:
 
-```sh
+```
 $ mix deps.get
 ```
 
@@ -135,13 +135,13 @@ available options.
 Ensure an attribute is set to a positive (or custom) value. For use
 expecially with "acceptance of terms" checkboxes in web applications.
 
-```elixer
+```elixir
 Vex.is_valid?(user, accepts_terms: [acceptance: true])
 ```
 
 To check for a specific value, use `:as`:
 
-```elixer
+```elixir
 Vex.is_valid?(user, accepts_terms: [acceptance: [as: "yes"]])
 ```
 
@@ -152,7 +152,7 @@ available options.
 
 Ensure a value has a matching confirmation:
 
-```elixer
+```elixir
 Vex.is_valid? user, password: [confirmation: true]
 ```
 
@@ -170,7 +170,7 @@ on available options.
 You can also just provide a custom function for validation instead of
 a validator name:
 
-```elixer
+```elixir
 Vex.is_valid?(user, password: fn (pass) -> byte_size(pass) > 4 end)
 Vex.is_valid? user, password: &valid_password?/1
 Vex.is_valid?(user, password: &(&1 != "god"))
