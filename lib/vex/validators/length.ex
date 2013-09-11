@@ -74,7 +74,7 @@ defmodule Vex.Validators.Length do
   def validate(value, options) when is_list(options) do
     unless_skipping(value, options) do
       tokenizer = Keyword.get(options, :tokenizer, &tokens/1)
-      tokens    = tokenizer.(value)
+      tokens    = if !Vex.Blank.blank?(value), do: tokenizer.(value), else: []
       size      = Kernel.length(tokens)
       {lower, upper} = limits = bounds(options)
       {findings, default_message} = case limits do
