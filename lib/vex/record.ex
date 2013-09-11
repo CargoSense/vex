@@ -15,9 +15,9 @@ defmodule Vex.Record do
     end
   end
 
-  defmacro validates(name, validators // []) do
+  defmacro validates(name, validations // []) do
     quote do
-      @vex_validations Keyword.put(@vex_validations, unquote(name), unquote(validators))
+      @vex_validations Keyword.put(@vex_validations, unquote(name), unquote(validations))
     end
   end
 

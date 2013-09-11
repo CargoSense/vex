@@ -299,6 +299,34 @@ iex> Vex.errors(another_user)
  {:error, :password, :confirmation, "must match its confirmation"}]
  ```
 
+Custom Error Messages
+---------------------
+
+Custom error messages can be requested by validations when providing the
+`:message` option and can use EEx to insert fields specific to the validator, eg:
+
+```elixir
+validates :body, length: [min: 4,
+                          tokenizer: &String.split/1,
+                          message: "<%= length tokens %> words isn't enough"]
+```
+
+This could yield, in the case of a `:body` value `"hello my darling"`, the result:
+
+```elixir
+{:error, "3 words isn't enough"}
+```
+
+Validators declare a list of the available message fields and their
+descriptions by setting the module attribute `@message_fields` (see
+`Vex.Validator.ErrorMessage`), and the metadata is available for querying:
+
+```elixir
+iex> Vex.Validators.Length.__validator__(:message_fields)
+[value: "Bad value", tokens: "Tokens from value", size: "Number of tokens",
+ min: "Minimum acceptable value", max: "Maximum acceptable value"]
+```
+
 Adding and Overriding Validators
 --------------------------------
 
