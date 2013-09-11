@@ -20,6 +20,8 @@ defmodule Vex.Validators.Length do
       value for length checking. By default binarys are broken up using
      `String.graphemes` and all other values (eg, lists) are
       passed through intact. See `Vex.Validators.tokens/1`.
+   * `:message`: Optional. A custom error message. May be in EEx format
+      and use the fields described in "Custom Error Messages," below.       
 
   ## Examples
 
@@ -49,9 +51,24 @@ defmodule Vex.Validators.Length do
     {:error, "must have a length between 8 and 10"}
     iex> Vex.Validators.Length.validate("four words are here", max: 4, tokenizer: &String.split/1)
     :ok
+
+  ## Custom Error Messages
+
+  Custom error messages (in EEx format), provided as :message, can use the following values:
+
+    iex> Vex.Validators.Length.__validator__(:message_fields)
+    [value: "Bad value", tokens: "Tokens from value", size: "Number of tokens", min: "Minimum acceptable value", max: "Maximum acceptable value"]
+
+  An example:
+
+    iex> Vex.Validators.Length.validate("hello my darling", min: 4, tokenizer: &String.split/1,
+    iex>                                                    message: "<%= length tokens %> words isn't enough")
+    {:error, "3 words isn't enough"}
+
   """
   use Vex.Validator
 
+  @message_fields [value: "Bad value", tokens: "Tokens from value", size: "Number of tokens", min: "Minimum acceptable value", max: "Maximum acceptable value"]
   def validate(value, options) when is_integer(options), do: validate(value, is: options)
   def validate(value, options) when is_range(options),   do: validate(value, in: options)
   def validate(value, options) when is_list(options) do
@@ -59,7 +76,7 @@ defmodule Vex.Validators.Length do
       tokenizer = Keyword.get(options, :tokenizer, &tokens/1)
       tokens    = tokenizer.(value)
       size      = Kernel.length(tokens)
-      limits    = bounds(options)
+      {lower, upper} = limits = bounds(options)
       {findings, default_message} = case limits do
         {nil, nil}   -> raise "Missing length validation range"
         {same, same} -> {size == same, "must have a length of #{same}"}
@@ -67,7 +84,7 @@ defmodule Vex.Validators.Length do
         {min, nil}   -> {min <= size, "must have a length of at least #{min}"}
         {min, max}   -> {min <= size and size <= max, "must have a length between #{min} and #{max}"}
       end
-      result findings, message(options, default_message)
+      result findings, message(options, default_message, value: value, tokens: tokens, size: size, min: lower, max: upper)
     end
   end
 

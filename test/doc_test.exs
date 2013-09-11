@@ -3,6 +3,7 @@ defmodule DocTest do
   # Main
   doctest Vex
   # Validator Utilities
+  doctest Vex.Validator.ErrorMessage
   doctest Vex.Validator.Skipping
   # Built-in Validators
   doctest Vex.Validators.Absence
