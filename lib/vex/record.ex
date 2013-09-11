@@ -5,7 +5,7 @@ defmodule Vex.Record do
       @vex_validations []
       @before_compile unquote(__MODULE__)
       import unquote(__MODULE__)
-      def is_valid?(self), do: Vex.is_valid?(self)
+      def valid?(self), do: Vex.valid?(self)
     end
   end
 

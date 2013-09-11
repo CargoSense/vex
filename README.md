@@ -43,10 +43,10 @@ $ mix deps.get
 Supported Validations
 ---------------------
 
-Note the examples below use `Vex.is_valid?/2`, with the validations to
+Note the examples below use `Vex.valid?/2`, with the validations to
 check explicitly provided as the second argument. For information on how
 validation configuration can be provided as part of a single argument
-(eg, packaged with the data to check passed to `Vex.is_valid?/1`) see
+(eg, packaged with the data to check passed to `Vex.valid?/1`) see
 "Configuring Validations" below.
 
 ### Presence
@@ -54,18 +54,18 @@ validation configuration can be provided as part of a single argument
 Ensure a value is present:
 
 ```elixir
-Vex.is_valid? post, title: [presence: true]
+Vex.valid? post, title: [presence: true]
 ```
 
 See the documentation on `Vex.Validators.Presence` for details on
-available options.  
+available options.
 
 ### Absence
 
 Ensure a value is absent (blank)
 
 ```elixir
-Vex.is_valid? post, byline: [absence: true]
+Vex.valid? post, byline: [absence: true]
 ```
 
 See the documentation on `Vex.Validators.Absence` for details on
@@ -76,7 +76,7 @@ available options.
 Ensure a value is in a list of values:
 
 ```elixir
-Vex.is_valid? post, category: [inclusion: ["politics", "food"]]
+Vex.valid? post, category: [inclusion: ["politics", "food"]]
 ```
 
 This validation can be skipped for `nil` or blank values by including `allow_nil: true` and/or `allow_blank: true`.
@@ -88,7 +88,7 @@ See the documentation on `Vex.Validators.Inclusion` for details on available opt
 Ensure a value is _not_ in a list of values:
 
 ```elixir
-Vex.is_valid? post, category: [exclusion: ["oped", "lifestyle"]]
+Vex.valid? post, category: [exclusion: ["oped", "lifestyle"]]
 ```
 
 See the documentation on `Vex.Validators.Exclusion` for details on available
@@ -99,7 +99,7 @@ options.
 Ensure a value matches a regular expression:
 
 ```elixir
-Vex.is_valid? widget, identifier: [format: %r(^id-)]
+Vex.valid? widget, identifier: [format: %r(^id-)]
 ```
 
 This validation can be skipped for `nil` or blank values by including
@@ -113,19 +113,19 @@ available options.
 Ensure a value's length is at least a given size:
 
 ```elixir
-Vex.is_valid? user, username: [length: [min: 2]]
+Vex.valid? user, username: [length: [min: 2]]
 ```
 
 Ensure a value's length is at or below a given size:
 
 ```elixir
-Vex.is_valid? user, username: [length: [max: 10]]
+Vex.valid? user, username: [length: [max: 10]]
 ```
 
 Ensure a value's length is within a range (inclusive):
 
 ```elixir
-Vex.is_valid? user, username: [length: [in: 2..10]]
+Vex.valid? user, username: [length: [in: 2..10]]
 ```
 
 This validation can be skipped for `nil` or blank values by including
@@ -140,13 +140,13 @@ Ensure an attribute is set to a positive (or custom) value. For use
 expecially with "acceptance of terms" checkboxes in web applications.
 
 ```elixir
-Vex.is_valid?(user, accepts_terms: [acceptance: true])
+Vex.valid?(user, accepts_terms: [acceptance: true])
 ```
 
 To check for a specific value, use `:as`:
 
 ```elixir
-Vex.is_valid?(user, accepts_terms: [acceptance: [as: "yes"]])
+Vex.valid?(user, accepts_terms: [acceptance: [as: "yes"]])
 ```
 
 See the documentation on `Vex.Validators.Acceptance` for details on
@@ -157,7 +157,7 @@ available options.
 Ensure a value has a matching confirmation:
 
 ```elixir
-Vex.is_valid? user, password: [confirmation: true]
+Vex.valid? user, password: [confirmation: true]
 ```
 
 The above would ensure the values of `password` and
@@ -175,15 +175,15 @@ You can also just provide a custom function for validation instead of
 a validator name:
 
 ```elixir
-Vex.is_valid?(user, password: fn (pass) -> byte_size(pass) > 4 end)
-Vex.is_valid? user, password: &valid_password?/1
-Vex.is_valid?(user, password: &(&1 != "god"))
+Vex.valid?(user, password: fn (pass) -> byte_size(pass) > 4 end)
+Vex.valid? user, password: &valid_password?/1
+Vex.valid?(user, password: &(&1 != "god"))
 ```
 
 Or explicitly using `:by`:
 
 ```elixir
-Vex.is_valid?(user, age: [by: &(&1 > 18)])
+Vex.valid?(user, age: [by: &(&1 > 18)])
 ```
 
 This validation can be skipped for `nil` or blank values by including
@@ -194,12 +194,12 @@ See the documentation on `Vex.Validators.By` for details on available options.
 Configuring Validations
 -----------------------
 
-The examples above use `Vex.is_valid?/2`, passing both the data to
+The examples above use `Vex.valid?/2`, passing both the data to
 be validated and the validation settings. This is nice for ad hoc data
 validation, but wouldn't it be nice to just:
 
 ```elixir
-Vex.is_valid?(data)
+Vex.valid?(data)
 ```
 
 ... and have the data tell Vex which validations should be evaluated?
@@ -222,25 +222,25 @@ end
 
 Note `validates` should only be used once per attribute.
 
-Once configured, you can use `Vex.is_valid?/1`:
+Once configured, you can use `Vex.valid?/1`:
 
 ```elixir
 user = User[username: "actualuser",
             password: "abcdefghi",
             password_confirmation: "abcdefghi"]
 
-Vex.is_valid?(user)
+Vex.valid?(user)
 ```
 
-You can also use `is_valid?` directly on the record:
+You can also use `valid?` directly on the record:
 
 ```elixir
-user.is_valid?
+user.valid?
 ```
 
 ### In Keyword Lists
 
-In your list, just include a `:_vex` entry and use `Vex.is_valid?/1`:
+In your list, just include a `:_vex` entry and use `Vex.valid?/1`:
 
 ```elixir
 user = [username: "actualuser",
@@ -250,7 +250,7 @@ user = [username: "actualuser",
                           length: [min: 4],
                           format: %r/^[[:alpha:]][[:alnum:]]+$/]],
                password: [length: [min: 4], confirmation: true]]
-Vex.is_valid?(user)
+Vex.valid?(user)
 ```
 
 ### Others
@@ -272,15 +272,15 @@ end
 Querying Results
 ----------------
 
-For validity, it's the old standard, `Vex.is_valid?/1`:
+For validity, it's the old standard, `Vex.valid?/1`:
 
 ```elixir
-iex> Vex.is_valid?(user)
+iex> Vex.valid?(user)
 true
 ```
 
 (If you need to pass in the validations to use, do that as a second argument to
-`Vex.is_valid?/2`)
+`Vex.valid?/2`)
 
 You can access the raw validation results using `Vex.results/1`:
 

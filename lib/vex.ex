@@ -1,9 +1,9 @@
 defmodule Vex do
 
-  def is_valid?(data) do
-    is_valid?(data, Vex.Extract.settings(data))
+  def valid?(data) do
+    valid?(data, Vex.Extract.settings(data))
   end
-  def is_valid?(data, settings) do
+  def valid?(data, settings) do
     errors(data, settings) |> length == 0
   end
 
