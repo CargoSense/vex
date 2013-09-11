@@ -2,10 +2,9 @@
 
 [![Build Status](https://travis-ci.org/bruce/vex.png)](https://travis-ci.org/bruce/vex)
 
-A data validation library for Elixir.
+An extensible data validation library for Elixir.
 
-Validate data by attribute presence, inclusion, format, length, and other
-operations.
+Ships with built-in validators to check for presence, inclusion, format, length, and by custom function. Easily extensible 
 
 Inspired by
 -----------
@@ -325,6 +324,16 @@ tiresome, we can make use of the fact there's a `Vex.Validator.Source`
 implementation for `Atom`; we can provide a module name as a source instead
 (just as Vex does with `Vex.Validators`).
 
+```elixir
+def project do
+  [ app: :yourapp,
+    version: "0.0.1",
+    elixir: "~> 0.10.2",
+    vex: [sources: [App.Validators, Vex.Validators]]
+    deps: deps ]
+end
+```
+
 If given an atom, Vex will assume it refers to a module and try two
 strategies to retrieve a validator:
 
@@ -332,7 +341,7 @@ strategies to retrieve a validator:
    function, passing the validator name (eg, `:currency`)
  * Otherwise, Vex will assume the validator module is the same as the
    source module _plus_ a dot and the camelized validator name (eg, given
-   a source of `App.Validators', it would look for a `:currency` validator at
+   a source of `App.Validators`, it would look for a `:currency` validator at
    `App.Validators.Currency`)
 
 In either case it will check the candidate validator for an exported
