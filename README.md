@@ -4,7 +4,11 @@
 
 An extensible data validation library for Elixir.
 
-Ships with built-in validators to check for presence, inclusion, format, length, and by custom function. Easily extensible 
+Can be used to check different data types for compliance with criteria.
+
+Ships with built-in validators to check for attribute presence, absence,
+inclusion, exclusion, format, length, acceptance, and by a custom function.
+You can easily define new validators and override existing ones. 
 
 Inspired by
 -----------
@@ -358,6 +362,12 @@ To see what validator Vex finds for a given validator name, use `Vex.validator/1
 iex> Vex.validator(:currency)
 App.Validators.Currency
 ```
+
+Learn More
+----------
+
+The [wiki](https://github.com/bruce/vex/wiki) will house additional examples
+as questions pop up. You can also find the [Roadmap](https://github.com/bruce/vex/wiki/Roadmap) there.
 
 Contributing
 ------------
