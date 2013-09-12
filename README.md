@@ -202,6 +202,9 @@ Validation Conditions
 A validation can be made applicable (or unapplicable) by using the `:if`
 and `:unless` options.
 
+Note `Vex.results` will return tuples with `:not_applicable` for validations that
+are skipped as a result of failing conditions.
+
 ### Based on another attribute's presence
 
 Require a post to have a `body` of at least 200 bytes unless a non-blank
@@ -227,7 +230,7 @@ Don't require users from Facebook to provide an email address:
 iex> Vex.valid?(user, email: [presence: [unless: &User.from_facebook?/1]]
 ```
 
-Require users less that 13 years of age to provide a parent's email address:
+Require users less than 13 years of age to provide a parent's email address:
 
 ```elixir
 iex> Vex.valid?(user, parent_email: [presence: [if: &(&1.age < 13)]]
