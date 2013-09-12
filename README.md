@@ -49,6 +49,10 @@ validation configuration can be provided as part of a single argument
 (eg, packaged with the data to check passed to `Vex.valid?/1`) see
 "Configuring Validations" below.
 
+Note all validations can be skipped based on `:if` and `:unless`
+conditions given as options. See "Validation Conditions" further below for
+more information.
+
 ### Presence
 
 Ensure a value is present:
@@ -79,7 +83,8 @@ Ensure a value is in a list of values:
 Vex.valid? post, category: [inclusion: ["politics", "food"]]
 ```
 
-This validation can be skipped for `nil` or blank values by including `allow_nil: true` and/or `allow_blank: true`.
+This validation can be skipped for `nil` or blank values by including
+`allow_nil: true` and/or `allow_blank: true`.
 
 See the documentation on `Vex.Validators.Inclusion` for details on available options.  
 
@@ -190,6 +195,43 @@ This validation can be skipped for `nil` or blank values by including
 `allow_nil: true` and/or `allow_blank: true`.
 
 See the documentation on `Vex.Validators.By` for details on available options.
+
+Validation Conditions
+---------------------
+
+A validation can be made applicable (or unapplicable) by using the `:if`
+and `:unless` options.
+
+### Based on another attribute's presence
+
+Require a post to have a `body` of at least 200 bytes unless a non-blank
+`reference_url` is provided.
+
+```elixir
+iex> Vex.valid?(post, body: [length: [min: 200, unless: :reference_url]])
+```
+
+### Based on another attribute's value
+
+Only require a password if the `state` of a user is `:new`:
+
+```elixir
+iex> Vex.valid?(user, password: [presence: [if: [state: :new]]]
+```
+
+### Based on a custom function
+
+Don't require users from Facebook to provide an email address:
+
+```elixir
+iex> Vex.valid?(user, email: [presence: [unless: &User.from_facebook?/1]]
+```
+
+Require users less that 13 years of age to provide a parent's email address:
+
+```elixir
+iex> Vex.valid?(user, parent_email: [presence: [if: &(&1.age < 13)]]
+```
 
 Configuring Validations
 -----------------------

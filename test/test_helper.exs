@@ -34,10 +34,8 @@ defmodule TestValidatorSourceByFunction do
 
 end
 
-
 defmodule TestValidatorSourceByFunction.Criteria do
   # Should be ignored
 end
-
 
 ExUnit.start

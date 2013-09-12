@@ -42,6 +42,14 @@ defmodule VexTest do
     assert length(Vex.errors(user)) == 2
   end
 
+  test "keyword list, included complex validation with non-applicable validations" do
+    user = [username: "actualuser", password: "abcd", password_confirmation: "abcdefghi",
+            state: :persisted,
+            _vex: [username: [presence: true, length: [min: 4], format: %r(^[[:alpha:]][[:alnum:]]+$)],
+                   password: [length: [min: 4, if: [state: :new]], confirmation: [if: [state: :new]]]]]
+    assert Vex.valid?(user)
+  end  
+
   test "validator lookup by structure" do
     validator = Vex.validator(:criteria, [TestValidatorSourceByStructure])
     assert validator == TestValidatorSourceByStructure.Criteria

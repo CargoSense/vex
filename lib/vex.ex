@@ -31,11 +31,16 @@ defmodule Vex do
   end
 
   defp result(data, attribute, name, options) do
-    result = extract(data, attribute, name) |> validator(name).validate(options)
-    case result do
-      {:error, message} -> {:error, attribute, name, message}
-      :ok -> {:ok, attribute, name}
-      _ -> raise "'#{name}'' validator should return :ok or {:error, message}"
+    v = validator(name)
+    if Vex.Validator.validate?(data, options) do
+      result = extract(data, attribute, name) |> v.validate(options)
+      case result do
+        {:error, message} -> {:error, attribute, name, message}
+        :ok -> {:ok, attribute, name}
+        _ -> raise "'#{name}'' validator should return :ok or {:error, message}"
+      end
+    else
+      {:not_applicable, attribute, name}
     end
   end
 
