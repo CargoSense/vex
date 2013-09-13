@@ -5,6 +5,7 @@ defmodule Vex.Validator do
 
   defmacro __using__(_) do
     quote do
+      @behaviour Vex.Validator.Behaviour
       import Vex.Validator.Skipping
       use Vex.Validator.ErrorMessage
     end
