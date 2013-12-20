@@ -55,7 +55,7 @@ defmodule Vex.Validator do
   def validate?(_data, _options), do: true
 
   defp validate_if(data, conditions) when is_list(conditions) do
-    Enum.all?(conditions, do_validate_if_condition(data, &1))
+    Enum.all?(conditions, &do_validate_if_condition(data, &1))
   end
   defp validate_if(data, condition) when is_atom(condition) do
     do_validate_if_condition(data, condition)

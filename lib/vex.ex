@@ -11,7 +11,7 @@ defmodule Vex do
     errors(data, Vex.Extract.settings(data))
   end
   def errors(data, settings) do
-    Enum.filter results(data, settings), match?({:error, _, _, _}, &1)
+    Enum.filter results(data, settings), &match?({:error, _, _, _}, &1)
   end
 
   def results(data) do
