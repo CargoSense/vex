@@ -8,7 +8,7 @@ Can be used to check different data types for compliance with criteria.
 
 Ships with built-in validators to check for attribute presence, absence,
 inclusion, exclusion, format, length, acceptance, and by a custom function.
-You can easily define new validators and override existing ones. 
+You can easily define new validators and override existing ones.
 
 Inspired by
 -----------
@@ -29,7 +29,7 @@ Add to your `mix.exs`
 ```elixir
 defp deps do
   [
-    {:vex, "~>0.2", github: "bruce/vex"}
+    {:vex, "~>0.3", github: "bruce/vex"}
   ]
 end
 ```
@@ -86,7 +86,7 @@ Vex.valid? post, category: [inclusion: ["politics", "food"]]
 This validation can be skipped for `nil` or blank values by including
 `allow_nil: true` and/or `allow_blank: true`.
 
-See the documentation on `Vex.Validators.Inclusion` for details on available options.  
+See the documentation on `Vex.Validators.Inclusion` for details on available options.
 
 ### Exclusion
 
@@ -419,7 +419,7 @@ end
 ```
 
 Vex will consult the list of sources -- in order -- when looking for a
-validator. By putting our new source before `Vex.Validators`, we make it 
+validator. By putting our new source before `Vex.Validators`, we make it
 possible to override the built-in validators.
 
 Note: Without a `sources` configuration in `mix.exs`, Vex falls back to a default of `[Vex.Validators]`.
@@ -485,4 +485,3 @@ License
 -------
 
 Released under the [MIT License](http://www.opensource.org/licenses/MIT).
-
