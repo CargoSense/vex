@@ -29,7 +29,7 @@ defmodule Vex.Validators.By do
     iex> Vex.Validators.By.validate({}, [function: &is_list/1, allow_blank: true])
     :ok
     iex> Vex.Validators.By.validate([1], [function: &is_list/1, message: "must be a list"])
-    :ok    
+    :ok
     iex> Vex.Validators.By.validate("a", [function: &is_list/1, message: "must be a list"])
     {:error, "must be a list"}
 
@@ -43,10 +43,10 @@ defmodule Vex.Validators.By do
   An example:
 
     iex> Vex.Validators.By.validate("blah", [function: &is_list/1, message: "<%= inspect value %> isn't a list"])
-    {:error, %s("blah" isn't a list)}
+    {:error, ~S("blah" isn't a list)}
   """
   use Vex.Validator
-  
+
   @message_fields [value: "The bad value"]
   def validate(value, func) when is_function(func), do: validate(value, function: func)
   def validate(value, options) when is_list(options) do

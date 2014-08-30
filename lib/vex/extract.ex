@@ -5,7 +5,7 @@ defprotocol Vex.Extract do
 
   @doc "Extract an attribute's value"
   def attribute(data, name)
-  
+
 end
 
 defimpl Vex.Extract, for: List do
@@ -17,13 +17,34 @@ defimpl Vex.Extract, for: List do
   end
 end
 
+defmodule Vex.Extract.Struct do
+  defmacro for_struct do
+    quote do
+      defimpl Vex.Blank, for: __MODULE__ do
+        def blank?(struct), do: (struct |> Map.from_struct |> map_size) == 0
+      end
+
+      defimpl Vex.Extract, for: __MODULE__ do
+        def settings(%{__struct__: module}) do
+          module.__vex_validations__
+        end
+
+        def attribute(map, name) do
+          Map.get(map, name)
+        end
+      end
+    end
+  end
+end
+
 defimpl Vex.Extract, for: Tuple do
   def settings(record) do
-    [name | _tail] = tuple_to_list(record)
+    [name | _tail] = Tuple.to_list(record)
     record_validations(name)
   end
+
   def attribute(record, attribute) do
-    [name | _tail] = tuple_to_list(record)
+    [name | _tail] = Tuple.to_list(record)
     case record_attribute_index(name, attribute) do
       nil -> nil
       number when is_integer(number) -> elem(record, number)
@@ -44,6 +65,6 @@ defimpl Vex.Extract, for: Tuple do
     rescue
       _ -> nil
     end
-  end  
+  end
 
 end

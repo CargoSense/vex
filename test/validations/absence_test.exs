@@ -1,5 +1,6 @@
-defrecord AbsenceTestRecord, name: nil, identifier: nil do
-  use Vex.Record
+defmodule AbsenceTestRecord do
+  defstruct name: nil, identifier: nil
+  use Vex.Struct
 
   validates :name, absence: true
 end
@@ -22,11 +23,11 @@ defmodule AbsenceTest do
   end
 
   test "record, included absence validation" do
-    assert !Vex.valid?(AbsenceTestRecord.new name: "I have a name")
-    assert  Vex.valid?(AbsenceTestRecord.new name: nil)
-    assert  Vex.valid?(AbsenceTestRecord.new name: [])
-    assert  Vex.valid?(AbsenceTestRecord.new name: "")
-    assert  Vex.valid?(AbsenceTestRecord.new name: {})
+    assert !Vex.valid?(%AbsenceTestRecord{name: "I have a name"})
+    assert  Vex.valid?(%AbsenceTestRecord{name: nil})
+    assert  Vex.valid?(%AbsenceTestRecord{name: []})
+    assert  Vex.valid?(%AbsenceTestRecord{name: ""})
+    assert  Vex.valid?(%AbsenceTestRecord{name: {}})
   end
 
 end

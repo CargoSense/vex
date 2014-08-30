@@ -104,7 +104,7 @@ options.
 Ensure a value matches a regular expression:
 
 ```elixir
-Vex.valid? widget, identifier: [format: %r(^id-)]
+Vex.valid? widget, identifier: [format: ~r/(^id-)/]
 ```
 
 This validation can be skipped for `nil` or blank values by including
@@ -259,7 +259,7 @@ defrecord User, username: nil, password: nil, password_confirmation: nil do
 
   validates :username, presence: true,
                        length: [min: 4],
-                       format: %r/^[[:alpha:]][[:alnum:]]+$/
+                       format: ~r/^[[:alpha:]][[:alnum:]]+$/
   validates :password, length: [min: 4],
                        confirmation: true
 end
@@ -293,7 +293,7 @@ user = [username: "actualuser",
         password_confirmation: "abcdefghi",
         _vex: [username: [presence: true,
                           length: [min: 4],
-                          format: %r/^[[:alpha:]][[:alnum:]]+$/]],
+                          format: ~r/^[[:alpha:]][[:alnum:]]+$/]],
                password: [length: [min: 4], confirmation: true]]
 Vex.valid?(user)
 ```

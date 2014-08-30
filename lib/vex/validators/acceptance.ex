@@ -21,7 +21,7 @@ defmodule Vex.Validators.Acceptance do
     iex> Vex.Validators.Acceptance.validate(nil, message: "must be accepted!")
     {:error, "must be accepted!"}    
     iex> Vex.Validators.Acceptance.validate(1, [as: "yes"])
-    {:error, %s(must be accepted with `"yes"`)}
+    {:error, ~S(must be accepted with `"yes"`)}
     iex> Vex.Validators.Acceptance.validate("verily", [as: "verily"])
     :ok
 

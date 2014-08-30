@@ -16,7 +16,7 @@ defmodule PresenceTest do
   end
 
   test "record, included presence validation" do
-    assert Vex.valid?(RecordTest.new name: "I have a name")
+    assert Vex.valid?(%RecordTest{name: "I have a name"})
   end
 
 end

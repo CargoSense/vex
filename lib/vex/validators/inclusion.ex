@@ -6,7 +6,7 @@ defmodule Vex.Validators.Inclusion do
 
    * `:in`: The list.
    * `:message`: Optional. A custom error message. May be in EEx format
-      and use the fields described in "Custom Error Messages," below.     
+      and use the fields described in "Custom Error Messages," below.
 
    The list can be provided in place of the keyword list if no other options are needed.
 
@@ -18,13 +18,13 @@ defmodule Vex.Validators.Inclusion do
     :ok
     iex> Vex.Validators.Inclusion.validate(4, [1, 2, 3])
     {:error, "must be one of [1, 2, 3]"}
-    iex> Vex.Validators.Inclusion.validate("a", %w(a b c))
+    iex> Vex.Validators.Inclusion.validate("a", ~w(a b c))
     :ok
-    iex> Vex.Validators.Inclusion.validate(nil, %w(a b c))
-    {:error, %s(must be one of ["a", "b", "c"])}
-    iex> Vex.Validators.Inclusion.validate(nil, [in: %w(a b c), allow_nil: true])
+    iex> Vex.Validators.Inclusion.validate(nil, ~w(a b c))
+    {:error, ~S(must be one of ["a", "b", "c"])}
+    iex> Vex.Validators.Inclusion.validate(nil, [in: ~w(a b c), allow_nil: true])
     :ok
-    iex> Vex.Validators.Inclusion.validate("", [in: %w(a b c), allow_blank: true])
+    iex> Vex.Validators.Inclusion.validate("", [in: ~w(a b c), allow_blank: true])
     :ok
 
   ## Custom Error Messages
@@ -37,7 +37,7 @@ defmodule Vex.Validators.Inclusion do
   An example:
 
     iex> Vex.Validators.Inclusion.validate("a", in: [1, 2, 3], message: "<%= inspect value %> is not an allowed value")
-    {:error, %s("a" is not an allowed value)}
+    {:error, ~S("a" is not an allowed value)}
 
   """
   use Vex.Validator

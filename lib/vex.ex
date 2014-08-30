@@ -52,7 +52,7 @@ defmodule Vex do
     iex> Vex.validator(:presence)
     Vex.Validators.Presence
     iex> Vex.validator(:exclusion)
-    Vex.Validators.Exclusion    
+    Vex.Validators.Exclusion
   """
   def validator(name) do
     case name |> validator(sources) do
@@ -73,22 +73,21 @@ defmodule Vex do
     iex> Vex.validator(:presence, [Vex.Validators, [presence: :presence_stub]])
     Vex.Validators.Presence
     iex> Vex.validator(:presence, [[presence: :presence_stub], Vex.Validators])
-    :presence_stub        
+    :presence_stub
   """
   def validator(name, sources) do
-    Enum.find_value sources, fn (source) -> 
+    Enum.find_value sources, fn (source) ->
       Vex.Validator.Source.lookup(source, name)
     end
   end
 
   defp sources do
-    Mix.project |> Keyword.get(:vex, []) |> Keyword.get(:sources, [Vex.Validators])
+    Mix.Project.get.project |> Keyword.get(:vex, []) |> Keyword.get(:sources, [Vex.Validators])
   end
 
   defp extract(data, attribute, :confirmation) do
-    [attribute, binary_to_atom("#{attribute}_confirmation")]
-  |>
-    Enum.map(fn (attr) -> Vex.Extract.attribute(data, attr) end)
+    [attribute, String.to_atom("#{attribute}_confirmation")]
+      |> Enum.map(fn (attr) -> Vex.Extract.attribute(data, attr) end)
   end
   defp extract(data, attribute, _name) do
     Vex.Extract.attribute(data, attribute)
