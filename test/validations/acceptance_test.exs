@@ -1,11 +1,13 @@
-defrecord AcceptanceTestRecord, accepts_terms: false do
-  use Vex.Record
+defmodule AcceptanceTestRecord do
+  defstruct accepts_terms: false
+  use Vex.Struct
 
   validates :accepts_terms, acceptance: true
 end
 
-defrecord CustomAcceptanceTestRecord, accepts_terms: false do
-  use Vex.Record
+defmodule CustomAcceptanceTestRecord do
+  defstruct accepts_terms: false
+  use Vex.Struct
 
   validates :accepts_terms, acceptance: [as: "yes"]
 end

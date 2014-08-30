@@ -11,9 +11,7 @@ defmodule VexTest do
   end
 
   test "keyword list, provided multiple validations" do
-    assert Vex.valid?([name: "Foo"], name: [presence: true,
-                                               length: [min: 2, max: 10],
-                                               format: %r(^Fo.$)])
+    assert Vex.valid?([name: "Foo"], name: [presence: true, length: [min: 2, max: 10], format: ~r(^Fo.$)])
   end
 
   test "record, included complex validation" do
@@ -26,7 +24,7 @@ defmodule VexTest do
 
   test "keyword list, included complex validation" do
     user = [username: "actualuser", password: "abcdefghi", password_confirmation: "abcdefghi",
-            _vex: [username: [presence: true, length: [min: 4], format: %r(^[[:alpha:]][[:alnum:]]+$)],
+            _vex: [username: [presence: true, length: [min: 4], format: ~r(^[[:alpha:]][[:alnum:]]+$)],
                    password: [length: [min: 4], confirmation: true]]]
     assert Vex.valid?(user)
     assert length(Vex.results(user)) > 0
@@ -35,7 +33,7 @@ defmodule VexTest do
 
   test "keyword list, included complex validation with errors" do
     user = [username: "actualuser", password: "abc", password_confirmation: "abcdefghi",
-            _vex: [username: [presence: true, length: [min: 4], format: %r(^[[:alpha:]][[:alnum:]]+$)],
+            _vex: [username: [presence: true, length: [min: 4], format: ~r(^[[:alpha:]][[:alnum:]]+$)],
                    password: [length: [min: 4], confirmation: true]]]
     assert !Vex.valid?(user)
     assert length(Vex.results(user)) > 0
@@ -45,10 +43,10 @@ defmodule VexTest do
   test "keyword list, included complex validation with non-applicable validations" do
     user = [username: "actualuser", password: "abcd", password_confirmation: "abcdefghi",
             state: :persisted,
-            _vex: [username: [presence: true, length: [min: 4], format: %r(^[[:alpha:]][[:alnum:]]+$)],
+            _vex: [username: [presence: true, length: [min: 4], format: ~r(^[[:alpha:]][[:alnum:]]+$)],
                    password: [length: [min: 4, if: [state: :new]], confirmation: [if: [state: :new]]]]]
     assert Vex.valid?(user)
-  end  
+  end
 
   test "validator lookup by structure" do
     validator = Vex.validator(:criteria, [TestValidatorSourceByStructure])

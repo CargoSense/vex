@@ -1,5 +1,6 @@
-defrecord AbsenceTestRecord, name: nil, identifier: nil do
-  use Vex.Record
+defmodule AbsenceTestRecord do
+  defstruct name: nil, identifier: nil
+  use Vex.Struct
 
   validates :name, absence: true
 end
