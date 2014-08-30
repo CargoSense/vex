@@ -6,7 +6,7 @@ defmodule Vex.Validators.Format do
 
    * `:with`: The regular expression.
    * `:message`: Optional. A custom error message. May be in EEx format
-      and use the fields described in "Custom Error Messages," below.   
+      and use the fields described in "Custom Error Messages," below.
 
   The regular expression can be provided in place of the keyword list if no other options
   are needed.
@@ -20,7 +20,7 @@ defmodule Vex.Validators.Format do
     iex> Vex.Validators.Format.validate("foo", [with: %r"^f"])
     :ok
     iex> Vex.Validators.Format.validate("bar", [with: %r"^f", message: "must start with an f"])
-    {:error, "must start with an f"}   
+    {:error, "must start with an f"}
     iex> Vex.Validators.Format.validate("", [with: %r"^f", allow_blank: true])
     :ok
     iex> Vex.Validators.Format.validate(nil, [with: %r"^f", allow_nil: true])
@@ -41,14 +41,18 @@ defmodule Vex.Validators.Format do
   use Vex.Validator
 
   @message_fields [value: "The bad value"]
-  def validate(value, format) when is_regex(format), do: validate(value, with: format)
-  def validate(value, options) do
+  def validate(value, options) when is_list(options) do
     unless_skipping(value, options) do
       pattern = Keyword.get(options, :with)
       result Regex.match?(pattern, value), message(options, "must have the correct format",
                                                    value: value)
     end
   end
+
+  def validate(value, format) do
+    if Regex.regex?(format), do: validate(value, with: format)
+  end
+
 
   defp result(true, _), do: :ok
   defp result(false, message), do: {:error, message}

@@ -1,5 +1,5 @@
 defprotocol Vex.Validator.Source do
-  
+
   def lookup(source, name)
 
 end
@@ -9,7 +9,7 @@ defimpl Vex.Validator.Source, for: Atom do
   import Mix.Utils, only: [camelize: 1]
 
   def lookup(source, name) do
-    validator_by_function(source, name) || validator_by_structure(source, name) 
+    validator_by_function(source, name) || validator_by_structure(source, name)
   end
 
   defp validator_by_function(source, name) do
@@ -20,7 +20,7 @@ defimpl Vex.Validator.Source, for: Atom do
   end
 
   defp validator_by_structure(source, name) do
-    check Module.concat(source, camelize(atom_to_binary(name)))
+    check Module.concat(source, camelize(String.to_atom(name)))
   end
 
   defp check(validator) do

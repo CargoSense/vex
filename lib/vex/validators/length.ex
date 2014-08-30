@@ -21,7 +21,7 @@ defmodule Vex.Validators.Length do
      `String.graphemes` and all other values (eg, lists) are
       passed through intact. See `Vex.Validators.tokens/1`.
    * `:message`: Optional. A custom error message. May be in EEx format
-      and use the fields described in "Custom Error Messages," below.       
+      and use the fields described in "Custom Error Messages," below.
 
   ## Examples
 
@@ -40,11 +40,11 @@ defmodule Vex.Validators.Length do
     iex> Vex.Validators.Length.validate("foo", max: 2)
     {:error, "must have a length of no more than 2"}
     iex> Vex.Validators.Length.validate("foo", max: 2, message: "must be the right length")
-    {:error, "must be the right length"}        
+    {:error, "must be the right length"}
     iex> Vex.Validators.Length.validate("foo", is: 3)
     :ok
     iex> Vex.Validators.Length.validate("foo", is: 2)
-    {:error, "must have a length of 2"}   
+    {:error, "must have a length of 2"}
     iex> Vex.Validators.Length.validate("foo", in: 1..6)
     :ok
     iex> Vex.Validators.Length.validate("foo", in: 8..10)
@@ -70,7 +70,7 @@ defmodule Vex.Validators.Length do
 
   @message_fields [value: "Bad value", tokens: "Tokens from value", size: "Number of tokens", min: "Minimum acceptable value", max: "Maximum acceptable value"]
   def validate(value, options) when is_integer(options), do: validate(value, is: options)
-  def validate(value, options) when is_range(options),   do: validate(value, in: options)
+  def validate(value, min..max), do: validate(value, in: min..max)
   def validate(value, options) when is_list(options) do
     unless_skipping(value, options) do
       tokenizer = Keyword.get(options, :tokenizer, &tokens/1)
@@ -103,7 +103,7 @@ defmodule Vex.Validators.Length do
   end
 
   defp tokens(value) when is_binary(value), do: String.graphemes(value)
-  defp tokens(value), do: value  
+  defp tokens(value), do: value
 
   defp result(true, _), do: :ok
   defp result(false, message), do: {:error, message}

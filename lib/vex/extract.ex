@@ -5,7 +5,7 @@ defprotocol Vex.Extract do
 
   @doc "Extract an attribute's value"
   def attribute(data, name)
-  
+
 end
 
 defimpl Vex.Extract, for: List do
@@ -19,11 +19,12 @@ end
 
 defimpl Vex.Extract, for: Tuple do
   def settings(record) do
-    [name | _tail] = tuple_to_list(record)
+    [name | _tail] = Tuple.to_list(record)
     record_validations(name)
   end
+
   def attribute(record, attribute) do
-    [name | _tail] = tuple_to_list(record)
+    [name | _tail] = Tuple.to_list(record)
     case record_attribute_index(name, attribute) do
       nil -> nil
       number when is_integer(number) -> elem(record, number)
@@ -44,6 +45,6 @@ defimpl Vex.Extract, for: Tuple do
     rescue
       _ -> nil
     end
-  end  
+  end
 
 end
