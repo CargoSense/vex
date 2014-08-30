@@ -13,9 +13,24 @@ defmodule Vex.Mixfile do
     []
   end
 
-  # Returns the list of dependencies in the format:
-  # { :foobar, "~> 0.1", git: "https://github.com/elixir-lang/foobar.git" }
   defp deps do
+    deps(Mix.env)
+  end
+
+  defp deps(:test) do
+    prod_deps ++ test_deps
+  end
+
+  defp deps(_) do
+    prod_deps
+  end
+
+  defp prod_deps do
     []
   end
+
+  defp test_deps do
+    [{ :ex_unit_emacs, github: "bruce/ex_unit_emacs" }]
+  end
+
 end
