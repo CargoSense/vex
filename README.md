@@ -29,7 +29,7 @@ Add to your `mix.exs`
 ```elixir
 defp deps do
   [
-    {:vex, "~>0.3", github: "bruce/vex"}
+    {:vex, "~>0.4", github: "bruce/vex"}
   ]
 end
 ```
@@ -249,13 +249,14 @@ Vex.valid?(data)
 
 ... and have the data tell Vex which validations should be evaluated?
 
-### In Records
+### In Structs
 
-In your `defrecord`, use `Vex.Record`:
+In your struct module, use `Vex.Record`:
 
 ```elixir
-defrecord User, username: nil, password: nil, password_confirmation: nil do
-  use Vex.Record
+defmodule User do
+  defstruct username: nil, password: nil, password_confirmation: nil
+  use Vex.Struct
 
   validates :username, presence: true,
                        length: [min: 4],
@@ -270,17 +271,17 @@ Note `validates` should only be used once per attribute.
 Once configured, you can use `Vex.valid?/1`:
 
 ```elixir
-user = User[username: "actualuser",
-            password: "abcdefghi",
-            password_confirmation: "abcdefghi"]
+user = %User{username: "actualuser",
+             password: "abcdefghi",
+             password_confirmation: "abcdefghi"}
 
 Vex.valid?(user)
 ```
 
-You can also use `valid?` directly on the record:
+You can also use `valid?` directly from the Module:
 
 ```elixir
-user.valid?
+user |> User.valid?
 ```
 
 ### In Keyword Lists
@@ -412,7 +413,7 @@ all the built-in validators that ship with Vex.
 def project do
   [ app: :yourapp,
     version: "0.0.1",
-    elixir: "~> 0.10.2",
+    elixir: "~> 0.15.2-dev",
     vex: [sources: [[currency: App.CurrencyValidator], Vex.Validators]]
     deps: deps ]
 end
