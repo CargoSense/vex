@@ -13,17 +13,17 @@ defmodule Vex.Validators.Format do
 
   ## Examples
 
-    iex> Vex.Validators.Format.validate("foo", ~r/"^f"/)
+    iex> Vex.Validators.Format.validate("foo", ~r/^f/)
     :ok
-    iex> Vex.Validators.Format.validate("foo", ~r/"o{3,}"/)
+    iex> Vex.Validators.Format.validate("foo", ~r/o{3,}/)
     {:error, "must have the correct format"}
-    iex> Vex.Validators.Format.validate("foo", [with: ~r/"^f"/])
+    iex> Vex.Validators.Format.validate("foo", [with: ~r/^f/])
     :ok
-    iex> Vex.Validators.Format.validate("bar", [with: ~r/"^f"/, message: "must start with an f"])
+    iex> Vex.Validators.Format.validate("bar", [with: ~r/^f/, message: "must start with an f"])
     {:error, "must start with an f"}
-    iex> Vex.Validators.Format.validate("", [with: ~r/"^f"/, allow_blank: true])
+    iex> Vex.Validators.Format.validate("", [with: ~r/^f/, allow_blank: true])
     :ok
-    iex> Vex.Validators.Format.validate(nil, [with: ~r/"^f"/, allow_nil: true])
+    iex> Vex.Validators.Format.validate(nil, [with: ~r/^f/, allow_nil: true])
     :ok
 
   ## Custom Error Messages

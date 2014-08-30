@@ -15,7 +15,7 @@ defmodule VexTest do
   end
 
   test "record, included complex validation" do
-    user = UserTest.new username: "actualuser", password: "abcdefghi", password_confirmation: "abcdefghi"
+    user = %UserTest{username: "actualuser", password: "abcdefghi", password_confirmation: "abcdefghi"}
     assert Vex.valid?(user)
     assert length(Vex.results(user)) > 0
     assert length(Vex.errors(user)) == 0

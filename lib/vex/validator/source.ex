@@ -20,7 +20,7 @@ defimpl Vex.Validator.Source, for: Atom do
   end
 
   defp validator_by_structure(source, name) do
-    check Module.concat(source, camelize(String.to_atom(name)))
+    check Module.concat(source, camelize(Atom.to_string(name)))
   end
 
   defp check(validator) do

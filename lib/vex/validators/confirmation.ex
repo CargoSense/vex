@@ -40,7 +40,7 @@ defmodule Vex.Validators.Confirmation do
   An example:
 
     iex> Vex.Validators.Confirmation.validate(["foo", nil], message: "<%= inspect confirmation %> doesn't match <%= inspect value %>")
-    {:error, %s(nil doesn't match "foo")}
+    {:error, ~S(nil doesn't match "foo")}
 
   """
   use Vex.Validator

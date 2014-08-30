@@ -1,5 +1,5 @@
 defprotocol Vex.Blank do
-  @only [Atom, Tuple, List, BitString, Any]
+  @only [Atom, Tuple, List, BitString, Map, Any]
   @doc "Whether an item is blank"
   def blank?(value)
 end
@@ -27,6 +27,10 @@ defimpl Vex.Blank, for: Atom do
   def blank?(nil),   do: true
   def blank?(false), do: true
   def blank?(_),     do: false
+end
+
+defimpl Vex.Blank, for: Map do
+  def blank?(map), do: map_size(map) == 0
 end
 
 defimpl Vex.Blank, for: Any do

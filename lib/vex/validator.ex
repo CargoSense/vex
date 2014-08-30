@@ -43,7 +43,7 @@ defmodule Vex.Validator do
     iex> Vex.Validator.validate?([name: "foo"], if: &(&1[:name] != "foo"))
     false
     iex> Vex.Validator.validate?([name: "foo"], unless: &(&1[:name] != "foo"))
-    true    
+    true
   """
   def validate?(data, options) when is_list(options) do
     cond do
@@ -62,11 +62,11 @@ defmodule Vex.Validator do
   end
   defp validate_if(data, condition) when is_function(condition) do
     !!condition.(data)
-  end  
+  end
 
   defp do_validate_if_condition(data, {name, value}) when is_atom(name) do
     Vex.Extract.attribute(data, name) == value
-  end  
+  end
   defp do_validate_if_condition(data, condition) when is_atom(condition) do
     !Vex.Blank.blank?(Vex.Extract.attribute(data, condition))
   end

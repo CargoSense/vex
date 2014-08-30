@@ -17,6 +17,26 @@ defimpl Vex.Extract, for: List do
   end
 end
 
+defmodule Vex.Extract.Struct do
+  defmacro for_struct do
+    quote do
+      defimpl Vex.Blank, for: __MODULE__ do
+        def blank?(struct), do: (struct |> Map.from_struct |> map_size) == 0
+      end
+
+      defimpl Vex.Extract, for: __MODULE__ do
+        def settings(%{__struct__: module}) do
+          module.__vex_validations__
+        end
+
+        def attribute(map, name) do
+          Map.get(map, name)
+        end
+      end
+    end
+  end
+end
+
 defimpl Vex.Extract, for: Tuple do
   def settings(record) do
     [name | _tail] = Tuple.to_list(record)

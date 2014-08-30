@@ -11,7 +11,10 @@ defmodule Vex.Struct do
 
   defmacro __before_compile__(_) do
     quote do
-      def __record__(:vex_validations), do: @vex_validations
+      def __vex_validations__(), do: @vex_validations
+
+      require Vex.Extract.Struct
+      Vex.Extract.Struct.for_struct
     end
   end
 

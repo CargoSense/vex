@@ -23,11 +23,11 @@ defmodule AbsenceTest do
   end
 
   test "record, included absence validation" do
-    assert !Vex.valid?(AbsenceTestRecord.new name: "I have a name")
-    assert  Vex.valid?(AbsenceTestRecord.new name: nil)
-    assert  Vex.valid?(AbsenceTestRecord.new name: [])
-    assert  Vex.valid?(AbsenceTestRecord.new name: "")
-    assert  Vex.valid?(AbsenceTestRecord.new name: {})
+    assert !Vex.valid?(%AbsenceTestRecord{name: "I have a name"})
+    assert  Vex.valid?(%AbsenceTestRecord{name: nil})
+    assert  Vex.valid?(%AbsenceTestRecord{name: []})
+    assert  Vex.valid?(%AbsenceTestRecord{name: ""})
+    assert  Vex.valid?(%AbsenceTestRecord{name: {}})
   end
 
 end

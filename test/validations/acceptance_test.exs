@@ -40,14 +40,14 @@ defmodule AcceptanceTest do
   end
 
   test "record, included basic presence validation" do
-    assert Vex.valid?(AcceptanceTestRecord.new accepts_terms: "yes")
-    assert Vex.valid?(AcceptanceTestRecord.new accepts_terms: true)
+    assert Vex.valid?(%AcceptanceTestRecord{accepts_terms: "yes"})
+    assert Vex.valid?(%AcceptanceTestRecord{accepts_terms: true})
   end
 
   test "record, included custom presence validation" do
-    assert  Vex.valid?(CustomAcceptanceTestRecord.new accepts_terms: "yes")
-    assert !Vex.valid?(CustomAcceptanceTestRecord.new accepts_terms: true)
-    assert !Vex.valid?(CustomAcceptanceTestRecord.new accepts_terms: false)
+    assert  Vex.valid?(%CustomAcceptanceTestRecord{accepts_terms: "yes"})
+    assert !Vex.valid?(%CustomAcceptanceTestRecord{accepts_terms: true})
+    assert !Vex.valid?(%CustomAcceptanceTestRecord{accepts_terms: false})
   end
 
 end

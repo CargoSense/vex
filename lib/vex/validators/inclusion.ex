@@ -21,7 +21,7 @@ defmodule Vex.Validators.Inclusion do
     iex> Vex.Validators.Inclusion.validate("a", %w(a b c))
     :ok
     iex> Vex.Validators.Inclusion.validate(nil, %w(a b c))
-    {:error, %s(must be one of ["a", "b", "c"])}
+    {:error, ~S(must be one of ["a", "b", "c"])}
     iex> Vex.Validators.Inclusion.validate(nil, [in: %w(a b c), allow_nil: true])
     :ok
     iex> Vex.Validators.Inclusion.validate("", [in: %w(a b c), allow_blank: true])
@@ -37,7 +37,7 @@ defmodule Vex.Validators.Inclusion do
   An example:
 
     iex> Vex.Validators.Inclusion.validate("a", in: [1, 2, 3], message: "<%= inspect value %> is not an allowed value")
-    {:error, %s("a" is not an allowed value)}
+    {:error, ~S("a" is not an allowed value)}
 
   """
   use Vex.Validator
