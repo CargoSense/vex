@@ -20,9 +20,9 @@ defmodule Vex.Validators.Exclusion do
     {:error, "1 shouldn't be in [1, 2, 3]"}
     iex> Vex.Validators.Exclusion.validate(4, [1, 2, 3])
     :ok
-    iex> Vex.Validators.Exclusion.validate("a", %w(a b c))
+    iex> Vex.Validators.Exclusion.validate("a", ~w(a b c))
     {:error, ~S(must not be one of ["a", "b", "c"])}
-    iex> Vex.Validators.Exclusion.validate("a", in: %w(a b c), message: "must not be abc, talkin' 'bout 123")
+    iex> Vex.Validators.Exclusion.validate("a", in: ~w(a b c), message: "must not be abc, talkin' 'bout 123")
     {:error, "must not be abc, talkin' 'bout 123"}
 
   ## Custom Error Messages
@@ -34,7 +34,7 @@ defmodule Vex.Validators.Exclusion do
 
   An example:
 
-    iex> Vex.Validators.Exclusion.validate("a", in: %w(a b c), message: "<%= inspect value %> is a disallowed value")
+    iex> Vex.Validators.Exclusion.validate("a", in: ~w(a b c), message: "<%= inspect value %> is a disallowed value")
     {:error, ~S("a" is a disallowed value)}
   """
 

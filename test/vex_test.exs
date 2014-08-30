@@ -19,7 +19,7 @@ defmodule VexTest do
     assert Vex.valid?(user)
     assert length(Vex.results(user)) > 0
     assert length(Vex.errors(user)) == 0
-    assert user.valid?
+    assert UserTest.valid?(user)
   end
 
   test "keyword list, included complex validation" do
