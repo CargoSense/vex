@@ -251,7 +251,7 @@ Vex.valid?(data)
 
 ### In Structs
 
-In your struct module, use `Vex.Record`:
+In your struct module, use `Vex.Struct`:
 
 ```elixir
 defmodule User do
@@ -436,7 +436,7 @@ implementation for `Atom`; we can provide a module name as a source instead
 def project do
   [ app: :yourapp,
     version: "0.0.1",
-    elixir: "~> 0.10.2",
+    elixir: "~> 0.15.2-dev",
     vex: [sources: [App.Validators, Vex.Validators]]
     deps: deps ]
 end
