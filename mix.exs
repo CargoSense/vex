@@ -30,7 +30,7 @@ defmodule Vex.Mixfile do
   end
 
   defp test_deps do
-    [{ :ex_unit_emacs, github: "bruce/ex_unit_emacs" }]
+    [{:ex_unit_emacs, "~> 0.1.0"}]
   end
 
 end
