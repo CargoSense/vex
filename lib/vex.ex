@@ -82,8 +82,8 @@ defmodule Vex do
   end
 
   defp sources do
-    case :application.get_key(:vex, :sources) do
-      :undefined -> [Vex.Validators]
+    case Application.get_env(:vex, :sources) do
+      nil     -> [Vex.Validators]
       sources -> sources
     end
   end
