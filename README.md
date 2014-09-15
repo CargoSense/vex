@@ -405,7 +405,7 @@ A source can be anything that implements the `Vex.Validator.Source` protocol.
 We'll use a keyword list for this example. The implementation for `List`
 allows us to provide a simple mapping.
 
-Vex uses `:application.get_key(:vex, :sources)` to retrieve the
+Vex uses `Application.get_env(:vex, :sources)` to retrieve the
 configuration of sources, defaulting to `[Vex.Validators]`. We can
 set the configuration with
 [Mix.Config](http://elixir-lang.org/docs/stable/mix/Mix.Config.html),
