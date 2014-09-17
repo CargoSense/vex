@@ -5,7 +5,8 @@ defmodule Vex.Mixfile do
     [ app: :vex,
       version: "0.4.0",
       elixir: ">= 0.15.1",
-      deps: deps ]
+      deps: deps,
+      package: package ]
   end
 
   # Configuration for the OTP application
@@ -31,6 +32,12 @@ defmodule Vex.Mixfile do
 
   defp test_deps do
     [{:ex_unit_emacs, "~> 0.1.0"}]
+  end
+
+  defp package do
+    [contributors: ["Bruce Williams"],
+     licenses: ["MIT License"],
+     links: %{github: "https://github.com/bruce/vex"}]
   end
 
 end
