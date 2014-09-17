@@ -37,6 +37,7 @@ defmodule Vex.Mixfile do
   defp package do
     [contributors: ["Bruce Williams"],
      licenses: ["MIT License"],
+     description: "An extensible data validation library for Elixir",
      links: %{github: "https://github.com/bruce/vex"}]
   end
 
