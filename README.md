@@ -29,7 +29,7 @@ Add to your `mix.exs`
 ```elixir
 defp deps do
   [
-    {:vex, "~>0.4", github: "bruce/vex"}
+    {:vex, "~>0.4"}
   ]
 end
 ```
@@ -405,41 +405,33 @@ A source can be anything that implements the `Vex.Validator.Source` protocol.
 We'll use a keyword list for this example. The implementation for `List`
 allows us to provide a simple mapping.
 
-In our `mix.exs`, we add some `vex` configuration to `project`,
-declaring our new source before `Vex.Validators`, the source for
-all the built-in validators that ship with Vex.
+Vex uses `Application.get_env(:vex, :sources)` to retrieve the
+configuration of sources, defaulting to `[Vex.Validators]`. We can
+set the configuration with
+[Mix.Config](http://elixir-lang.org/docs/stable/mix/Mix.Config.html),
+as in:
 
 ```elixir
-def project do
-  [ app: :yourapp,
-    version: "0.0.1",
-    elixir: "~> 0.15.2-dev",
-    vex: [sources: [[currency: App.CurrencyValidator], Vex.Validators]]
-    deps: deps ]
-end
+config :vex,
+  sources: [[currency: App.CurrencyValidator], Vex.Validators]
 ```
 
 Vex will consult the list of sources -- in order -- when looking for a
 validator. By putting our new source before `Vex.Validators`, we make it
 possible to override the built-in validators.
 
-Note: Without a `sources` configuration in `mix.exs`, Vex falls back to a default of `[Vex.Validators]`.
+Note: Without a `sources` configuration, Vex falls back to a default of `[Vex.Validators]`.
 
 ### Using Modules as Sources
 
-If adding mappings to our keyword list source in `mix.exs` becomes
+If adding mappings to our keyword list source becomes
 tiresome, we can make use of the fact there's a `Vex.Validator.Source`
 implementation for `Atom`; we can provide a module name as a source instead
 (just as Vex does with `Vex.Validators`).
 
 ```elixir
-def project do
-  [ app: :yourapp,
-    version: "0.0.1",
-    elixir: "~> 0.15.2-dev",
-    vex: [sources: [App.Validators, Vex.Validators]]
-    deps: deps ]
-end
+config :vex,
+  sources: [App.Validators, Vex.Validators]
 ```
 
 If given an atom, Vex will assume it refers to a module and try two

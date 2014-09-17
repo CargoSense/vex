@@ -82,7 +82,10 @@ defmodule Vex do
   end
 
   defp sources do
-    Mix.Project.get.project |> Keyword.get(:vex, []) |> Keyword.get(:sources, [Vex.Validators])
+    case Application.get_env(:vex, :sources) do
+      nil     -> [Vex.Validators]
+      sources -> sources
+    end
   end
 
   defp extract(data, attribute, :confirmation) do
