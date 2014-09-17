@@ -1,7 +1,8 @@
 language: erlang
 notifications:
   recipients:
-    - brwcodes@gmail.com
+    - bruce.williams@cargosense.com
+    - ben.wilson@cargosense.com
 otp_release:
   - 17.1
 before_install:

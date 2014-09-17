@@ -1,6 +1,6 @@
 # Vex
 
-[![Build Status](https://travis-ci.org/bruce/vex.png)](https://travis-ci.org/bruce/vex)
+[![Build Status](https://travis-ci.org/CargoSense/vex.png)](https://travis-ci.org/CargoSense/vex)
 
 An extensible data validation library for Elixir.
 
@@ -15,11 +15,6 @@ Inspired by
 
  * Rails ActiveModel Validations
  * Clojure's [Validateur](https://github.com/michaelklishin/validateur)
-
-Roadmap
--------
-
-See [the wiki](https://github.com/bruce/vex/wiki/Roadmap).
 
 Install
 -------
@@ -459,18 +454,12 @@ iex> Vex.validator(:currency)
 App.Validators.Currency
 ```
 
-Learn More
-----------
-
-The [wiki](https://github.com/bruce/vex/wiki) will house additional examples
-as questions pop up. You can also find the [Roadmap](https://github.com/bruce/vex/wiki/Roadmap) there.
-
 Contributing
 ------------
 
 Please fork and send pull requests (preferably from non-master branches), including tests (doctests or normal `ExUnit.Case` tests).
 
-Report bugs and request features via [Issues](https://github.com/bruce/vex/issues);
+Report bugs and request features via [Issues](https://github.com/CargoSense/vex/issues);
 kudos if you do it from pull requests you submit that fix the bugs or add
 the features. ;)
 
