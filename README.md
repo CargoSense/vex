@@ -29,7 +29,7 @@ Add to your `mix.exs`
 ```elixir
 defp deps do
   [
-    {:vex, "~>0.4", github: "bruce/vex"}
+    {:vex, "~>0.4"}
   ]
 end
 ```
@@ -424,19 +424,14 @@ Note: Without a `sources` configuration, Vex falls back to a default of `[Vex.Va
 
 ### Using Modules as Sources
 
-If adding mappings to our keyword list source in `mix.exs` becomes
+If adding mappings to our keyword list source becomes
 tiresome, we can make use of the fact there's a `Vex.Validator.Source`
 implementation for `Atom`; we can provide a module name as a source instead
 (just as Vex does with `Vex.Validators`).
 
 ```elixir
-def project do
-  [ app: :yourapp,
-    version: "0.0.1",
-    elixir: "~> 0.15.2-dev",
-    vex: [sources: [App.Validators, Vex.Validators]]
-    deps: deps ]
-end
+config :vex,
+  sources: [App.Validators, Vex.Validators]
 ```
 
 If given an atom, Vex will assume it refers to a module and try two
