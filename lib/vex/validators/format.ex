@@ -44,8 +44,8 @@ defmodule Vex.Validators.Format do
   def validate(value, options) when is_list(options) do
     unless_skipping(value, options) do
       pattern = Keyword.get(options, :with)
-      result Regex.match?(pattern, value), message(options, "must have the correct format",
-                                                   value: value)
+      result Regex.match?(pattern, to_string(value)),
+                          message(options, "must have the correct format", value: value)
     end
   end
 
