@@ -13,7 +13,7 @@ defimpl Vex.Extract, for: List do
     Keyword.get data, :_vex
   end
   def attribute(data, name) do
-    Keyword.get data, name
+    get_in data, List.flatten([name])
   end
 end
 
