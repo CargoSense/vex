@@ -10,10 +10,14 @@ end
 
 defimpl Vex.Extract, for: List do
   def settings(data) do
-    Keyword.get data, :_vex
+    Dict.get data, :_vex
+  end
+
+  def attribute(map, path) when is_list(path) do
+    get_in map, path
   end
   def attribute(data, name) do
-    get_in data, List.flatten([name])
+    Keyword.get data, name
   end
 end
 
@@ -29,6 +33,9 @@ defmodule Vex.Extract.Struct do
           module.__vex_validations__
         end
 
+        def attribute(map, [root_attr | path]) do
+          Map.get(map, root_attr) |> get_in(path)
+        end
         def attribute(map, name) do
           Map.get(map, name)
         end

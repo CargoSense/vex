@@ -2,7 +2,7 @@ defmodule Vex.Struct do
 
   defmacro __using__(_) do
     quote do
-      @vex_validations []
+      @vex_validations %{}
       @before_compile unquote(__MODULE__)
       import unquote(__MODULE__)
       def valid?(self), do: Vex.valid?(self)
@@ -20,7 +20,7 @@ defmodule Vex.Struct do
 
   defmacro validates(name, validations \\ []) do
     quote do
-      @vex_validations Keyword.put(@vex_validations, unquote(name), unquote(validations))
+      @vex_validations Dict.put(@vex_validations, unquote(name), unquote(validations))
     end
   end
 
