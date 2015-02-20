@@ -15,6 +15,13 @@ defmodule NestedTest do
     assert nested_errors == Vex.errors([author: [name: ""]], %{[:author, :name]  => [presence: true]})
   end
 
+  test "nested with _vex" do
+    assert Vex.valid?([author: [name: "Foo"], _vex: %{[:author, :name]  => [presence: true]}])
+
+    nested_errors = [{:error, [:author, :name], :presence, "must be present"}]
+    assert nested_errors == Vex.errors([author: [name: ""], _vex: %{[:author, :name]  => [presence: true]}])
+  end
+
   test "nested in Record" do
     assert Vex.valid?(%NestedTestRecord{author: [name: "Foo"]})
 
