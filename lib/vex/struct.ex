@@ -20,7 +20,7 @@ defmodule Vex.Struct do
 
   defmacro validates(name, validations \\ []) do
     quote do
-      @vex_validations Dict.put(@vex_validations, unquote(name), unquote(validations))
+      @vex_validations Map.put(@vex_validations, unquote(name), unquote(validations))
     end
   end
 

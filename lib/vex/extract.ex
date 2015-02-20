@@ -10,7 +10,7 @@ end
 
 defimpl Vex.Extract, for: List do
   def settings(data) do
-    Dict.get data, :_vex
+    Keyword.get data, :_vex
   end
 
   def attribute(map, path) when is_list(path) do
