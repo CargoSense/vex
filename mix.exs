@@ -31,7 +31,7 @@ defmodule Vex.Mixfile do
   end
 
   defp test_deps do
-    [{:ex_unit_emacs, "~> 0.1.0"}]
+    []
   end
 
   defp package do

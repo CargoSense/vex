@@ -40,4 +40,4 @@ defmodule TestValidatorSourceByFunction.Criteria do
   # Should be ignored
 end
 
-ExUnit.start(%{formatters: [ExUnit.CLIFormatter, ExUnitEmacs.Formatter]})
+ExUnit.start
