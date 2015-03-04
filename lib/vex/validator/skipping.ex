@@ -10,7 +10,7 @@ defmodule Vex.Validator.Skipping do
       else
         unquote(unskipped)
       end
-    end  
+    end
   end
 
   @doc """
@@ -37,11 +37,11 @@ defmodule Vex.Validator.Skipping do
     iex> Vex.Validator.Skipping.skip?(1, allow_blank: true, allow_nil: true)
     false
     iex> Vex.Validator.Skipping.skip?(1, allow_blank: true, allow_nil: true)
-    false            
+    false
   """
   def skip?(value, options) do
     cond do
-      Keyword.get(options, :allow_blank) -> Vex.Blank.blank?(value)      
+      Keyword.get(options, :allow_blank) -> Vex.Blank.blank?(value)
       Keyword.get(options, :allow_nil)   -> value == nil
       true -> false
     end      
