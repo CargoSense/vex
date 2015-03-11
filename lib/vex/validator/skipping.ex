@@ -18,32 +18,32 @@ defmodule Vex.Validator.Skipping do
 
   ## Examples
 
-    iex> Vex.Validator.Skipping.skip?("", allow_nil: true)
-    false
-    iex> Vex.Validator.Skipping.skip?("", allow_blank: true)
-    true
-    iex> Vex.Validator.Skipping.skip?(nil, allow_nil: true)
-    true
-    iex> Vex.Validator.Skipping.skip?(nil, allow_blank: true)
-    true
-    iex> Vex.Validator.Skipping.skip?(nil, allow_blank: true, allow_nil: true)
-    true
-    iex> Vex.Validator.Skipping.skip?("", allow_blank: true, allow_nil: true)
-    true
-    iex> Vex.Validator.Skipping.skip?(1, allow_nil: true)
-    false
-    iex> Vex.Validator.Skipping.skip?(1, allow_blank: true)
-    false
-    iex> Vex.Validator.Skipping.skip?(1, allow_blank: true, allow_nil: true)
-    false
-    iex> Vex.Validator.Skipping.skip?(1, allow_blank: true, allow_nil: true)
-    false
+      iex> Vex.Validator.Skipping.skip?("", allow_nil: true)
+      false
+      iex> Vex.Validator.Skipping.skip?("", allow_blank: true)
+      true
+      iex> Vex.Validator.Skipping.skip?(nil, allow_nil: true)
+      true
+      iex> Vex.Validator.Skipping.skip?(nil, allow_blank: true)
+      true
+      iex> Vex.Validator.Skipping.skip?(nil, allow_blank: true, allow_nil: true)
+      true
+      iex> Vex.Validator.Skipping.skip?("", allow_blank: true, allow_nil: true)
+      true
+      iex> Vex.Validator.Skipping.skip?(1, allow_nil: true)
+      false
+      iex> Vex.Validator.Skipping.skip?(1, allow_blank: true)
+      false
+      iex> Vex.Validator.Skipping.skip?(1, allow_blank: true, allow_nil: true)
+      false
+      iex> Vex.Validator.Skipping.skip?(1, allow_blank: true, allow_nil: true)
+      false
   """
   def skip?(value, options) do
     cond do
       Keyword.get(options, :allow_blank) -> Vex.Blank.blank?(value)
       Keyword.get(options, :allow_nil)   -> value == nil
       true -> false
-    end      
-  end  
+    end
+  end
 end

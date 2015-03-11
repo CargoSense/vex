@@ -19,12 +19,12 @@ defmodule Vex.Validator.ErrorMessage do
 
   ## Examples
 
-    iex> Vex.Validator.ErrorMessage.message(nil, "default")
-    "default"
-    iex> Vex.Validator.ErrorMessage.message([message: "override"], "default")
-    "override"
-    iex> Vex.Validator.ErrorMessage.message([message: "Context #<%= value %>"], "default", value: 2)
-    "Context #2"
+      iex> Vex.Validator.ErrorMessage.message(nil, "default")
+      "default"
+      iex> Vex.Validator.ErrorMessage.message([message: "override"], "default")
+      "override"
+      iex> Vex.Validator.ErrorMessage.message([message: "Context #<%= value %>"], "default", value: 2)
+      "Context #2"
   """
   def message(options, default) do
     if Keyword.keyword?(options) do

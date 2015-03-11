@@ -14,28 +14,28 @@ defmodule Vex.Validators.Acceptance do
 
   ## Examples
 
-    iex> Vex.Validators.Acceptance.validate(1, true)
-    :ok
-    iex> Vex.Validators.Acceptance.validate(nil, true)
-    {:error, "must be accepted"}  
-    iex> Vex.Validators.Acceptance.validate(nil, message: "must be accepted!")
-    {:error, "must be accepted!"}    
-    iex> Vex.Validators.Acceptance.validate(1, [as: "yes"])
-    {:error, ~S(must be accepted with `"yes"`)}
-    iex> Vex.Validators.Acceptance.validate("verily", [as: "verily"])
-    :ok
+      iex> Vex.Validators.Acceptance.validate(1, true)
+      :ok
+      iex> Vex.Validators.Acceptance.validate(nil, true)
+      {:error, "must be accepted"}
+      iex> Vex.Validators.Acceptance.validate(nil, message: "must be accepted!")
+      {:error, "must be accepted!"}
+      iex> Vex.Validators.Acceptance.validate(1, [as: "yes"])
+      {:error, ~S(must be accepted with `"yes"`)}
+      iex> Vex.Validators.Acceptance.validate("verily", [as: "verily"])
+      :ok
 
   ## Custom Error Messages
 
   Custom error messages (in EEx format), provided as :message, can use the following values:
 
-    iex> Vex.Validators.Acceptance.__validator__(:message_fields)
-    [value: "The bad value"]
+      iex> Vex.Validators.Acceptance.__validator__(:message_fields)
+      [value: "The bad value"]
 
   An example:
 
-    iex> Vex.Validators.Acceptance.validate(nil, message: "<%= inspect value %> doesn't count as accepted")
-    {:error, "nil doesn't count as accepted"}
+      iex> Vex.Validators.Acceptance.validate(nil, message: "<%= inspect value %> doesn't count as accepted")
+      {:error, "nil doesn't count as accepted"}
 
   """
   use Vex.Validator

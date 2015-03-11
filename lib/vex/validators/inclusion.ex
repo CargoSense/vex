@@ -12,32 +12,32 @@ defmodule Vex.Validators.Inclusion do
 
   ## Examples
 
-    iex> Vex.Validators.Inclusion.validate(1, [1, 2, 3])
-    :ok
-    iex> Vex.Validators.Inclusion.validate(1, [in: [1, 2, 3]])
-    :ok
-    iex> Vex.Validators.Inclusion.validate(4, [1, 2, 3])
-    {:error, "must be one of [1, 2, 3]"}
-    iex> Vex.Validators.Inclusion.validate("a", ~w(a b c))
-    :ok
-    iex> Vex.Validators.Inclusion.validate(nil, ~w(a b c))
-    {:error, ~S(must be one of ["a", "b", "c"])}
-    iex> Vex.Validators.Inclusion.validate(nil, [in: ~w(a b c), allow_nil: true])
-    :ok
-    iex> Vex.Validators.Inclusion.validate("", [in: ~w(a b c), allow_blank: true])
-    :ok
+      iex> Vex.Validators.Inclusion.validate(1, [1, 2, 3])
+      :ok
+      iex> Vex.Validators.Inclusion.validate(1, [in: [1, 2, 3]])
+      :ok
+      iex> Vex.Validators.Inclusion.validate(4, [1, 2, 3])
+      {:error, "must be one of [1, 2, 3]"}
+      iex> Vex.Validators.Inclusion.validate("a", ~w(a b c))
+      :ok
+      iex> Vex.Validators.Inclusion.validate(nil, ~w(a b c))
+      {:error, ~S(must be one of ["a", "b", "c"])}
+      iex> Vex.Validators.Inclusion.validate(nil, [in: ~w(a b c), allow_nil: true])
+      :ok
+      iex> Vex.Validators.Inclusion.validate("", [in: ~w(a b c), allow_blank: true])
+      :ok
 
   ## Custom Error Messages
 
   Custom error messages (in EEx format), provided as :message, can use the following values:
 
-    iex> Vex.Validators.Inclusion.__validator__(:message_fields)
-    [value: "The bad value", list: "List"]
+      iex> Vex.Validators.Inclusion.__validator__(:message_fields)
+      [value: "The bad value", list: "List"]
 
   An example:
 
-    iex> Vex.Validators.Inclusion.validate("a", in: [1, 2, 3], message: "<%= inspect value %> is not an allowed value")
-    {:error, ~S("a" is not an allowed value)}
+      iex> Vex.Validators.Inclusion.validate("a", in: [1, 2, 3], message: "<%= inspect value %> is not an allowed value")
+      {:error, ~S("a" is not an allowed value)}
 
   """
   use Vex.Validator

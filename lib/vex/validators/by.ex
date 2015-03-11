@@ -16,34 +16,34 @@ defmodule Vex.Validators.By do
 
   ## Examples
 
-    iex> Vex.Validators.By.validate(2, &(&1 == 2))
-    :ok
-    iex> Vex.Validators.By.validate(3, &(&1 == 2))
-    {:error, "must be valid"}
-    iex> Vex.Validators.By.validate(["foo", "foo"], &is_list/1)
-    :ok
-    iex> Vex.Validators.By.validate("sgge", fn (word) -> word |> String.reverse == "eggs" end)
-    :ok
-    iex> Vex.Validators.By.validate(nil, [function: &is_list/1, allow_nil: true])
-    :ok
-    iex> Vex.Validators.By.validate({}, [function: &is_list/1, allow_blank: true])
-    :ok
-    iex> Vex.Validators.By.validate([1], [function: &is_list/1, message: "must be a list"])
-    :ok
-    iex> Vex.Validators.By.validate("a", [function: &is_list/1, message: "must be a list"])
-    {:error, "must be a list"}
+      iex> Vex.Validators.By.validate(2, &(&1 == 2))
+      :ok
+      iex> Vex.Validators.By.validate(3, &(&1 == 2))
+      {:error, "must be valid"}
+      iex> Vex.Validators.By.validate(["foo", "foo"], &is_list/1)
+      :ok
+      iex> Vex.Validators.By.validate("sgge", fn (word) -> word |> String.reverse == "eggs" end)
+      :ok
+      iex> Vex.Validators.By.validate(nil, [function: &is_list/1, allow_nil: true])
+      :ok
+      iex> Vex.Validators.By.validate({}, [function: &is_list/1, allow_blank: true])
+      :ok
+      iex> Vex.Validators.By.validate([1], [function: &is_list/1, message: "must be a list"])
+      :ok
+      iex> Vex.Validators.By.validate("a", [function: &is_list/1, message: "must be a list"])
+      {:error, "must be a list"}
 
   ## Custom Error Messages
 
   Custom error messages (in EEx format), provided as :message, can use the following values:
 
-    iex> Vex.Validators.By.__validator__(:message_fields)
-    [value: "The bad value"]
+      iex> Vex.Validators.By.__validator__(:message_fields)
+      [value: "The bad value"]
 
   An example:
 
-    iex> Vex.Validators.By.validate("blah", [function: &is_list/1, message: "<%= inspect value %> isn't a list"])
-    {:error, ~S("blah" isn't a list)}
+      iex> Vex.Validators.By.validate("blah", [function: &is_list/1, message: "<%= inspect value %> isn't a list"])
+      {:error, ~S("blah" isn't a list)}
   """
   use Vex.Validator
 
