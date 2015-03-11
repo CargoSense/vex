@@ -13,30 +13,30 @@ defmodule Vex.Validators.Format do
 
   ## Examples
 
-    iex> Vex.Validators.Format.validate("foo", ~r/^f/)
-    :ok
-    iex> Vex.Validators.Format.validate("foo", ~r/o{3,}/)
-    {:error, "must have the correct format"}
-    iex> Vex.Validators.Format.validate("foo", [with: ~r/^f/])
-    :ok
-    iex> Vex.Validators.Format.validate("bar", [with: ~r/^f/, message: "must start with an f"])
-    {:error, "must start with an f"}
-    iex> Vex.Validators.Format.validate("", [with: ~r/^f/, allow_blank: true])
-    :ok
-    iex> Vex.Validators.Format.validate(nil, [with: ~r/^f/, allow_nil: true])
-    :ok
+      iex> Vex.Validators.Format.validate("foo", ~r/^f/)
+      :ok
+      iex> Vex.Validators.Format.validate("foo", ~r/o{3,}/)
+      {:error, "must have the correct format"}
+      iex> Vex.Validators.Format.validate("foo", [with: ~r/^f/])
+      :ok
+      iex> Vex.Validators.Format.validate("bar", [with: ~r/^f/, message: "must start with an f"])
+      {:error, "must start with an f"}
+      iex> Vex.Validators.Format.validate("", [with: ~r/^f/, allow_blank: true])
+      :ok
+      iex> Vex.Validators.Format.validate(nil, [with: ~r/^f/, allow_nil: true])
+      :ok
 
   ## Custom Error Messages
 
   Custom error messages (in EEx format), provided as :message, can use the following values:
 
-    iex> Vex.Validators.Format.__validator__(:message_fields)
-    [value: "The bad value"]
+      iex> Vex.Validators.Format.__validator__(:message_fields)
+      [value: "The bad value"]
 
   An example:
 
-    iex> Vex.Validators.Format.validate("bar", [with: ~r/"^f"/, message: "<%= value %> doesn't start with an f"])
-    {:error, "bar doesn't start with an f"}
+      iex> Vex.Validators.Format.validate("bar", [with: ~r/"^f"/, message: "<%= value %> doesn't start with an f"])
+      {:error, "bar doesn't start with an f"}
   """
   use Vex.Validator
 
