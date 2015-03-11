@@ -15,22 +15,6 @@ defmodule Vex.Mixfile do
   end
 
   defp deps do
-    deps(Mix.env)
-  end
-
-  defp deps(:test) do
-    prod_deps ++ test_deps
-  end
-
-  defp deps(_) do
-    prod_deps
-  end
-
-  defp prod_deps do
-    []
-  end
-
-  defp test_deps do
     []
   end
 
