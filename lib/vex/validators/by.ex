@@ -33,6 +33,15 @@ defmodule Vex.Validators.By do
       iex> Vex.Validators.By.validate("a", [function: &is_list/1, message: "must be a list"])
       {:error, "must be a list"}
 
+      iex> Vex.Validators.By.validate(
+      ...>   "a", [function: fn (v) when is_list(v) -> :ok
+      ...>                      (v) -> {:error, {:not_list, v}} end])
+      {:error, {:not_list, "a"}}
+      iex> Vex.Validators.By.validate(
+      ...>   [], [function: fn (v) when is_list(v) -> :ok
+      ...>                     (v) -> {:error, {:not_list, v}} end])
+      :ok
+
   ## Custom Error Messages
 
   Custom error messages (in EEx format), provided as :message, can use the following values:

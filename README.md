@@ -178,6 +178,19 @@ Vex.valid? user, password: &valid_password?/1
 Vex.valid?(user, password: &(&1 != "god"))
 ```
 
+Instead of returning a boolean the validate function may return `:ok`
+on success, or `{:error, "a message"}` on error:
+
+```elixir
+Vex.valid?(user, password: fn (password) ->
+  if valid_password?(p) do
+    :ok
+  else
+    {:error, "#{password} isn't a valid password"}
+  end
+end)
+```
+
 Or explicitly using `:by`:
 
 ```elixir
