@@ -16,23 +16,6 @@ Inspired by
  * Rails ActiveModel Validations
  * Clojure's [Validateur](https://github.com/michaelklishin/validateur)
 
-Install
--------
-
-Add to your `mix.exs`
-
-```elixir
-defp deps do
-  [{:vex, "~> 0.5.1"}]
-end
-```
-
-Then install the dependency:
-
-```
-$ mix deps.get
-```
-
 Supported Validations
 ---------------------
 
