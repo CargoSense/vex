@@ -48,8 +48,8 @@ defmodule Vex do
     results(data, Vex.Extract.settings(data))
   end
   def results(data, settings) do
-    for {attribute, vs} <- settings do
-      result({data, attribute}, (if is_function(vs), do: [by: vs], else: vs))
+    for {attribute, validations} <- settings do
+      result({:extract, {data, attribute}}, validations)
     end
     |> List.flatten
   end
@@ -77,14 +77,15 @@ defmodule Vex do
 
   @doc false
   @spec result(term, name, Keyword.t) :: ok_result | error_result
-  defp result({data, attribute}, name, options) do
+  defp result({:extract, {data, attribute}}, name, options) do
     if Vex.Validator.validate?(data, options) do
-      result({data, attribute, extract(data, attribute, name)}, name, options)
+      result({:extract, {data, attribute, extract(data, attribute, name)}},
+             name, options)
     else
       {:not_applicable, attribute, name}
     end
   end
-  defp result({_, attribute, value}, name, options) do
+  defp result({:extract, {_, attribute, value}}, name, options) do
     case validator(name).validate(value, options) do
       {:error, message} -> {:error, attribute, name, message}
       :ok -> {:ok, attribute, name}
@@ -92,7 +93,7 @@ defmodule Vex do
     end
   end
   defp result(value, name, options) do
-    result({nil, nil, value}, name, options)
+    result({:extract, {nil, nil, value}}, name, options)
   end
 
   @doc """

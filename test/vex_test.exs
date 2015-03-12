@@ -14,6 +14,11 @@ defmodule VexTest do
     end
   end
 
+  test "keyword list, each validation" do
+    assert  Vex.valid?([tags: ["a", "b"]], tags: [each: &is_binary/1])
+    assert !Vex.valid?([tags: [1, "b"]], tags: [each: &is_binary/1])
+  end
+
   test "keyword list, provided multiple validations" do
     assert Vex.valid?([name: "Foo"], name: [presence: true, length: [min: 2, max: 10], format: ~r(^Fo.$)])
     assert :ok == Vex.validate([name: "Foo"], name: [presence: true, length: [min: 2, max: 10], format: ~r(^Fo.$)])
