@@ -188,8 +188,8 @@ See the documentation on `Vex.Validators.By` for details on available options.
 Validation Conditions
 ---------------------
 
-A validation can be made applicable (or unapplicable) by using the `:if`
-and `:unless` options.
+A validation can be made applicable (or unapplicable) by using the `:if`,
+`:if_any`, `:unless` and `:unless_any` options.
 
 Note `Vex.results` will return tuples with `:not_applicable` for validations that
 are skipped as a result of failing conditions.
@@ -203,12 +203,42 @@ Require a post to have a `body` of at least 200 bytes unless a non-blank
 iex> Vex.valid?(post, body: [length: [min: 200, unless: :reference_url]])
 ```
 
+### Based on other attributes' presence
+
+Require a post to have a `body` of at least 200 bytes unless a non-blank
+`reference_url`__and__ `category` are provided.
+
+```elixir
+iex> Vex.valid?(post, body: [length: [min: 200, unless: [:reference_url, :category]]])
+```
+
+Require a post to have a `body` of at least 200 bytes unless a non-blank
+`reference_url` __or__ `category` is provided.
+
+```elixir
+iex> Vex.valid?(post, body: [length: [min: 200, unless_any: [:reference_url, :category]]])
+```
+
 ### Based on another attribute's value
 
 Only require a password if the `state` of a user is `:new`:
 
 ```elixir
 iex> Vex.valid?(user, password: [presence: [if: [state: :new]]]
+```
+
+### Based on other attributes' value
+
+Only require a password if the `state` of a user is `:new` __and__ she is not from Facebook:
+
+```elixir
+iex> Vex.valid?(user, password: [presence: [if: [state: :new, from_facebook: false]]]
+```
+
+Only require a password if the `state` of a user is `:new` __or__ she is not from Facebook:
+
+```elixir
+iex> Vex.valid?(user, password: [presence: [if_any: [state: :new, from_facebook: false]]]
 ```
 
 ### Based on a custom function
