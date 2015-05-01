@@ -81,10 +81,10 @@ defmodule Vex.Validator do
       :any -> Enum.any?(conditions, &do_validate_if_condition(data, &1))
     end
   end
-  defp validate_if(data, condition) when is_atom(condition) do
+  defp validate_if(data, condition, _opt) when is_atom(condition) do
     do_validate_if_condition(data, condition)
   end
-  defp validate_if(data, condition) when is_function(condition) do
+  defp validate_if(data, condition, _opt) when is_function(condition) do
     !!condition.(data)
   end
 
