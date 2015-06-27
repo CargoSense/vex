@@ -1,12 +1,9 @@
-language: erlang
+language: elixir
+elixir: 1.0.3
 notifications:
   recipients:
     - bruce.williams@cargosense.com
     - ben.wilson@cargosense.com
 otp_release:
   - 17.1
-before_install:
-  - git clone https://github.com/elixir-lang/elixir -b v1.0.3
-  - cd elixir && make && cd ..
-before_script: "export PATH=`pwd`/elixir/bin:$PATH"
 script: "MIX_ENV=test mix local.hex --force && MIX_ENV=test mix do deps.get, test"
