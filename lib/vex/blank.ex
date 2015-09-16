@@ -9,6 +9,10 @@ defimpl Vex.Blank, for: List do
   def blank?(_),  do: false
 end
 
+defimpl Vex.Blank, for: Float do
+  def blank?(_), do: false
+end
+
 defimpl Vex.Blank, for: Integer do
   def blank?(_), do: false
 end

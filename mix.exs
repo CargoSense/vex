@@ -3,7 +3,7 @@ defmodule Vex.Mixfile do
 
   def project do
     [ app: :vex,
-      version: "0.5.3",
+      version: "0.5.4",
       elixir: "~> 1.0",
       deps: deps,
       package: package ]
