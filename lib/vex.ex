@@ -33,7 +33,7 @@ defmodule Vex do
   defp result(data, attribute, name, options) do
     v = validator(name)
     if Vex.Validator.validate?(data, options) do
-      result = extract(data, attribute, name) |> v.validate(options)
+      result = extract(data, attribute, name) |> v.validate(data, options)
       case result do
         {:error, message} -> {:error, attribute, name, message}
         :ok -> {:ok, attribute, name}
