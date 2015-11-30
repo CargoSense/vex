@@ -21,6 +21,15 @@ defimpl Vex.Extract, for: List do
   end
 end
 
+defimpl Vex.Extract, for: Map do
+  def settings(map) do
+    Map.get(map, :_vex)
+  end
+  def attribute(map, name) do
+    Map.get(map, name)
+  end
+end
+
 defmodule Vex.Extract.Struct do
   defmacro for_struct do
     quote do

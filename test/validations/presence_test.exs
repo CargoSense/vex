@@ -14,6 +14,16 @@ defmodule PresenceTest do
     assert Vex.valid?([total: 1], total: [presence: true])
   end
 
+  test "map, provided presence validation" do
+    assert Vex.valid?([name: "Foo"], name:  [presence: true])
+    assert !Vex.valid?(%{name: "Foo"}, id: [presence: true])
+    assert Vex.valid?(%{"name" => "Foo"}, %{"name" =>  [presence: true]})
+    assert Vex.valid?(%{"name" => "Foo", "age" => 21}, %{"name" =>  [presence: true], "age" =>  [presence: true]})
+    assert !Vex.valid?(%{"name" => "Foo"}, %{"name" =>  [presence: true], "age" =>  [presence: true]})
+    assert !Vex.valid?(%{"name" => "Foo"}, %{"id" =>  [presence: true]})
+    assert !Vex.valid?(%{"name" => "Foo"}, name:  [presence: true])
+  end
+
   test "keyword list, included presence validation" do
     assert  Vex.valid?([name: "Foo", _vex: [name: [presence: true]]])
     assert !Vex.valid?([name: "Foo", _vex: [id: [presence: true]]])
