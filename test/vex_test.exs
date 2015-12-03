@@ -48,6 +48,14 @@ defmodule VexTest do
     assert Vex.valid?(user)
   end
 
+  test "validate returns {:ok, data} on success" do
+    assert {:ok, [name: "Foo"]} = Vex.validate([name: "Foo"], name: [length: [min: 2, max: 10], format: ~r(^Fo.$)])
+  end
+
+  test "validate returns {:error, errors} on error" do
+    assert {:error, [{:error, :name, :length, "must have a length of at least 4"}]} = Vex.validate([name: "Foo"], name: [length: [min: 4]])
+  end
+
   test "validator lookup by structure" do
     validator = Vex.validator(:criteria, [TestValidatorSourceByStructure])
     assert validator == TestValidatorSourceByStructure.Criteria
