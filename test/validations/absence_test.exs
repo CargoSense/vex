@@ -17,6 +17,17 @@ defmodule AbsenceTest do
     assert  Vex.valid?([name: "Foo"], id:    [absence: true])
   end
 
+  test "map, provided absence validation" do
+    assert !Vex.valid?(%{name: "Foo"}, name:  [absence: true])
+    assert !Vex.valid?(%{"name" => "Foo"}, %{"name" => [absence: true]})
+    assert  Vex.valid?(%{name: ""},    name:  [absence: true])
+    assert !Vex.valid?(%{items: [:a]}, items: [absence: true])
+    assert  Vex.valid?(%{items: []},   items: [absence: true])
+    assert  Vex.valid?(%{items: {}},   items: [absence: true])
+    assert  Vex.valid?(%{name: "Foo"}, id:    [absence: true])
+    assert  Vex.valid?(%{"name" => "Foo"}, name: [absence: true])
+  end
+
   test "keyword list, included absence validation" do
     assert !Vex.valid?([name: "Foo", _vex: [name: [absence: true]]])
     assert  Vex.valid?([name: "Foo", _vex: [id:   [absence: true]]])
