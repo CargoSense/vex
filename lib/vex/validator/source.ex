@@ -6,7 +6,7 @@ end
 
 defimpl Vex.Validator.Source, for: Atom do
 
-  import Mix.Utils, only: [camelize: 1]
+  import Macro, only: [camelize: 1]
 
   def lookup(source, name) do
     validator_by_function(source, name) || validator_by_structure(source, name)
