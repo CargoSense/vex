@@ -20,7 +20,7 @@ defmodule Vex.Mixfile do
   end
 
   defp package do
-    [contributors: ["Bruce Williams", "Ben Wilson"],
+    [maintainers: ["Bruce Williams", "Ben Wilson"],
      licenses: ["MIT License"],
      description: "An extensible data validation library for Elixir",
      links: %{github: "https://github.com/CargoSense/vex"}]
