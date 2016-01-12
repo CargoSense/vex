@@ -16,7 +16,9 @@ defmodule Vex.Mixfile do
   end
 
   defp deps do
-    []
+    [
+      {:inflex, "~> 1.5"}
+    ]
   end
 
   defp package do
