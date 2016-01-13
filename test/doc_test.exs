@@ -2,7 +2,7 @@ defmodule DocTest do
   use ExUnit.Case
   # Main
   doctest Vex
-  doctest Vex.Validator  
+  doctest Vex.Validator
   # Validator Utilities
   doctest Vex.Validator.ErrorMessage
   doctest Vex.Validator.Skipping
@@ -16,4 +16,5 @@ defmodule DocTest do
   doctest Vex.Validators.Inclusion
   doctest Vex.Validators.Length
   doctest Vex.Validators.Presence
+  doctest Vex.Validators.Each
 end

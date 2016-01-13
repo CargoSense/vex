@@ -332,7 +332,18 @@ If you only want the errors, use `Vex.errors/1`:
 iex> Vex.errors(another_user)
 [{:error, :password, :length, "must have a length of at least 4"},
  {:error, :password, :confirmation, "must match its confirmation"}]
- ```
+```
+
+The results can be gathered with `Vex.validate/1`:
+
+```elixir
+iex> Vex.results(user)
+:ok
+
+iex> Vex.errors(another_user)
+{:error, [{:password, :length, "must have a length of at least 4"},
+          {:password, :confirmation, "must match its confirmation"}]
+```
 
 Custom Error Messages
 ---------------------

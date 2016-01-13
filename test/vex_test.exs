@@ -8,10 +8,20 @@ defmodule VexTest do
     assert_raise Vex.InvalidValidatorError, fn ->
       Vex.valid?([name: "Foo"], name: [foobar: true])
     end
+
+    assert_raise Vex.InvalidValidatorError, fn ->
+      Vex.validate([name: "Foo"], name: [foobar: true])
+    end
+  end
+
+  test "keyword list, each validation" do
+    assert  Vex.valid?([tags: ["a", "b"]], tags: [each: &is_binary/1])
+    assert !Vex.valid?([tags: [1, "b"]], tags: [each: &is_binary/1])
   end
 
   test "keyword list, provided multiple validations" do
     assert Vex.valid?([name: "Foo"], name: [presence: true, length: [min: 2, max: 10], format: ~r(^Fo.$)])
+    assert :ok == Vex.validate([name: "Foo"], name: [presence: true, length: [min: 2, max: 10], format: ~r(^Fo.$)])
   end
 
   test "record, included complex validation" do
@@ -38,6 +48,9 @@ defmodule VexTest do
     assert !Vex.valid?(user)
     assert length(Vex.results(user)) > 0
     assert length(Vex.errors(user)) == 2
+
+    {:error, errors} = Vex.validate(user)
+    assert length(errors) == length(Vex.errors(user))
   end
 
   test "keyword list, included complex validation with non-applicable validations" do
