@@ -18,4 +18,13 @@ defmodule ByTest do
       Vex.errors([component: "z1234"], component: x1234_match)
   end
 
+  test "context dependent validations" do
+    x1234_match = fn("x1234", [component: _, validate: true]) -> :ok; (_, _) -> {:error, :bad_param} end
+    assert  Vex.valid?([component: "x1234", validate: true], component: x1234_match)
+    assert !Vex.valid?([component: "z1234", validate: false], component: x1234_match)
+
+    assert [{:error, :component, :by, :bad_param}] ==
+      Vex.errors([component: "x1234", validate: false], component: x1234_match)
+  end
+
 end

@@ -8,6 +8,12 @@ defmodule Vex.Validator do
       @behaviour Vex.Validator.Behaviour
       import Vex.Validator.Skipping
       use Vex.Validator.ErrorMessage
+
+      def validate(data, _context, options) do
+        validate(data, options)
+      end
+
+      defoverridable [validate: 3]
     end
   end
 
