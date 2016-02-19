@@ -7,6 +7,16 @@ defmodule Vex do
     errors(data, settings) |> length == 0
   end
 
+  def validate(data) do
+    validate(data, Vex.Extract.settings(data))
+  end
+  def validate(data, settings) do
+    case errors(data, settings) do
+      errors when length(errors) > 0 -> {:error, errors}
+      _ -> {:ok, data}
+    end
+  end
+
   def errors(data) do
     errors(data, Vex.Extract.settings(data))
   end
