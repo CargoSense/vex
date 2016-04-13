@@ -35,7 +35,7 @@ defmodule Vex.Validator.ErrorMessage do
   end
   def message(options, default, context) do
     message_text = message(options, default)
-    if Keyword.keyword?(options) && options[:eex] == false do
+    if (Application.get_env(:vex, :eex) == false) || (Keyword.keyword?(options) && options[:eex] == false) do
       [text: message_text, vars: extract_vars(context)]
     else
       EEx.eval_string(message_text, context)
