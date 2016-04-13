@@ -34,7 +34,15 @@ defmodule Vex.Validator.ErrorMessage do
     end
   end
   def message(options, default, context) do
-    message(options, default) |> EEx.eval_string(context)
+    message_text = message(options, default)
+    if Keyword.keyword?(options) && options[:eex] == false do
+      [text: message_text, vars: extract_vars(context)]
+    else
+      EEx.eval_string(message_text, context)
+    end
   end
- 
+
+  defp extract_vars(context) do
+    Enum.filter context, fn({key, value}) -> is_boolean(value) || is_number(value) || is_binary(value) || is_nil(value) end
+  end
 end

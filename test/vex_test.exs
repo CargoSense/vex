@@ -56,6 +56,11 @@ defmodule VexTest do
     assert {:error, [{:error, :name, :length, "must have a length of at least 4"}]} = Vex.validate([name: "Foo"], name: [length: [min: 4]])
   end
 
+  test "validate returns {:error, {text: message, vars: [min: 4, ...]}} if EEx is disabled" do
+    result = Vex.validate([name: "Foo"], name: [length: [min: 4, eex: false, message: "too short, min ${min} chars"]])
+    assert {:error, [{:error, :name, :length, [text: "too short, min ${min} chars", vars: [value: "Foo", size: 3, min: 4, max: nil]]}]} = result
+  end
+
   test "validator lookup by structure" do
     validator = Vex.validator(:criteria, [TestValidatorSourceByStructure])
     assert validator == TestValidatorSourceByStructure.Criteria
