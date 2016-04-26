@@ -16,7 +16,10 @@ defmodule Vex.Mixfile do
   end
 
   defp deps do
-    []
+    [
+      {:ex_doc, "~> 0.11", only: :dev},
+      {:earmark, "~> 0.2", only: :dev},
+    ]
   end
 
   defp package do

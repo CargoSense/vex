@@ -36,8 +36,7 @@ defmodule Vex do
         result(data, attribute, name, options)
       end)
     end)
-  |>
-    List.flatten
+    |> List.flatten
   end
 
   defp result(data, attribute, name, options) do
