@@ -1,6 +1,6 @@
 # Vex
 
-[![Build Status](https://travis-ci.org/CargoSense/vex.png)](https://travis-ci.org/CargoSense/vex)
+[![Build Status](https://travis-ci.org/CargoSense/vex.svg)](https://travis-ci.org/CargoSense/vex)
 
 An extensible data validation library for Elixir.
 
