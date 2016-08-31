@@ -29,9 +29,11 @@ defmodule Vex do
   end
   def results(data, settings) do
     Enum.map(settings, fn ({attribute, validations}) ->
-      if is_function(validations) do
-        validations = [by: validations]
-      end
+      validations =
+        case is_function(validations) do
+          true  -> [by: validations]
+          false -> validations
+        end
       Enum.map(validations, fn ({name, options}) ->
         result(data, attribute, name, options)
       end)
