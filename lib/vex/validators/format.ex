@@ -31,7 +31,7 @@ defmodule Vex.Validators.Format do
   Custom error messages (in EEx format), provided as :message, can use the following values:
 
       iex> Vex.Validators.Format.__validator__(:message_fields)
-      [value: "The bad value"]
+      [value: "The bad value", pattern: "The regex that didn't match"]
 
   An example:
 
@@ -40,12 +40,12 @@ defmodule Vex.Validators.Format do
   """
   use Vex.Validator
 
-  @message_fields [value: "The bad value"]
+  @message_fields [value: "The bad value", pattern: "The regex that didn't match"]
   def validate(value, options) when is_list(options) do
     unless_skipping(value, options) do
       pattern = Keyword.get(options, :with)
       result Regex.match?(pattern, to_string(value)),
-                          message(options, "must have the correct format", value: value)
+                          message(options, "must have the correct format", value: value, pattern: pattern)
     end
   end
 
