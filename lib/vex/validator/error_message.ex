@@ -36,5 +36,5 @@ defmodule Vex.Validator.ErrorMessage do
   def message(options, default, context) do
     message(options, default) |> EEx.eval_string(context)
   end
- 
+
 end

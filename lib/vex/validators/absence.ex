@@ -1,4 +1,4 @@
-defmodule Vex.Validators.Absence do 
+defmodule Vex.Validators.Absence do
  @moduledoc """
   Ensure a value is absent.
 
