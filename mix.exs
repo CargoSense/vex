@@ -16,11 +16,12 @@ defmodule Vex.Mixfile do
   end
 
   defp deps do
-    []
+    [{:ex_doc, ">= 0.0.0", only: :dev}]
   end
 
   defp package do
-    [contributors: ["Bruce Williams", "Ben Wilson"],
+    [contributors: ["Bruce Williams", "Ben Wilson", "John Hyland"],
+     maintainers: ["Bruce Williams", "Ben Wilson", "John Hyland"],
      licenses: ["MIT License"],
      description: "An extensible data validation library for Elixir",
      links: %{github: "https://github.com/CargoSense/vex"}]
