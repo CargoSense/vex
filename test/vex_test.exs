@@ -22,6 +22,15 @@ defmodule VexTest do
     assert UserTest.valid?(user)
   end
 
+  test "record, included complex validation with errors" do
+    user = %UserTest{username: "actualuser", password: "abcdefghi", password_confirmation: "abcdefghi",
+      phone: nil, role: :admin}
+    assert !Vex.valid?(user)
+    assert length(Vex.results(user)) > 0
+    assert length(Vex.errors(user)) == 1
+    assert !UserTest.valid?(user)
+  end
+
   test "keyword list, included complex validation" do
     user = [username: "actualuser", password: "abcdefghi", password_confirmation: "abcdefghi",
             _vex: [username: [presence: true, length: [min: 4], format: ~r(^[[:alpha:]][[:alnum:]]+$)],
@@ -32,12 +41,13 @@ defmodule VexTest do
   end
 
   test "keyword list, included complex validation with errors" do
-    user = [username: "actualuser", password: "abc", password_confirmation: "abcdefghi",
+    user = [username: "actualuser", password: "abc", password_confirmation: "abcdefghi", phone: nil, role: :admin,
             _vex: [username: [presence: true, length: [min: 4], format: ~r(^[[:alpha:]][[:alnum:]]+$)],
-                   password: [length: [min: 4], confirmation: true]]]
+                   password: [length: [min: 4], confirmation: true],
+                   phone: [presence: [if: [role: &(&1 in ~w(admin superuser)a)]]]]]
     assert !Vex.valid?(user)
     assert length(Vex.results(user)) > 0
-    assert length(Vex.errors(user)) == 2
+    assert length(Vex.errors(user)) == 3
   end
 
   test "keyword list, included complex validation with non-applicable validations" do

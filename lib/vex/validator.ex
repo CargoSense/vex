@@ -94,6 +94,10 @@ defmodule Vex.Validator do
     !!condition.(data)
   end
 
+  defp do_validate_if_condition(data, {name, condition}) when is_atom(name) and is_function(condition) do
+    attribute = Vex.Extract.attribute(data, name)
+    !!condition.(attribute)
+  end
   defp do_validate_if_condition(data, {name, value}) when is_atom(name) do
     Vex.Extract.attribute(data, name) == value
   end
