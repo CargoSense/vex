@@ -5,9 +5,9 @@ defmodule Vex.Mixfile do
     [ app: :vex,
       version: "0.6.0",
       elixir: "~> 1.2",
-      deps: deps,
+      deps: deps(),
       consolidate_protocols: Mix.env != :test,
-      package: package ]
+      package: package() ]
   end
 
   # Configuration for the OTP application
