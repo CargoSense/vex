@@ -368,7 +368,7 @@ Error Message Renderers
 -----------------------
 
 By default Vex uses `Vex.ErrorRenderers.EEx` as default renderer, also have
-`Vex.ErrorRenderers.Parametrized`, and you have ability to define your own.
+`Vex.ErrorRenderers.Parameterized`, and you have ability to define your own.
 
 For example if we want to use [Linguist](https://github.com/chrismccord/linguist)
 for internationalization, we can do the following:
@@ -421,9 +421,9 @@ for internationalization, we can do the following:
 
 We can set error renderer globally:
 
-```
+```elixir
 config :vex,
-  error_renderer: Vex.ErrorRenderers.Parametrized
+  error_renderer: Vex.ErrorRenderers.Parameterized
 ```
 
 Validators declare a list of the available message fields and their
