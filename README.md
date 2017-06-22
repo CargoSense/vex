@@ -364,7 +364,79 @@ iex> Vex.errors(another_user)
  {:error, :password, :confirmation, "must match its confirmation"}]
  ```
 
-Custom Error Messages
+Error Message Renderers
+-----------------------
+
+By default Vex uses `Vex.ErrorRenderers.EEx` as default renderer, also have
+`Vex.ErrorRenderers.Parametrized`, and you have ability to define your own.
+
+For example if we want to use [Linguist](https://github.com/chrismccord/linguist)
+for internationalization, we can do the following:
+
+
+```elixir
+  defmodule I18nErrorRenderer do
+    @behaviour Vex.ErrorRenderer
+    use Linguist.Vocabulary
+
+    locale "en", [
+      foo: [
+        too_short: "too short, min %{min} chars",
+        must_start_with_f: "must start with an f",
+      ],
+    ]
+
+    locale "kr", [
+      foo: [
+        too_short: "너무 짧으면, 최소 %{min} 개 문자",
+        must_start_with_f: "f로 시작해야합니다",
+      ],
+    ]
+
+    def message(options, _default, context \\ []) do
+      message = options[:message] || raise "message is needed for proper i18n"
+      locale = options[:locale] || "en"
+      t!(locale, message, context)
+    end
+  end
+
+  result = Vex.validate([name: "Foo"], name: [
+    length: [
+      min: 4,
+      error_renderer: I18nErrorRenderer,
+      message: "foo.too_short"
+    ],
+    format: [
+      with: ~r/^f/,
+      locale: "kr",
+      error_renderer: I18nErrorRenderer,
+      message: "foo.must_start_with_f",
+    ]
+  ])
+  assert {:error, [
+    {:error, :name, :length, "too short, min 4 chars"},
+    {:error, :name, :format, "f로 시작해야합니다"}
+  ]} = result
+```
+
+We can set error renderer globally:
+
+```
+config :vex,
+  error_renderer: Vex.ErrorRenderers.Parametrized
+```
+
+Validators declare a list of the available message fields and their
+descriptions by setting the module attribute `@message_fields` (see
+`Vex.Validator.ErrorMessage`), and the metadata is available for querying:
+
+```elixir
+iex> Vex.Validators.Length.__validator__(:message_fields)
+[value: "Bad value", tokens: "Tokens from value", size: "Number of tokens",
+ min: "Minimum acceptable value", max: "Maximum acceptable value"]
+```
+
+Custom EEx Error Renderer Messages
 ---------------------
 
 Custom error messages can be requested by validations when providing the
@@ -380,16 +452,6 @@ This could yield, in the case of a `:body` value `"hello my darling"`, the resul
 
 ```elixir
 {:error, "3 words isn't enough"}
-```
-
-Validators declare a list of the available message fields and their
-descriptions by setting the module attribute `@message_fields` (see
-`Vex.Validator.ErrorMessage`), and the metadata is available for querying:
-
-```elixir
-iex> Vex.Validators.Length.__validator__(:message_fields)
-[value: "Bad value", tokens: "Tokens from value", size: "Number of tokens",
- min: "Minimum acceptable value", max: "Maximum acceptable value"]
 ```
 
 Adding and Overriding Validators
