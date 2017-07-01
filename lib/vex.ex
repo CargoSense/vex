@@ -67,8 +67,8 @@ defmodule Vex do
     Vex.Validators.Exclusion
   """
   def validator(name) do
-    case name |> validator(sources) do
-      nil -> raise Vex.InvalidValidatorError, validator: name, sources: sources
+    case name |> validator(sources()) do
+      nil -> raise Vex.InvalidValidatorError, validator: name, sources: sources()
       found -> found
     end
   end
