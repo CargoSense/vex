@@ -16,4 +16,7 @@ defmodule DocTest do
   doctest Vex.Validators.Inclusion
   doctest Vex.Validators.Length
   doctest Vex.Validators.Presence
+  # Built-in ErrorRenderers
+  doctest Vex.ErrorRenderers.EEx
+  doctest Vex.ErrorRenderers.Parameterized
 end
