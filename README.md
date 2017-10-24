@@ -166,7 +166,7 @@ on success, or `{:error, "a message"}` on error:
 
 ```elixir
 Vex.valid?(user, password: fn (password) ->
-  if valid_password?(p) do
+  if valid_password?(password) do
     :ok
   else
     {:error, "#{password} isn't a valid password"}
