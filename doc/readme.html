@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.18.1">
+    <title>Vex – Vex v0.6.0</title>
+    <link rel="stylesheet" href="dist/app-c922dbe7ef.css" />
+    
+    <script src="dist/sidebar_items-808352f84e.js"></script>
+    
+    
+    
+    
+  </head>
+  <body data-type="extras">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
+
+<div class="main">
+<button class="sidebar-toggle">
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
+</button>
+<section class="sidebar">
+
+  
+  <a href="https://github.com/CargoSense/vex" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+        Vex
+      </h1>
+      <h2 class="sidebar-projectVersion">
+        v0.6.0
+      </h2>
+    </div>
+    
+  </a>
+
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="search" aria-label="Search" autocomplete="off" />
+  </form>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+    
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+    
+
+    
+      <li><a id="exceptions-list" href="#full-list">Exceptions</a></li>
+    
+
+    
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+
+<h1>Vex</h1>
+<p><a href="https://travis-ci.org/CargoSense/vex"><img src="https://travis-ci.org/CargoSense/vex.svg" alt="Build Status"/></a></p>
+<p>An extensible data validation library for Elixir.</p>
+<p>Can be used to check different data types for compliance with criteria.</p>
+<p>Ships with built-in validators to check for attribute presence, absence,
+inclusion, exclusion, format, length, acceptance, and by a custom function.
+You can easily define new validators and override existing ones.</p>
+<h2 id="inspired-by" class="section-heading">
+  <a href="#inspired-by" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Inspired by
+</h2>
+
+<ul>
+<li>Rails ActiveModel Validations
+</li>
+<li>Clojure’s <a href="https://github.com/michaelklishin/validateur">Validateur</a>
+</li>
+</ul>
+<p>Supported Validations</p>
+<hr class="thin"/>
+<p>Note the examples below use <a href="Vex.html#valid?/2"><code class="inline">Vex.valid?/2</code></a>, with the validations to
+check explicitly provided as the second argument. For information on how
+validation configuration can be provided as part of a single argument
+(eg, packaged with the data to check passed to <a href="Vex.html#valid?/1"><code class="inline">Vex.valid?/1</code></a>) see
+“Configuring Validations” below.</p>
+<p>Note all validations can be skipped based on <code class="inline">:if</code> and <code class="inline">:unless</code>
+conditions given as options. See “Validation Conditions” further below for
+more information.</p>
+<h3 id="presence" class="section-heading">
+  <a href="#presence" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Presence
+</h3>
+
+<p>Ensure a value is present:</p>
+<pre><code class="elixir">Vex.valid? post, title: [presence: true]</code></pre>
+<p>See the documentation on <a href="Vex.Validators.Presence.html"><code class="inline">Vex.Validators.Presence</code></a> for details on
+available options.</p>
+<h3 id="absence" class="section-heading">
+  <a href="#absence" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Absence
+</h3>
+
+<p>Ensure a value is absent (blank)</p>
+<pre><code class="elixir">Vex.valid? post, byline: [absence: true]</code></pre>
+<p>See the documentation on <a href="Vex.Validators.Absence.html"><code class="inline">Vex.Validators.Absence</code></a> for details on
+available options.</p>
+<h3 id="inclusion" class="section-heading">
+  <a href="#inclusion" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Inclusion
+</h3>
+
+<p>Ensure a value is in a list of values:</p>
+<pre><code class="elixir">Vex.valid? post, category: [inclusion: [&quot;politics&quot;, &quot;food&quot;]]</code></pre>
+<p>This validation can be skipped for <code class="inline">nil</code> or blank values by including
+<code class="inline">allow_nil: true</code> and/or <code class="inline">allow_blank: true</code>.</p>
+<p>See the documentation on <a href="Vex.Validators.Inclusion.html"><code class="inline">Vex.Validators.Inclusion</code></a> for details on available options.</p>
+<h3 id="exclusion" class="section-heading">
+  <a href="#exclusion" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Exclusion
+</h3>
+
+<p>Ensure a value is <em>not</em> in a list of values:</p>
+<pre><code class="elixir">Vex.valid? post, category: [exclusion: [&quot;oped&quot;, &quot;lifestyle&quot;]]</code></pre>
+<p>See the documentation on <a href="Vex.Validators.Exclusion.html"><code class="inline">Vex.Validators.Exclusion</code></a> for details on available
+options.</p>
+<h3 id="format" class="section-heading">
+  <a href="#format" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Format
+</h3>
+
+<p>Ensure a value matches a regular expression:</p>
+<pre><code class="elixir">Vex.valid? widget, identifier: [format: ~r/(^id-)/]</code></pre>
+<p>This validation can be skipped for <code class="inline">nil</code> or blank values by including
+<code class="inline">allow_nil: true</code> and/or <code class="inline">allow_blank: true</code>.</p>
+<p>See the documentation on <a href="Vex.Validators.Format.html"><code class="inline">Vex.Validators.Format</code></a> for details on
+available options.</p>
+<h3 id="length" class="section-heading">
+  <a href="#length" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Length
+</h3>
+
+<p>Ensure a value’s length is at least a given size:</p>
+<pre><code class="elixir">Vex.valid? user, username: [length: [min: 2]]</code></pre>
+<p>Ensure a value’s length is at or below a given size:</p>
+<pre><code class="elixir">Vex.valid? user, username: [length: [max: 10]]</code></pre>
+<p>Ensure a value’s length is within a range (inclusive):</p>
+<pre><code class="elixir">Vex.valid? user, username: [length: [in: 2..10]]</code></pre>
+<p>This validation can be skipped for <code class="inline">nil</code> or blank values by including
+<code class="inline">allow_nil: true</code> and/or <code class="inline">allow_blank: true</code>.</p>
+<p>See the documentation on <a href="Vex.Validators.Length.html"><code class="inline">Vex.Validators.Length</code></a> for details on
+available options.</p>
+<h3 id="acceptance" class="section-heading">
+  <a href="#acceptance" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Acceptance
+</h3>
+
+<p>Ensure an attribute is set to a positive (or custom) value. For use
+expecially with “acceptance of terms” checkboxes in web applications.</p>
+<pre><code class="elixir">Vex.valid?(user, accepts_terms: [acceptance: true])</code></pre>
+<p>To check for a specific value, use <code class="inline">:as</code>:</p>
+<pre><code class="elixir">Vex.valid?(user, accepts_terms: [acceptance: [as: &quot;yes&quot;]])</code></pre>
+<p>See the documentation on <a href="Vex.Validators.Acceptance.html"><code class="inline">Vex.Validators.Acceptance</code></a> for details on
+available options.</p>
+<h3 id="confirmation" class="section-heading">
+  <a href="#confirmation" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Confirmation
+</h3>
+
+<p>Ensure a value has a matching confirmation:</p>
+<pre><code class="elixir">Vex.valid? user, password: [confirmation: true]</code></pre>
+<p>The above would ensure the values of <code class="inline">password</code> and
+<code class="inline">password_confirmation</code> are equivalent.</p>
+<p>This validation can be skipped for <code class="inline">nil</code> or blank values by
+including <code class="inline">allow_nil: true</code> and/or <code class="inline">allow_blank: true</code>.</p>
+<p>See the documentation on <code class="inline">Vex.Validators.confirmation</code> for details
+on available options.</p>
+<h3 id="custom-function" class="section-heading">
+  <a href="#custom-function" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Custom Function
+</h3>
+
+<p>You can also just provide a custom function for validation instead of
+a validator name:</p>
+<pre><code class="elixir">Vex.valid?(user, password: fn (pass) -&gt; byte_size(pass) &gt; 4 end)
+Vex.valid? user, password: &amp;valid_password?/1
+Vex.valid?(user, password: &amp;(&amp;1 != &quot;god&quot;))</code></pre>
+<p>Instead of returning a boolean the validate function may return <code class="inline">:ok</code>
+on success, or <code class="inline">{:error, &quot;a message&quot;}</code> on error:</p>
+<pre><code class="elixir">Vex.valid?(user, password: fn (password) -&gt;
+  if valid_password?(password) do
+    :ok
+  else
+    {:error, &quot;#{password} isn&#39;t a valid password&quot;}
+  end
+end)</code></pre>
+<p>Or explicitly using <code class="inline">:by</code>:</p>
+<pre><code class="elixir">Vex.valid?(user, age: [by: &amp;(&amp;1 &gt; 18)])</code></pre>
+<p>This validation can be skipped for <code class="inline">nil</code> or blank values by including
+<code class="inline">allow_nil: true</code> and/or <code class="inline">allow_blank: true</code>.</p>
+<p>See the documentation on <a href="Vex.Validators.By.html"><code class="inline">Vex.Validators.By</code></a> for details on available options.</p>
+<h2 id="validation-conditions" class="section-heading">
+  <a href="#validation-conditions" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Validation Conditions
+</h2>
+
+<p>A validation can be made applicable (or unapplicable) by using the <code class="inline">:if</code>,
+<code class="inline">:if_any</code>, <code class="inline">:unless</code> and <code class="inline">:unless_any</code> options.</p>
+<p>Note <code class="inline">Vex.results</code> will return tuples with <code class="inline">:not_applicable</code> for validations that
+are skipped as a result of failing conditions.</p>
+<h3 id="based-on-another-attribute-s-presence" class="section-heading">
+  <a href="#based-on-another-attribute-s-presence" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Based on another attribute’s presence
+</h3>
+
+<p>Require a post to have a <code class="inline">body</code> of at least 200 bytes unless a non-blank
+<code class="inline">reference_url</code> is provided.</p>
+<pre><code class="elixir">iex&gt; Vex.valid?(post, body: [length: [min: 200, unless: :reference_url]])</code></pre>
+<h3 id="based-on-other-attributes-presence" class="section-heading">
+  <a href="#based-on-other-attributes-presence" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Based on other attributes’ presence
+</h3>
+
+<p>Require a post to have a <code class="inline">body</code> of at least 200 bytes unless a non-blank
+<code class="inline">reference_url</code><strong>and</strong> <code class="inline">category</code> are provided.</p>
+<pre><code class="elixir">iex&gt; Vex.valid?(post, body: [length: [min: 200, unless: [:reference_url, :category]]])</code></pre>
+<p>Require a post to have a <code class="inline">body</code> of at least 200 bytes unless a non-blank
+<code class="inline">reference_url</code> <strong>or</strong> <code class="inline">category</code> is provided.</p>
+<pre><code class="elixir">iex&gt; Vex.valid?(post, body: [length: [min: 200, unless_any: [:reference_url, :category]]])</code></pre>
+<h3 id="based-on-another-attribute-s-value" class="section-heading">
+  <a href="#based-on-another-attribute-s-value" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Based on another attribute’s value
+</h3>
+
+<p>Only require a password if the <code class="inline">state</code> of a user is <code class="inline">:new</code>:</p>
+<pre><code class="elixir">iex&gt; Vex.valid?(user, password: [presence: [if: [state: :new]]]</code></pre>
+<h3 id="based-on-other-attributes-value" class="section-heading">
+  <a href="#based-on-other-attributes-value" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Based on other attributes’ value
+</h3>
+
+<p>Only require a password if the <code class="inline">state</code> of a user is <code class="inline">:new</code> <strong>and</strong> she is not from Facebook:</p>
+<pre><code class="elixir">iex&gt; Vex.valid?(user, password: [presence: [if: [state: :new, from_facebook: false]]]</code></pre>
+<p>Only require a password if the <code class="inline">state</code> of a user is <code class="inline">:new</code> <strong>or</strong> she is not from Facebook:</p>
+<pre><code class="elixir">iex&gt; Vex.valid?(user, password: [presence: [if_any: [state: :new, from_facebook: false]]]</code></pre>
+<h3 id="based-on-a-custom-function" class="section-heading">
+  <a href="#based-on-a-custom-function" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Based on a custom function
+</h3>
+
+<p>Don’t require users from Facebook to provide an email address:</p>
+<pre><code class="elixir">iex&gt; Vex.valid?(user, email: [presence: [unless: &amp;User.from_facebook?/1]]</code></pre>
+<p>Require users less than 13 years of age to provide a parent’s email address:</p>
+<pre><code class="elixir">iex&gt; Vex.valid?(user, parent_email: [presence: [if: &amp;(&amp;1.age &lt; 13)]]</code></pre>
+<h2 id="configuring-validations" class="section-heading">
+  <a href="#configuring-validations" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Configuring Validations
+</h2>
+
+<p>The examples above use <a href="Vex.html#valid?/2"><code class="inline">Vex.valid?/2</code></a>, passing both the data to
+be validated and the validation settings. This is nice for ad hoc data
+validation, but wouldn’t it be nice to just:</p>
+<pre><code class="elixir">Vex.valid?(data)</code></pre>
+<p>… and have the data tell Vex which validations should be evaluated?</p>
+<h3 id="in-structs" class="section-heading">
+  <a href="#in-structs" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  In Structs
+</h3>
+
+<p>In your struct module, use <a href="Vex.Struct.html"><code class="inline">Vex.Struct</code></a>:</p>
+<pre><code class="elixir">defmodule User do
+  defstruct username: nil, password: nil, password_confirmation: nil
+  use Vex.Struct
+
+  validates :username, presence: true,
+                       length: [min: 4],
+                       format: ~r/^[[:alpha:]][[:alnum:]]+$/
+  validates :password, length: [min: 4],
+                       confirmation: true
+end</code></pre>
+<p>Note <code class="inline">validates</code> should only be used once per attribute.</p>
+<p>Once configured, you can use <a href="Vex.html#valid?/1"><code class="inline">Vex.valid?/1</code></a>:</p>
+<pre><code class="elixir">user = %User{username: &quot;actualuser&quot;,
+             password: &quot;abcdefghi&quot;,
+             password_confirmation: &quot;abcdefghi&quot;}
+
+Vex.valid?(user)</code></pre>
+<p>You can also use <code class="inline">valid?</code> directly from the Module:</p>
+<pre><code class="elixir">user |&gt; User.valid?</code></pre>
+<h3 id="in-keyword-lists" class="section-heading">
+  <a href="#in-keyword-lists" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  In Keyword Lists
+</h3>
+
+<p>In your list, just include a <code class="inline">:_vex</code> entry and use <a href="Vex.html#valid?/1"><code class="inline">Vex.valid?/1</code></a>:</p>
+<pre><code class="elixir">user = [username: &quot;actualuser&quot;,
+        password: &quot;abcdefghi&quot;,
+        password_confirmation: &quot;abcdefghi&quot;,
+        _vex: [username: [presence: true,
+                          length: [min: 4],
+                          format: ~r/^[[:alpha:]][[:alnum:]]+$/]],
+               password: [length: [min: 4], confirmation: true]]
+Vex.valid?(user)</code></pre>
+<h3 id="others" class="section-heading">
+  <a href="#others" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Others
+</h3>
+
+<p>Just implement the <a href="Vex.Extract.html"><code class="inline">Vex.Extract</code></a> protocol. Here’s what was done to
+support keyword lists:</p>
+<pre><code class="elixir">defimpl Vex.Extract, for: List do
+  def settings(data) do
+    Keyword.get data, :_vex
+  end
+  def attribute(data, name) do
+    Keyword.get data, name
+  end
+end</code></pre>
+<h2 id="querying-results" class="section-heading">
+  <a href="#querying-results" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Querying Results
+</h2>
+
+<p>For validity, it’s the old standard, <a href="Vex.html#valid?/1"><code class="inline">Vex.valid?/1</code></a>:</p>
+<pre><code class="elixir">iex&gt; Vex.valid?(user)
+true</code></pre>
+<p>(If you need to pass in the validations to use, do that as a second argument to
+<a href="Vex.html#valid?/2"><code class="inline">Vex.valid?/2</code></a>)</p>
+<p>You can access the raw validation results using <a href="Vex.html#results/1"><code class="inline">Vex.results/1</code></a>:</p>
+<pre><code class="elixir">iex&gt; Vex.results(user)
+[{:ok, :username, :presence},
+ {:ok, :username, :length},
+ {:ok, :username, :format}]</code></pre>
+<p>If you only want the errors, use <a href="Vex.html#errors/1"><code class="inline">Vex.errors/1</code></a>:</p>
+<pre><code class="elixir">iex&gt; Vex.errors(another_user)
+[{:error, :password, :length, &quot;must have a length of at least 4&quot;},
+ {:error, :password, :confirmation, &quot;must match its confirmation&quot;}]</code></pre>
+<h2 id="error-message-renderers" class="section-heading">
+  <a href="#error-message-renderers" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Error Message Renderers
+</h2>
+
+<p>By default Vex uses <a href="Vex.ErrorRenderers.EEx.html"><code class="inline">Vex.ErrorRenderers.EEx</code></a> as default renderer, also have
+<a href="Vex.ErrorRenderers.Parameterized.html"><code class="inline">Vex.ErrorRenderers.Parameterized</code></a>, and you have ability to define your own.</p>
+<p>For example if we want to use <a href="https://github.com/chrismccord/linguist">Linguist</a>
+for internationalization, we can do the following:</p>
+<pre><code class="elixir">  defmodule I18nErrorRenderer do
+    @behaviour Vex.ErrorRenderer
+    use Linguist.Vocabulary
+
+    locale &quot;en&quot;, [
+      foo: [
+        too_short: &quot;too short, min %{min} chars&quot;,
+        must_start_with_f: &quot;must start with an f&quot;,
+      ],
+    ]
+
+    locale &quot;kr&quot;, [
+      foo: [
+        too_short: &quot;너무 짧으면, 최소 %{min} 개 문자&quot;,
+        must_start_with_f: &quot;f로 시작해야합니다&quot;,
+      ],
+    ]
+
+    def message(options, _default, context \\ []) do
+      message = options[:message] || raise &quot;message is needed for proper i18n&quot;
+      locale = options[:locale] || &quot;en&quot;
+      t!(locale, message, context)
+    end
+  end
+
+  result = Vex.validate([name: &quot;Foo&quot;], name: [
+    length: [
+      min: 4,
+      error_renderer: I18nErrorRenderer,
+      message: &quot;foo.too_short&quot;
+    ],
+    format: [
+      with: ~r/^f/,
+      locale: &quot;kr&quot;,
+      error_renderer: I18nErrorRenderer,
+      message: &quot;foo.must_start_with_f&quot;,
+    ]
+  ])
+  assert {:error, [
+    {:error, :name, :length, &quot;too short, min 4 chars&quot;},
+    {:error, :name, :format, &quot;f로 시작해야합니다&quot;}
+  ]} = result</code></pre>
+<p>We can set error renderer globally:</p>
+<pre><code class="elixir">config :vex,
+  error_renderer: Vex.ErrorRenderers.Parameterized</code></pre>
+<p>Validators declare a list of the available message fields and their
+descriptions by setting the module attribute <code class="inline">@message_fields</code> (see
+<a href="Vex.Validator.ErrorMessage.html"><code class="inline">Vex.Validator.ErrorMessage</code></a>), and the metadata is available for querying:</p>
+<pre><code class="elixir">iex&gt; Vex.Validators.Length.__validator__(:message_fields)
+[value: &quot;Bad value&quot;, tokens: &quot;Tokens from value&quot;, size: &quot;Number of tokens&quot;,
+ min: &quot;Minimum acceptable value&quot;, max: &quot;Maximum acceptable value&quot;]</code></pre>
+<h2 id="custom-eex-error-renderer-messages" class="section-heading">
+  <a href="#custom-eex-error-renderer-messages" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Custom EEx Error Renderer Messages
+</h2>
+
+<p>Custom error messages can be requested by validations when providing the
+<code class="inline">:message</code> option and can use EEx to insert fields specific to the validator, eg:</p>
+<pre><code class="elixir">validates :body, length: [min: 4,
+                          tokenizer: &amp;String.split/1,
+                          message: &quot;&lt;%= length tokens %&gt; words isn&#39;t enough&quot;]</code></pre>
+<p>This could yield, in the case of a <code class="inline">:body</code> value <code class="inline">&quot;hello my darling&quot;</code>, the result:</p>
+<pre><code class="elixir">{:error, &quot;3 words isn&#39;t enough&quot;}</code></pre>
+<h2 id="adding-and-overriding-validators" class="section-heading">
+  <a href="#adding-and-overriding-validators" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Adding and Overriding Validators
+</h2>
+
+<p>Validators are simply modules that implement <code class="inline">validate/2</code> and return <code class="inline">:ok</code>
+or a tuple with <code class="inline">:error</code> and a message. They usually use <a href="Vex.Validator.html"><code class="inline">Vex.Validator</code></a>
+as well to get some common utilities for supporting <code class="inline">:allow_nil</code>, <code class="inline">:allow_blank</code>, and custom <code class="inline">:message</code> options:</p>
+<pre><code class="elixir">defmodule App.CurrencyValidator do
+
+  use Vex.Validator
+
+  def validate(value, options) do
+    # Return :ok or {:error, &quot;a message&quot;}
+  end
+
+end</code></pre>
+<p>If you wanted to make this validator available to Vex as the <code class="inline">:currency</code>
+validator so that you could do this:</p>
+<pre><code class="elixir">validates :amount, currency: true</code></pre>
+<p>You just need to add a validator <em>source</em> so that Vex knows where to find it.</p>
+<p>A source can be anything that implements the <a href="Vex.Validator.Source.html"><code class="inline">Vex.Validator.Source</code></a> protocol.
+We’ll use a keyword list for this example. The implementation for <a href="https://hexdocs.pm/elixir/List.html"><code class="inline">List</code></a>
+allows us to provide a simple mapping.</p>
+<p>Vex uses <code class="inline">Application.get_env(:vex, :sources)</code> to retrieve the
+configuration of sources, defaulting to <code class="inline">[Vex.Validators]</code>. We can
+set the configuration with
+<a href="http://elixir-lang.org/docs/stable/mix/Mix.Config.html">Mix.Config</a>,
+as in:</p>
+<pre><code class="elixir">config :vex,
+  sources: [[currency: App.CurrencyValidator], Vex.Validators]</code></pre>
+<p>Vex will consult the list of sources — in order — when looking for a
+validator. By putting our new source before <a href="Vex.Validators.html"><code class="inline">Vex.Validators</code></a>, we make it
+possible to override the built-in validators.</p>
+<p>Note: Without a <code class="inline">sources</code> configuration, Vex falls back to a default of <code class="inline">[Vex.Validators]</code>.</p>
+<h3 id="using-modules-as-sources" class="section-heading">
+  <a href="#using-modules-as-sources" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Using Modules as Sources
+</h3>
+
+<p>If adding mappings to our keyword list source becomes
+tiresome, we can make use of the fact there’s a <a href="Vex.Validator.Source.html"><code class="inline">Vex.Validator.Source</code></a>
+implementation for <a href="https://hexdocs.pm/elixir/Atom.html"><code class="inline">Atom</code></a>; we can provide a module name as a source instead
+(just as Vex does with <a href="Vex.Validators.html"><code class="inline">Vex.Validators</code></a>).</p>
+<pre><code class="elixir">config :vex,
+  sources: [App.Validators, Vex.Validators]</code></pre>
+<p>If given an atom, Vex will assume it refers to a module and try two
+strategies to retrieve a validator:</p>
+<ul>
+<li>If the module exports a <code class="inline">validator/1</code> function, it will call that
+   function, passing the validator name (eg, <code class="inline">:currency</code>)
+</li>
+<li>Otherwise, Vex will assume the validator module is the same as the
+   source module <em>plus</em> a dot and the camelized validator name (eg, given
+   a source of <code class="inline">App.Validators</code>, it would look for a <code class="inline">:currency</code> validator at
+   <code class="inline">App.Validators.Currency</code>)
+</li>
+</ul>
+<p>In either case it will check the candidate validator for an exported
+<code class="inline">validate/2</code> function.</p>
+<p>In the event no validators can be found for a name, a
+<a href="Vex.InvalidValidatorError.html"><code class="inline">Vex.InvalidValidatorError</code></a> will be raised.</p>
+<h3 id="checking-validator-lookup" class="section-heading">
+  <a href="#checking-validator-lookup" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Checking Validator Lookup
+</h3>
+
+<p>To see what validator Vex finds for a given validator name, use <a href="Vex.html#validator/1"><code class="inline">Vex.validator/1</code></a>:</p>
+<pre><code class="elixir">iex&gt; Vex.validator(:currency)
+App.Validators.Currency</code></pre>
+<h2 id="contributing" class="section-heading">
+  <a href="#contributing" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Contributing
+</h2>
+
+<p>Please fork and send pull requests (preferably from non-master branches), including tests (doctests or normal <a href="https://hexdocs.pm/ex_unit/ExUnit.Case.html"><code class="inline">ExUnit.Case</code></a> tests).</p>
+<p>Report bugs and request features via <a href="https://github.com/CargoSense/vex/issues">Issues</a>;
+kudos if you do it from pull requests you submit that fix the bugs or add
+the features. ;)</p>
+<h2 id="license" class="section-heading">
+  <a href="#license" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  License
+</h2>
+
+<p>Released under the <a href="http://www.opensource.org/licenses/MIT">MIT License</a>.</p>
+
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.18.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+        <button class="night-mode-toggle"><span class="sr-only">Switch theme</span></button>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  <script src="dist/app-778c9ef903.js"></script>
+  
+  
+  
+  
+  </body>
+</html>
+

@@ -7,7 +7,14 @@ defmodule Vex.Mixfile do
       elixir: "~> 1.2",
       deps: deps(),
       consolidate_protocols: Mix.env != :test,
-      package: package() ]
+      package: package(),
+
+      # Docs
+      name: "Vex",
+      source_url: "https://github.com/CargoSense/vex",
+      homepage_url: "https://github.com/CargoSense/vex",
+      docs: [main: "readme",
+             extras: ["README.md"]]]
   end
 
   # Configuration for the OTP application
@@ -16,7 +23,7 @@ defmodule Vex.Mixfile do
   end
 
   defp deps do
-    [{:ex_doc, ">= 0.0.0", only: :dev}]
+    [{:ex_doc, "~> 0.16", only: :dev, runtime: false}]
   end
 
   defp package do
