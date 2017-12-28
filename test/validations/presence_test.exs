@@ -12,6 +12,7 @@ defmodule PresenceTest do
     assert Vex.valid?([total: 1.0], total: [presence: true])
     assert Vex.valid?([total: 0], total: [presence: true])
     assert Vex.valid?([total: 1], total: [presence: true])
+    assert Vex.valid?([time: ~N[2010-10-10 10:00:00]], time: [presence: true])
   end
 
   test "map, provided presence validation" do
@@ -22,6 +23,7 @@ defmodule PresenceTest do
     assert !Vex.valid?(%{"name" => "Foo"}, %{"name" =>  [presence: true], "age" =>  [presence: true]})
     assert !Vex.valid?(%{"name" => "Foo"}, %{"id" =>  [presence: true]})
     assert !Vex.valid?(%{"name" => "Foo"}, name:  [presence: true])
+    assert Vex.valid?(%{"time" => ~N[2010-10-10 10:00:00]}, %{"time" => [presence: true]})
   end
 
   test "keyword list, included presence validation" do
