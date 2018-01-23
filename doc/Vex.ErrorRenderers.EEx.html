@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.18.1">
-    <title>Vex.InvalidValidatorError – Vex v0.6.0</title>
+    <title>Vex.ErrorRenderers.EEx – Vex v0.6.0</title>
     <link rel="stylesheet" href="dist/app-c922dbe7ef.css" />
     
     <script src="dist/sidebar_items-808352f84e.js"></script>
@@ -14,7 +14,7 @@
     
     
   </head>
-  <body data-type="exceptions">
+  <body data-type="modules">
     <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
 
     <div class="main">
@@ -68,9 +68,9 @@
 
       <h1>
         <small class="visible-xs">Vex v0.6.0</small>
-        Vex.InvalidValidatorError <small>exception</small>
+        Vex.ErrorRenderers.EEx
         
-          <a href="https://github.com/CargoSense/vex/blob/master/lib/vex/exceptions.ex#L1" title="View Source" class="view-source" rel="help">
+          <a href="https://github.com/CargoSense/vex/blob/master/lib/vex/error_renderers/eex.ex#L1" title="View Source" class="view-source" rel="help">
             <span class="icon-code" aria-hidden="true"></span>
             <span class="sr-only">View Source</span>
           </a>
@@ -97,19 +97,10 @@
     </h2>
     <div class="summary-row">
   <div class="summary-signature">
-    <a href="#exception/1">exception(args)</a>
+    <a href="#message/3">message(options, default, context \\ [])</a>
   </div>
   
-    <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/elixir/Exception.html#c:exception/1"><code class="inline">Exception.exception/1</code></a></p>
-</div>
-  
-</div>
-<div class="summary-row">
-  <div class="summary-signature">
-    <a href="#message/1">message(exception)</a>
-  </div>
-  
-    <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/elixir/Exception.html#c:message/1"><code class="inline">Exception.message/1</code></a></p>
+    <div class="summary-synopsis"><h2>Examples</h2>
 </div>
   
 </div>
@@ -133,55 +124,38 @@
             </a>
             Functions
           </h1>
-          <div class="detail" id="exception/1">
+          <div class="detail" id="message/3">
   
+  
+    <span id="message/2"></span>
   
   <div class="detail-header">
-    <a href="#exception/1" class="detail-link" title="Link to this function">
+    <a href="#message/3" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">exception(args)</span>
+    <span class="signature">message(options, default, context \\ [])</span>
     
-      <a href="https://github.com/CargoSense/vex/blob/master/lib/vex/exceptions.ex#L2" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/CargoSense/vex/blob/master/lib/vex/error_renderers/eex.ex#L15" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
     
     
     
-      <div class="specs">
-        
-          <pre>exception(keyword()) :: <a href="https://hexdocs.pm/elixir/Exception.html#t:t/0">Exception.t</a>()</pre>
-        
-      </div>
-    
   </div>
   <section class="docstring">
-    <p>Callback implementation for <a href="https://hexdocs.pm/elixir/Exception.html#c:exception/1"><code class="inline">Exception.exception/1</code></a>.</p>
+    <h2 id="message/3-examples" class="section-heading">
+  <a href="#message/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
 
-  </section>
-</div>
-<div class="detail" id="message/1">
-  
-  
-  <div class="detail-header">
-    <a href="#message/1" class="detail-link" title="Link to this function">
-      <span class="icon-link" aria-hidden="true"></span>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <span class="signature">message(exception)</span>
-    
-      <a href="https://github.com/CargoSense/vex/blob/master/lib/vex/exceptions.ex#L4" class="view-source" rel="help" title="View Source">
-       <span class="icon-code" aria-hidden="true"></span>
-       <span class="sr-only">View Source</span>
-     </a>
-    
-    
-    
-  </div>
-  <section class="docstring">
-    <p>Callback implementation for <a href="https://hexdocs.pm/elixir/Exception.html#c:message/1"><code class="inline">Exception.message/1</code></a>.</p>
+<pre><code class="iex elixir">iex&gt; Vex.ErrorRenderers.EEx.message(nil, &quot;default&quot;)
+&quot;default&quot;
+iex&gt; Vex.ErrorRenderers.EEx.message([message: &quot;override&quot;], &quot;default&quot;)
+&quot;override&quot;
+iex&gt; Vex.ErrorRenderers.EEx.message([message: &quot;Context #&lt;%= value %&gt;&quot;], &quot;default&quot;, value: 2)
+&quot;Context #2&quot;</code></pre>
 
   </section>
 </div>
