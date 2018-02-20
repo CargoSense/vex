@@ -13,7 +13,7 @@ defimpl Vex.Validator.Source, for: Atom do
   end
 
   defp validator_by_function(source, name) do
-    Code.ensure_loaded(source)
+    FastEnsureLoaded.ensure_loaded(source)
     if function_exported?(source, :validator, 1) do
       check source.validator(name)
     end
@@ -24,7 +24,7 @@ defimpl Vex.Validator.Source, for: Atom do
   end
 
   defp check(validator) do
-    Code.ensure_loaded(validator)
+    FastEnsureLoaded.ensure_loaded(validator)
     if function_exported?(validator, :validate, 2) do
       validator
     end
