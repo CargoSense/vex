@@ -1,5 +1,6 @@
 /ebin
 /deps
+/doc
 erl_crash.dump
 *.ez
 *.swp
