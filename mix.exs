@@ -23,7 +23,7 @@ defmodule Vex.Mixfile do
   end
 
   defp deps do
-    [{:ex_doc, "~> 0.16", only: :dev, runtime: false}]
+    [{:ex_doc, "~> 0.16", only: :dev, runtime: false}, {:fast_ensure_loaded, "~> 0.1.0"}]
   end
 
   defp package do
