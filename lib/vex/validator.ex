@@ -24,51 +24,51 @@ defmodule Vex.Validator do
 
   If an attribute is/isn't present (non-blank):
 
-    iex> Vex.Validator.validate?([name: "foo", state: "new"], if: :state)
-    true
-    iex> Vex.Validator.validate?([name: "foo", state: "new"], unless: :state)
-    false
+      iex> Vex.Validator.validate?([name: "foo", state: "new"], if: :state)
+      true
+      iex> Vex.Validator.validate?([name: "foo", state: "new"], unless: :state)
+      false
 
   If an attribute does/doesn't match a value:
 
-    iex> Vex.Validator.validate?([name: "foo", state: "new"], if: [state: "new"])
-    true
-    iex> Vex.Validator.validate?([name: "foo", state: "persisted"], if: [state: "new"])
-    false
-    iex> Vex.Validator.validate?([name: "foo", state: "new"], unless: [state: "new"])
-    false
-    iex> Vex.Validator.validate?([name: "foo", state: "persisted"], unless: [state: "new"])
-    true
+      iex> Vex.Validator.validate?([name: "foo", state: "new"], if: [state: "new"])
+      true
+      iex> Vex.Validator.validate?([name: "foo", state: "persisted"], if: [state: "new"])
+      false
+      iex> Vex.Validator.validate?([name: "foo", state: "new"], unless: [state: "new"])
+      false
+      iex> Vex.Validator.validate?([name: "foo", state: "persisted"], unless: [state: "new"])
+      true
 
   If the data does/doesn't match another custom condition:
 
-    iex> Vex.Validator.validate?([name: "foo"], if: &(&1[:name] == "foo"))
-    true
-    iex> Vex.Validator.validate?([name: "foo"], unless: &(&1[:name] == "foo"))
-    false
-    iex> Vex.Validator.validate?([name: "foo"], if: &(&1[:name] != "foo"))
-    false
-    iex> Vex.Validator.validate?([name: "foo"], unless: &(&1[:name] != "foo"))
-    true
+      iex> Vex.Validator.validate?([name: "foo"], if: &(&1[:name] == "foo"))
+      true
+      iex> Vex.Validator.validate?([name: "foo"], unless: &(&1[:name] == "foo"))
+      false
+      iex> Vex.Validator.validate?([name: "foo"], if: &(&1[:name] != "foo"))
+      false
+      iex> Vex.Validator.validate?([name: "foo"], unless: &(&1[:name] != "foo"))
+      true
 
   If the data does/doesn't match a list of conditions:
 
-    iex> Vex.Validator.validate?([name: "foo", state: "new"], if: [name: "foo", state: "new"])
-    true
-    iex> Vex.Validator.validate?([name: "foo", state: "persisted"], if: [name: "foo", state: "new"])
-    false
-    iex> Vex.Validator.validate?([name: "foo", state: "persisted"], if_any: [name: "foo", state: "new"])
-    true
-    iex> Vex.Validator.validate?([name: "foo", state: "persisted"], if_any: [name: "bar", state: "new"])
-    false
-    iex> Vex.Validator.validate?([name: "foo", state: "new"], unless: [name: "foo", state: "new"])
-    false
-    iex> Vex.Validator.validate?([name: "foo", state: "persisted"], unless: [name: "foo", state: "new"])
-    true
-    iex> Vex.Validator.validate?([name: "foo", state: "persisted"], unless_any: [name: "foo", state: "new"])
-    false
-    iex> Vex.Validator.validate?([name: "foo", state: "persisted"], unless_any: [name: "bar", state: "new"])
-    true
+      iex> Vex.Validator.validate?([name: "foo", state: "new"], if: [name: "foo", state: "new"])
+      true
+      iex> Vex.Validator.validate?([name: "foo", state: "persisted"], if: [name: "foo", state: "new"])
+      false
+      iex> Vex.Validator.validate?([name: "foo", state: "persisted"], if_any: [name: "foo", state: "new"])
+      true
+      iex> Vex.Validator.validate?([name: "foo", state: "persisted"], if_any: [name: "bar", state: "new"])
+      false
+      iex> Vex.Validator.validate?([name: "foo", state: "new"], unless: [name: "foo", state: "new"])
+      false
+      iex> Vex.Validator.validate?([name: "foo", state: "persisted"], unless: [name: "foo", state: "new"])
+      true
+      iex> Vex.Validator.validate?([name: "foo", state: "persisted"], unless_any: [name: "foo", state: "new"])
+      false
+      iex> Vex.Validator.validate?([name: "foo", state: "persisted"], unless_any: [name: "bar", state: "new"])
+      true
   """
   def validate?(data, options) when is_list(options) do
     cond do
