@@ -115,6 +115,52 @@ This validation can be skipped for `nil` or blank values by including
 See the documentation on `Vex.Validators.Length` for details on
 available options.
 
+### Number
+
+Ensure a value is a number greater than a given number:
+
+```elixir
+Vex.valid? value, number: [greater_than: 2]
+```
+
+Ensure a value is a number less than or equal to a given number:
+
+```elixir
+Vex.valid? value, number: [less_than_or_equal_to: 10]
+```
+
+Ensure a value is a number is within a given range:
+
+```elixir
+Vex.valid? value, number: [greater_than_or_equal_to: 0, less_than: 10]
+```
+
+This validation can be skipped for `nil` or blank values by including 
+`allow_nil: true` or `allow_blank: true` respectively in the options.
+
+See the documentation on `Vex.Validators.Number` for details
+on available options.
+
+### UUID
+
+Ensure a value is a valid UUID string:
+
+```elixir
+Vex.valid? value, uuid: true
+```
+
+Ensure a value is a valid UUID string in a given format:
+
+```elixir
+Vex.valid? value, uuid: [format: :hex]
+```
+
+This validation can be skipped for `nil` or blank values by including 
+`allow_nil: true` or `allow_blank: true` respectively in the options.
+
+See the documentation on `Vex.Validators.Uuid` for details
+on available options.
+
 ### Acceptance
 
 Ensure an attribute is set to a positive (or custom) value. For use
