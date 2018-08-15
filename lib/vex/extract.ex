@@ -25,6 +25,10 @@ defimpl Vex.Extract, for: Map do
   def settings(map) do
     Map.get(map, :_vex)
   end
+
+  def attribute(map, path) when is_list(path) do
+    get_in map, path
+  end
   def attribute(map, name) do
     Map.get(map, name)
   end
