@@ -37,9 +37,14 @@ defmodule Vex.Validator.ErrorMessage do
 
   defp extract_error_renderer(options) do
     cond do
-      Keyword.keyword?(options) && Keyword.has_key?(options, :error_renderer) -> options[:error_renderer]
-      renderer = Application.get_env(:vex, :error_renderer) -> renderer
-      true -> Vex.ErrorRenderers.EEx
+      Keyword.keyword?(options) && Keyword.has_key?(options, :error_renderer) ->
+        options[:error_renderer]
+
+      renderer = Application.get_env(:vex, :error_renderer) ->
+        renderer
+
+      true ->
+        Vex.ErrorRenderers.EEx
     end
   end
 end

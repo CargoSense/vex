@@ -48,15 +48,15 @@ defmodule Vex.Validators.Confirmation do
   @message_fields [value: "The value to confirm", confirmation: "Bad confirmation value"]
   def validate(values, true), do: validate(values, [])
   def validate([nil | _], _options), do: :ok
+
   def validate([value, confirmation] = values, options) when is_list(options) do
     unless_skipping(value, options) do
-      if values |> Enum.uniq |> length == 1 do
+      if values |> Enum.uniq() |> length == 1 do
         :ok
       else
-        {:error, message(options, "must match its confirmation",
-                         value: value, confirmation: confirmation)}
+        {:error,
+         message(options, "must match its confirmation", value: value, confirmation: confirmation)}
       end
     end
   end
-
 end

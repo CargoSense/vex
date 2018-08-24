@@ -1,5 +1,5 @@
 defmodule Vex.Validators.Absence do
- @moduledoc """
+  @moduledoc """
   Ensure a value is absent.
 
   Vex uses the `Vex.Blank` protocol to determine "absence."
@@ -51,5 +51,4 @@ defmodule Vex.Validators.Absence do
       {:error, message(options, "must be absent", value: value)}
     end
   end
-
 end

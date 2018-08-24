@@ -15,7 +15,7 @@ defmodule Vex.Struct do
       def __vex_validations__(), do: @vex_validations
 
       require Vex.Extract.Struct
-      Vex.Extract.Struct.for_struct
+      Vex.Extract.Struct.for_struct()
     end
   end
 
@@ -24,5 +24,4 @@ defmodule Vex.Struct do
       @vex_validations Map.put(@vex_validations, unquote(name), unquote(validations))
     end
   end
-
 end

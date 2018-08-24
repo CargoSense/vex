@@ -13,7 +13,7 @@ defmodule Vex.Validator do
         validate(data, options)
       end
 
-      defoverridable [validate: 3]
+      defoverridable validate: 3
     end
   end
 
@@ -72,13 +72,23 @@ defmodule Vex.Validator do
   """
   def validate?(data, options) when is_list(options) do
     cond do
-      Keyword.has_key?(options, :if) -> validate_if(data, Keyword.get(options, :if), :all)
-      Keyword.has_key?(options, :if_any) -> validate_if(data, Keyword.get(options, :if_any), :any)
-      Keyword.has_key?(options, :unless) -> !validate_if(data, Keyword.get(options, :unless), :all)
-      Keyword.has_key?(options, :unless_any) -> !validate_if(data, Keyword.get(options, :unless_any), :any)
-      true -> true
+      Keyword.has_key?(options, :if) ->
+        validate_if(data, Keyword.get(options, :if), :all)
+
+      Keyword.has_key?(options, :if_any) ->
+        validate_if(data, Keyword.get(options, :if_any), :any)
+
+      Keyword.has_key?(options, :unless) ->
+        !validate_if(data, Keyword.get(options, :unless), :all)
+
+      Keyword.has_key?(options, :unless_any) ->
+        !validate_if(data, Keyword.get(options, :unless_any), :any)
+
+      true ->
+        true
     end
   end
+
   def validate?(_data, _options), do: true
 
   defp validate_if(data, conditions, opt) when is_list(conditions) do
@@ -87,9 +97,11 @@ defmodule Vex.Validator do
       :any -> Enum.any?(conditions, &do_validate_if_condition(data, &1))
     end
   end
+
   defp validate_if(data, condition, _opt) when is_atom(condition) do
     do_validate_if_condition(data, condition)
   end
+
   defp validate_if(data, condition, _opt) when is_function(condition) do
     !!condition.(data)
   end
@@ -97,8 +109,8 @@ defmodule Vex.Validator do
   defp do_validate_if_condition(data, {name, value}) when is_atom(name) do
     Vex.Extract.attribute(data, name) == value
   end
+
   defp do_validate_if_condition(data, condition) when is_atom(condition) do
     !Vex.Blank.blank?(Vex.Extract.attribute(data, condition))
   end
-
 end

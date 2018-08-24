@@ -42,16 +42,23 @@ defmodule Vex.Validators.Acceptance do
 
   @message_fields [value: "The bad value"]
   def validate(value, true), do: result(!!value, "must be accepted")
+
   def validate(value, options) when is_list(options) do
     criteria = Keyword.get(options, :as)
     check = if criteria, do: value == criteria, else: !!value
-    msg = message(options,
-                  "must be accepted with `#{inspect criteria}`",
-                  value: value)
+
+    msg =
+      message(
+        options,
+        "must be accepted with `#{inspect(criteria)}`",
+        value: value
+      )
+
     result(check, msg)
   end
 
   defp result(true, _), do: :ok
+
   defp result(false, message) do
     {:error, message}
   end
