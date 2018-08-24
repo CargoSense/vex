@@ -1,4 +1,6 @@
 defmodule Vex.ErrorRenderers.EEx do
+  @moduledoc false
+
   @behaviour Vex.ErrorRenderer
 
   @doc """

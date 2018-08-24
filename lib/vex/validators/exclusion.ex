@@ -43,16 +43,18 @@ defmodule Vex.Validators.Exclusion do
   def validate(value, options) when is_list(options) do
     if Keyword.keyword?(options) do
       unless_skipping(value, options) do
-        list = Keyword.get options, :in
-        result !Enum.member?(list, value), message(options, "must not be one of #{inspect list}",
-                                                   value: value, list: list)
+        list = Keyword.get(options, :in)
+
+        result(
+          !Enum.member?(list, value),
+          message(options, "must not be one of #{inspect(list)}", value: value, list: list)
+        )
       end
     else
-      validate(value, [in: options])
+      validate(value, in: options)
     end
   end
 
   defp result(true, _), do: :ok
   defp result(false, message), do: {:error, message}
-
 end

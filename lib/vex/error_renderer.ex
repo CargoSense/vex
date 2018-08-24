@@ -11,7 +11,8 @@ defmodule Vex.ErrorRenderer do
   ```
   """
 
-  @callback message(validator_options::list(), default_message::String.t, context::list()) :: any()
+  @callback message(validator_options :: list(), default_message :: String.t(), context :: list()) ::
+              any()
 
   def get_message(options, default) do
     if Keyword.keyword?(options) do

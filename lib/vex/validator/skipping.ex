@@ -1,4 +1,5 @@
 defmodule Vex.Validator.Skipping do
+  @moduledoc false
 
   @doc """
   Checks for allowing blank/nil values, skipping validations.
@@ -42,7 +43,7 @@ defmodule Vex.Validator.Skipping do
   def skip?(value, options) do
     cond do
       Keyword.get(options, :allow_blank) -> Vex.Blank.blank?(value)
-      Keyword.get(options, :allow_nil)   -> value == nil
+      Keyword.get(options, :allow_nil) -> value == nil
       true -> false
     end
   end

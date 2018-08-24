@@ -1,5 +1,5 @@
 defmodule Vex.Validators.Presence do
- @moduledoc """
+  @moduledoc """
   Ensure a value is present.
 
   Vex uses the `Vex.Blank` protocol to determine "presence."
@@ -52,5 +52,4 @@ defmodule Vex.Validators.Presence do
       :ok
     end
   end
-
 end

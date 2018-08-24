@@ -68,23 +68,53 @@ defmodule Vex.Validators.Length do
   """
   use Vex.Validator
 
-  @message_fields [value: "Bad value", tokens: "Tokens from value", size: "Number of tokens", min: "Minimum acceptable value", max: "Maximum acceptable value"]
+  alias Vex.Blank
+
+  @message_fields [
+    value: "Bad value",
+    tokens: "Tokens from value",
+    size: "Number of tokens",
+    min: "Minimum acceptable value",
+    max: "Maximum acceptable value"
+  ]
   def validate(value, options) when is_integer(options), do: validate(value, is: options)
   def validate(value, min..max), do: validate(value, in: min..max)
+
   def validate(value, options) when is_list(options) do
     unless_skipping(value, options) do
       tokenizer = Keyword.get(options, :tokenizer, &tokens/1)
-      tokens    = if !Vex.Blank.blank?(value), do: tokenizer.(value), else: []
-      size      = Kernel.length(tokens)
+      tokens = if Blank.blank?(value), do: [], else: tokenizer.(value)
+      size = Kernel.length(tokens)
       {lower, upper} = limits = bounds(options)
-      {findings, default_message} = case limits do
-        {nil, nil}   -> raise "Missing length validation range"
-        {same, same} -> {size == same, "must have a length of #{same}"}
-        {nil, max}   -> {size <= max, "must have a length of no more than #{max}"}
-        {min, nil}   -> {min <= size, "must have a length of at least #{min}"}
-        {min, max}   -> {min <= size and size <= max, "must have a length between #{min} and #{max}"}
-      end
-      result findings, message(options, default_message, value: value, tokens: tokens, size: size, min: lower, max: upper)
+
+      {findings, default_message} =
+        case limits do
+          {nil, nil} ->
+            raise "Missing length validation range"
+
+          {same, same} ->
+            {size == same, "must have a length of #{same}"}
+
+          {nil, max} ->
+            {size <= max, "must have a length of no more than #{max}"}
+
+          {min, nil} ->
+            {min <= size, "must have a length of at least #{min}"}
+
+          {min, max} ->
+            {min <= size and size <= max, "must have a length between #{min} and #{max}"}
+        end
+
+      result(
+        findings,
+        message(options, default_message,
+          value: value,
+          tokens: tokens,
+          size: size,
+          min: lower,
+          max: upper
+        )
+      )
     end
   end
 
@@ -93,6 +123,7 @@ defmodule Vex.Validators.Length do
     min = Keyword.get(options, :min)
     max = Keyword.get(options, :max)
     range = Keyword.get(options, :in)
+
     cond do
       is -> {is, is}
       min -> {min, max}

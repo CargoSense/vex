@@ -1,4 +1,6 @@
 defmodule Vex.ErrorRenderers.Parameterized do
+  @moduledoc false
+
   @behaviour Vex.ErrorRenderer
 
   @doc """
