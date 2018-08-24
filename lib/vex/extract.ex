@@ -31,6 +31,7 @@ defimpl Vex.Extract, for: Map do
 end
 
 defmodule Vex.Extract.Struct do
+  @moduledoc false
   defmacro for_struct do
     quote do
       defimpl Vex.Blank, for: __MODULE__ do
@@ -43,7 +44,7 @@ defmodule Vex.Extract.Struct do
         end
 
         def attribute(map, [root_attr | path]) do
-          Map.get(map, root_attr) |> get_in(path)
+          map |> Map.get(root_attr) |> get_in(path)
         end
         def attribute(map, name) do
           Map.get(map, name)

@@ -1,10 +1,13 @@
 defmodule Vex do
+  @moduledoc """
+  Data Validation for Elixir.
+  """
 
   def valid?(data) do
     valid?(data, Vex.Extract.settings(data))
   end
   def valid?(data, settings) do
-    errors(data, settings) |> length == 0
+    errors(data, settings) == []
   end
 
   def validate(data) do
@@ -12,7 +15,7 @@ defmodule Vex do
   end
   def validate(data, settings) do
     case errors(data, settings) do
-      errors when length(errors) > 0 -> {:error, errors}
+      errors when errors != [] -> {:error, errors}
       _ -> {:ok, data}
     end
   end
@@ -28,7 +31,8 @@ defmodule Vex do
     results(data, Vex.Extract.settings(data))
   end
   def results(data, settings) do
-    Enum.map(settings, fn ({attribute, validations}) ->
+    settings
+    |> Enum.map(fn ({attribute, validations}) ->
       validations =
         case is_function(validations) do
           true  -> [by: validations]
@@ -38,14 +42,13 @@ defmodule Vex do
         result(data, attribute, name, options)
       end)
     end)
-  |>
-    List.flatten
+  |> List.flatten()
   end
 
   defp result(data, attribute, name, options) do
     v = validator(name)
     if Vex.Validator.validate?(data, options) do
-      result = extract(data, attribute, name) |> v.validate(data, options)
+      result = data |> extract(attribute, name) |> v.validate(data, options)
       case result do
         {:error, message} -> {:error, attribute, name, message}
         :ok -> {:ok, attribute, name}

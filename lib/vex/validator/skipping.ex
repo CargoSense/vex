@@ -1,4 +1,5 @@
 defmodule Vex.Validator.Skipping do
+  @moduledoc false
 
   @doc """
   Checks for allowing blank/nil values, skipping validations.

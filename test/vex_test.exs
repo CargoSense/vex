@@ -17,8 +17,8 @@ defmodule VexTest do
   test "record, included complex validation" do
     user = %UserTest{username: "actualuser", password: "abcdefghi", password_confirmation: "abcdefghi"}
     assert Vex.valid?(user)
-    assert length(Vex.results(user)) > 0
-    assert length(Vex.errors(user)) == 0
+    assert Vex.results(user) != []
+    assert Vex.errors(user) == []
     assert UserTest.valid?(user)
   end
 
@@ -28,7 +28,7 @@ defmodule VexTest do
                    password: [length: [min: 4], confirmation: true]]]
     assert Vex.valid?(user)
     assert length(Vex.results(user)) > 0
-    assert length(Vex.errors(user)) == 0
+    assert Vex.errors(user) == []
   end
 
   test "keyword list, included complex validation with errors" do
