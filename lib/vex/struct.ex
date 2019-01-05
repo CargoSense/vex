@@ -7,6 +7,7 @@ defmodule Vex.Struct do
       @before_compile unquote(__MODULE__)
       import unquote(__MODULE__)
       def valid?(self), do: Vex.valid?(self)
+      def errors(data), do: Vex.errors(data)
     end
   end
 

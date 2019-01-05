@@ -333,7 +333,7 @@ end
 
 Note `validates` should only be used once per attribute.
 
-Once configured, you can use `Vex.valid?/1`:
+Once configured, you can use `Vex.valid?/1` or `Vex.errors/1`:
 
 ```elixir
 user = %User{username: "actualuser",
@@ -341,12 +341,14 @@ user = %User{username: "actualuser",
              password_confirmation: "abcdefghi"}
 
 Vex.valid?(user)
+Vex.errors(user)
 ```
 
-You can also use `valid?` directly from the Module:
+You can also use `valid?` or `errors` directly from the Module:
 
 ```elixir
 user |> User.valid?
+user |> User.errors
 ```
 
 ### In Keyword Lists
