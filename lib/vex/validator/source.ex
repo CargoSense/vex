@@ -35,3 +35,9 @@ defimpl Vex.Validator.Source, for: List do
     Keyword.get(list, name)
   end
 end
+
+defimpl Vex.Validator.Source, for: Map do
+  def lookup(map, name) do
+    Map.get(map, name)
+  end
+end
