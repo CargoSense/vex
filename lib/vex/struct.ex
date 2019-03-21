@@ -34,7 +34,7 @@ defmodule Vex.Struct do
       @vex_validations Map.put(@vex_validations, unquote(name), unquote(validations))
       if @precompile_validator_lookup do
         @precompiled_validator_lookup Enum.reduce(
-                                        unquote(validations),
+                                        unquote(validations) |> List.wrap(),
                                         @precompiled_validator_lookup,
                                         fn
                                           {validator_name, _validator_opts}, lookup ->
@@ -44,10 +44,12 @@ defmodule Vex.Struct do
                                               fn -> Vex.validator(validator_name) end
                                             )
 
-                                          # Functions are directly stored in @vex_validations, no need
-                                          # to look up and cache a validator.
                                           fun, lookup when is_function(fun) ->
-                                            lookup
+                                            Map.put_new_lazy(
+                                              lookup,
+                                              :by,
+                                              fn -> Vex.validator(:by) end
+                                            )
                                         end
                                       )
       end
