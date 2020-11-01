@@ -13,12 +13,12 @@ defimpl Vex.Validator.Source, for: Atom do
     Code.ensure_loaded(source)
 
     if function_exported?(source, :validator, 1) do
-      check source.validator(name)
+      check(source.validator(name))
     end
   end
 
   defp validator_by_structure(source, name) do
-    check Module.concat(source, camelize(Atom.to_string(name)))
+    check(Module.concat(source, camelize(Atom.to_string(name))))
   end
 
   defp check(validator) do
