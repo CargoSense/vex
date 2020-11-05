@@ -5,7 +5,7 @@ defmodule Vex.Mixfile do
     [
       app: :vex,
       version: "0.8.0",
-      elixir: "~> 1.2",
+      elixir: "~> 1.6",
       deps: deps(),
       consolidate_protocols: Mix.env() != :test,
       package: package(),
@@ -24,7 +24,7 @@ defmodule Vex.Mixfile do
   end
 
   defp deps do
-    [{:ex_doc, "~> 0.16", only: :dev, runtime: false}]
+    [{:ex_doc, "~> 0.19", only: :dev, runtime: false}]
   end
 
   defp package do

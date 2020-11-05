@@ -12,6 +12,12 @@ defmodule PresenceTest do
     assert Vex.valid?([total: 1.0], total: [presence: true])
     assert Vex.valid?([total: 0], total: [presence: true])
     assert Vex.valid?([total: 1], total: [presence: true])
+    assert Vex.valid?([date: Date.utc_today()], date: [presence: true])
+    assert Vex.valid?([date: NaiveDateTime.utc_now()], date: [presence: true])
+    assert Vex.valid?([date: DateTime.utc_now()], date: [presence: true])
+    refute Vex.valid?([date: nil], date: [presence: true])
+    refute Vex.valid?([date: nil], date: [presence: true])
+    refute Vex.valid?([date: nil], date: [presence: true])
   end
 
   test "map, provided presence validation" do
@@ -31,6 +37,12 @@ defmodule PresenceTest do
 
     assert !Vex.valid?(%{"name" => "Foo"}, %{"id" => [presence: true]})
     assert !Vex.valid?(%{"name" => "Foo"}, name: [presence: true])
+    assert Vex.valid?(%{"date" => Date.utc_today()}, %{"date" => [presence: true]})
+    assert Vex.valid?(%{"date" => DateTime.utc_now()}, %{"date" => [presence: true]})
+    assert Vex.valid?(%{"date" => NaiveDateTime.utc_now()}, %{"date" => [presence: true]})
+    refute Vex.valid?([date: nil], %{"date" => [presence: true]})
+    refute Vex.valid?([date: nil], %{"date" => [presence: true]})
+    refute Vex.valid?([date: nil], %{"date" => [presence: true]})
   end
 
   test "keyword list, included presence validation" do

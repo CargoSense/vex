@@ -36,6 +36,11 @@ defimpl Vex.Blank, for: Map do
   def blank?(map), do: map_size(map) == 0
 end
 
+defimpl Vex.Blank, for: [Date, DateTime, NaiveDateTime] do
+  def blank?(nil), do: true
+  def blank?(_), do: false
+end
+
 defimpl Vex.Blank, for: Any do
   def blank?(_), do: false
 end
