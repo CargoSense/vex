@@ -40,9 +40,9 @@ defmodule PresenceTest do
     assert Vex.valid?(%{"date" => Date.utc_today()}, %{"date" => [presence: true]})
     assert Vex.valid?(%{"date" => DateTime.utc_now()}, %{"date" => [presence: true]})
     assert Vex.valid?(%{"date" => NaiveDateTime.utc_now()}, %{"date" => [presence: true]})
-    refute Vex.valid?([date: nil], %{"date" => [presence: true]})
-    refute Vex.valid?([date: nil], %{"date" => [presence: true]})
-    refute Vex.valid?([date: nil], %{"date" => [presence: true]})
+    refute Vex.valid?([date: nil], name: [presence: true])
+    refute Vex.valid?([date: nil], name: [presence: true])
+    refute Vex.valid?([date: nil], name: [presence: true])
   end
 
   test "keyword list, included presence validation" do
