@@ -16,8 +16,6 @@ defmodule PresenceTest do
     assert Vex.valid?([date: NaiveDateTime.utc_now()], date: [presence: true])
     assert Vex.valid?([date: DateTime.utc_now()], date: [presence: true])
     refute Vex.valid?([date: nil], date: [presence: true])
-    refute Vex.valid?([date: nil], date: [presence: true])
-    refute Vex.valid?([date: nil], date: [presence: true])
   end
 
   test "map, provided presence validation" do
