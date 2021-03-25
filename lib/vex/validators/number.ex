@@ -18,7 +18,7 @@ defmodule Vex.Validators.Number do
   * `:message`: A custom error message. May be in EEx format and use the fields described
     in [Custom Error Messages](#module-custom-error-messages).
   * `:allow_nil`: A boolean whether to skip this validation for `nil` values.
-  * `:allow_blank`: A boolean whether to skip this validaton for blank values.
+  * `:allow_blank`: A boolean whether to skip this validation for blank values.
 
   The `:is` option can be provided in place of the keyword list if no other options are set.
   When multiple options are than the validator will do an `and` logic between them.

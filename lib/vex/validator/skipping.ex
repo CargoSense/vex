@@ -15,7 +15,7 @@ defmodule Vex.Validator.Skipping do
   end
 
   @doc """
-  If a validation can be skipped, basoed on the value and options given.
+  If a validation can be skipped, based on the value and options given.
 
   ## Examples
 

@@ -18,7 +18,7 @@ defmodule Vex.Validator do
   end
 
   @doc """
-  Determine if a validation should be executed based on any conditions provided
+  Determine if a validation should be executed based on any conditions provided.
 
   ## Examples
 
@@ -69,6 +69,7 @@ defmodule Vex.Validator do
       false
       iex> Vex.Validator.validate?([name: "foo", state: "persisted"], unless_any: [name: "bar", state: "new"])
       true
+
   """
   def validate?(data, options) when is_list(options) do
     cond do

@@ -21,7 +21,7 @@ defmodule Vex.Validators.Uuid do
   * `:message`: A custom error message. May be in EEx format
     and use the fields described in [Custom Error Messages](#module-custom-error-messages).
   * `:allow_nil`: A boolean whether to skip this validation for `nil` values.
-  * `:allow_blank`: A boolean whether to skip this validaton for blank values.
+  * `:allow_blank`: A boolean whether to skip this validation for blank values.
 
   The value for `:format` can be provided instead of the options keyword list.
   Additionally, if the options is a boolean value, then:
@@ -31,7 +31,7 @@ defmodule Vex.Validators.Uuid do
 
   ## Examples
 
-  Examples when using the `:any` or `true` options:
+  When using the `:any` or `true` options:
 
       iex> Vex.Validators.Uuid.validate("02aa7f48-3ccd-11e4-b63e-14109ff1a304", format: :any)
       :ok
@@ -43,7 +43,7 @@ defmodule Vex.Validators.Uuid do
       iex> Vex.Validators.Uuid.validate("02aa7f48-3ccd-11e4-b63e-14109ff1a30", true)
       {:error, "must be a valid UUID string"}
 
-  Examples when using the `:not_any` or `false` options:
+  When using the `:not_any` or `false` options:
 
       iex> Vex.Validators.Uuid.validate("not_a_uuid", format: :not_any)
       :ok
@@ -55,21 +55,21 @@ defmodule Vex.Validators.Uuid do
       iex> Vex.Validators.Uuid.validate("02aa7f48-3ccd-11e4-b63e-14109ff1a304", false)
       {:error, "must not be a valid UUID string"}
 
-  Examples when using the `:default` option:
+  When using the `:default` option:
 
       iex> Vex.Validators.Uuid.validate("02aa7f48-3ccd-11e4-b63e-14109ff1a304", format: :default)
       :ok
       iex> Vex.Validators.Uuid.validate("02aa7f483ccd11e4b63e14109ff1a304", format: :default)
       {:error, "must be a valid UUID string in default format"}
 
-  Examples when using the `:hex` option:
+  When using the `:hex` option:
 
       iex> Vex.Validators.Uuid.validate("02aa7f483ccd11e4b63e14109ff1a304", format: :hex)
       :ok
       iex> Vex.Validators.Uuid.validate("urn:uuid:02aa7f48-3ccd-11e4-b63e-14109ff1a304", format: :hex)
       {:error, "must be a valid UUID string in hex format"}
 
-  Examples when using the `:urn` option:
+  When using the `:urn` option:
 
       iex> Vex.Validators.Uuid.validate("urn:uuid:02aa7f48-3ccd-11e4-b63e-14109ff1a304", format: :urn)
       :ok
