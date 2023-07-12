@@ -53,7 +53,7 @@ defmodule Vex.Validators.Format do
   end
 
   def validate(value, format) do
-    if Regex.regex?(format), do: validate(value, with: format)
+    if is_struct(format, Regex), do: validate(value, with: format)
   end
 
   defp result(true, _), do: :ok
