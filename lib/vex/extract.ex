@@ -40,7 +40,7 @@ defmodule Vex.Extract.Struct do
 
       defimpl Vex.Extract, for: __MODULE__ do
         def settings(%{__struct__: module}) do
-          module.__vex_validations__
+          module.__vex_validations__()
         end
 
         def attribute(map, [root_attr | path]) do
