@@ -78,7 +78,7 @@ defmodule Vex.Validators.Length do
     max: "Maximum acceptable value"
   ]
   def validate(value, options) when is_integer(options), do: validate(value, is: options)
-  def validate(value, min..max), do: validate(value, in: min..max)
+  def validate(value, %Range{} = range), do: validate(value, in: range)
 
   def validate(value, options) when is_list(options) do
     unless_skipping(value, options) do
