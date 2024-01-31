@@ -58,7 +58,7 @@ defmodule Vex do
   end
 
   defp result(data, attribute, name, options) do
-    v = validator(name)
+    v = Vex.Validator.Lookup.lookup(data, name)
 
     if Validator.validate?(data, options) do
       result = data |> extract(attribute, name) |> v.validate(data, options)

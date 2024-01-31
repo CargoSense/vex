@@ -38,6 +38,15 @@ defmodule Vex.Extract.Struct do
         def blank?(struct), do: struct |> Map.from_struct() |> map_size == 0
       end
 
+      defimpl Vex.Validator.Lookup, for: __MODULE__ do
+        def lookup(%{__struct__: module}, name) do
+          case(module.__vex_validator__(name)) do
+            {:error, :not_enabled} -> Vex.validator(name)
+            {:ok, validator} -> validator
+          end
+        end
+      end
+
       defimpl Vex.Extract, for: __MODULE__ do
         def settings(%{__struct__: module}) do
           module.__vex_validations__()

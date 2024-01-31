@@ -135,7 +135,7 @@ Ensure a value is a number is within a given range:
 Vex.valid? value, number: [greater_than_or_equal_to: 0, less_than: 10]
 ```
 
-This validation can be skipped for `nil` or blank values by including 
+This validation can be skipped for `nil` or blank values by including
 `allow_nil: true` or `allow_blank: true` respectively in the options.
 
 See the documentation on `Vex.Validators.Number` for details
@@ -155,7 +155,7 @@ Ensure a value is a valid UUID string in a given format:
 Vex.valid? value, uuid: [format: :hex]
 ```
 
-This validation can be skipped for `nil` or blank values by including 
+This validation can be skipped for `nil` or blank values by including
 `allow_nil: true` or `allow_blank: true` respectively in the options.
 
 See the documentation on `Vex.Validators.Uuid` for details
@@ -348,6 +348,16 @@ You can also use `valid?` directly from the Module:
 ```elixir
 user |> User.valid?
 ```
+
+**Performance optimization tip:**
+
+You can get a significant performance boost on validation when using:
+```elixir
+use Vex.Struct, precompile_validator_lookup: true
+```
+This comes at the cost of precomputing the validator lookup at compile time.
+Runtime modification of the validator lookup from updating the Vex config (i.e., `config :vex, sources: [..]`)
+will not have an effect if you are using this method.
 
 ### In Keyword Lists
 
