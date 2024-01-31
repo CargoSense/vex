@@ -8,7 +8,6 @@ defmodule Vex.ErrorRenderer do
 
   Result of `message` function appears in `Vex.errors` error tuple as last element, for those
   validators who use `Vex.Validator.ErrorMessage` (in general they should).
-  ```
   """
 
   @callback message(validator_options :: list(), default_message :: String.t(), context :: list()) ::

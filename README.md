@@ -1,6 +1,12 @@
 # Vex
 
 [![Build Status](https://travis-ci.org/CargoSense/vex.svg)](https://travis-ci.org/CargoSense/vex)
+[![Module Version](https://img.shields.io/hexpm/v/vex.svg)](https://hex.pm/packages/vex)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/vex/)
+[![Total Download](https://img.shields.io/hexpm/dt/vex.svg)](https://hex.pm/packages/vex)
+[![License](https://img.shields.io/hexpm/l/vex.svg)](https://github.com/CargoSense/vex/blob/master/LICENSE)
+[![Last Updated](https://img.shields.io/github/last-commit/CargoSense/vex.svg)](https://github.com/CargoSense/vex/commits/master)
+
 
 An extensible data validation library for Elixir.
 
@@ -135,7 +141,7 @@ Ensure a value is a number is within a given range:
 Vex.valid? value, number: [greater_than_or_equal_to: 0, less_than: 10]
 ```
 
-This validation can be skipped for `nil` or blank values by including 
+This validation can be skipped for `nil` or blank values by including
 `allow_nil: true` or `allow_blank: true` respectively in the options.
 
 See the documentation on `Vex.Validators.Number` for details
@@ -155,7 +161,7 @@ Ensure a value is a valid UUID string in a given format:
 Vex.valid? value, uuid: [format: :hex]
 ```
 
-This validation can be skipped for `nil` or blank values by including 
+This validation can be skipped for `nil` or blank values by including
 `allow_nil: true` or `allow_blank: true` respectively in the options.
 
 See the documentation on `Vex.Validators.Uuid` for details
@@ -164,7 +170,7 @@ on available options.
 ### Acceptance
 
 Ensure an attribute is set to a positive (or custom) value. For use
-expecially with "acceptance of terms" checkboxes in web applications.
+especially with "acceptance of terms" checkboxes in web applications.
 
 ```elixir
 Vex.valid?(user, accepts_terms: [acceptance: true])
@@ -234,7 +240,7 @@ See the documentation on `Vex.Validators.By` for details on available options.
 Validation Conditions
 ---------------------
 
-A validation can be made applicable (or unapplicable) by using the `:if`,
+A validation can be made applicable (or inapplicable) by using the `:if`,
 `:if_any`, `:unless` and `:unless_any` options.
 
 Note `Vex.results` will return tuples with `:not_applicable` for validations that
@@ -595,7 +601,26 @@ Report bugs and request features via [Issues](https://github.com/CargoSense/vex/
 kudos if you do it from pull requests you submit that fix the bugs or add
 the features. ;)
 
-License
--------
+## Copyright and License
 
-Released under the [MIT License](http://www.opensource.org/licenses/MIT).
+The MIT License (MIT)
+
+Copyright (c) 2013 CargoSense, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
